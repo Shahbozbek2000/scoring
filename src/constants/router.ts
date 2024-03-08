@@ -1,5 +1,5 @@
 export const ROUTER = {
-  HOME: '/',
+  AUTH: '/',
   MAP: '/map',
   USERS: '/users',
   NOT_FOUND: '*',

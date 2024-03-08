@@ -1,8 +1,8 @@
-import { Button, Input, TextField, Typography } from '@mui/material'
+import { Button, TextField, Typography } from '@mui/material'
 import Stack from '@mui/material/Stack'
 import { ReactComponent as Logogreeen } from '@/assets/icons/logo-green.svg'
 
-const Home = () => {
+const Auth = () => {
   return (
     <Stack
       width='832px'
@@ -28,7 +28,6 @@ const Home = () => {
           <TextField label='Password' name='pass' type='password' />
           <Button>Tizimga kirish</Button>
         </Stack>
-
         <Stack
           width='50%'
           sx={{
@@ -44,4 +43,4 @@ const Home = () => {
     </Stack>
   )
 }
-export default Home
+export default Auth

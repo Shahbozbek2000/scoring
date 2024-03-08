@@ -1,33 +1,22 @@
+import { lazy } from 'react'
 import { ROUTER } from '@/constants/router'
 import Layout from '@/layout'
-import { lazy } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 
-const Home = lazy(async () => await import('@/pages/home'))
+const Auth = lazy(async () => await import('@/pages/auth'))
 const NotFound = lazy(async () => await import('@/pages/404'))
-// const Drow = lazy(async () => await import('@/pages/drow'))
-// const Users = lazy(async () => await import('@/pages/users'))
 
 export const router = createBrowserRouter([
   {
-    path: ROUTER.HOME,
+    path: ROUTER.AUTH,
     element: <Layout />,
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <Auth />,
       },
-      // {
-      //   path: ROUTER.MAP,
-      //   element: <Drow />,
-      // },
-      // {
-      //   path: ROUTER.USERS,
-      //   element: <Users />,
-      // },
     ],
   },
-
   {
     path: ROUTER.NOT_FOUND,
     element: <NotFound />,
