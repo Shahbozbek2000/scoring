@@ -5,7 +5,7 @@ import { createBrowserRouter } from 'react-router-dom'
 
 const Auth = lazy(async () => await import('@/pages/auth'))
 const NotFound = lazy(async () => await import('@/pages/404'))
-const Home = lazy(async () => await import('@/pages/home'))
+const Home = lazy(async () => await import('@/pages/dashboard/home'))
 
 export const router = createBrowserRouter([
   {

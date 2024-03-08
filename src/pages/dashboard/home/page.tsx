@@ -14,10 +14,10 @@ const Home = () => {
       >
         Bosh sahifa
       </Typography>
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+      <Grid container spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         {pages.map(({ id, name, Icon }) => {
           return (
-            <Grid item key={id} xs={2} sm={4} md={4}>
+            <Grid item key={id} xs={6} sm={4} md={4}>
               <Card>
                 <Left>
                   <Icon />
