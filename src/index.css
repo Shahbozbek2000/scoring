@@ -1,3 +1,20 @@
+@font-face {
+  font-family: 'GothamProLight';
+  src: url('./assets/fonts/GothaProLig.otf');
+}
+@font-face {
+  font-family: 'GothamProRegular';
+  src: url('./assets/fonts/GothaProReg.otf');
+}
+@font-face {
+  font-family: 'GothamProMedium';
+  src: url('./assets/fonts/GothaProMed.otf');
+}
+@font-face {
+  font-family: 'GothamProBold';
+  src: url('./assets/fonts/GothaProBol.otf');
+}
+
 .custom-marker {
   background-color: black;
   display: flex;
