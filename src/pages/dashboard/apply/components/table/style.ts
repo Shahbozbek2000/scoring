@@ -19,7 +19,7 @@ export const Table = styled('table')`
         font-style: normal;
         line-height: 20px;
         padding: 8px;
-        border-right: 1px solid var(--t-border);
+        text-align: left;
       }
     }
   }

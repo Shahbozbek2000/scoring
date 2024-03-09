@@ -1,4 +1,11 @@
+import { IconButton, Stack } from '@mui/material'
 import { createColumnHelper } from '@tanstack/react-table'
+import { ReactComponent as IconCheck } from '@/assets/icons/check.svg'
+import { ReactComponent as IconClose } from '@/assets/icons/close.svg'
+import { ReactComponent as IconEyes } from '@/assets/icons/eyes.svg'
+import { status } from '@/constants/status'
+import { Badge } from './style'
+import { getStatus } from '@/utils/status'
 
 interface Person {
   number: number
@@ -8,6 +15,7 @@ interface Person {
   district: string
   insurance_type: string
   apply_date: string
+  check_status?: string
 }
 
 const columnHelper = createColumnHelper<Person>()
@@ -21,7 +29,10 @@ export const usePage = () => {
     }),
     columnHelper.accessor(row => row.apply_status, {
       id: 'apply_status',
-      cell: info => info.getValue(),
+      cell: info => {
+        console.log(info.getValue(), 'get-values')
+        return <Badge className={info.getValue()}>{getStatus(info.getValue())}</Badge>
+      },
       header: () => <span>Ariza statusi</span>,
       footer: info => info.column.id,
     }),
@@ -46,12 +57,44 @@ export const usePage = () => {
       header: () => <span>Ariza sanasi</span>,
       footer: info => info.column.id,
     }),
+    columnHelper.accessor('check_status', {
+      header: () => <span>Statusni belgilash</span>,
+      footer: info => info.column.id,
+      cell: () => (
+        <Stack direction='row' spacing={2}>
+          <IconButton
+            sx={{
+              borderRadius: '4px !important',
+              backgroundColor: 'rgba(8, 112, 95, 0.20)',
+            }}
+          >
+            <IconCheck />
+          </IconButton>
+          <IconButton
+            sx={{
+              borderRadius: '4px !important',
+              backgroundColor: 'rgba(235, 87, 87, 0.20)',
+            }}
+          >
+            <IconClose />
+          </IconButton>
+          <IconButton
+            sx={{
+              borderRadius: '4px !important',
+              backgroundColor: 'rgba(62, 91, 116, 0.20)',
+            }}
+          >
+            <IconEyes />
+          </IconButton>
+        </Stack>
+      ),
+    }),
   ]
 
   const data: Person[] = [
     {
       number: 1,
-      apply_status: 'Ro’yxatdan o’tdi',
+      apply_status: status.success,
       company_name: 'Proweb',
       region: 'Toshkent sh.',
       district: 'Yunusobod',
@@ -60,7 +103,7 @@ export const usePage = () => {
     },
     {
       number: 2,
-      apply_status: 'Ro’yxatdan o’tdi',
+      apply_status: status.success,
       company_name: 'RedFox',
       region: 'Samarqand',
       district: 'Qibray',
@@ -69,12 +112,75 @@ export const usePage = () => {
     },
     {
       number: 3,
-      apply_status: 'Ro’yxatdan o’tdi',
+      apply_status: status.success,
       company_name: 'Najot talim',
       region: 'Navoiy',
       district: 'Zangiota',
       insurance_type: 'Select',
       apply_date: '12.02.2024',
+    },
+    {
+      number: 4,
+      apply_status: status.in_progress,
+      company_name: 'PDF Academy',
+      region: 'Andijon',
+      district: 'Asaka',
+      insurance_type: 'Select',
+      apply_date: '12.02.2024',
+    },
+    {
+      number: 5,
+      apply_status: status.canceled,
+      company_name: 'icon Education',
+      region: 'Farg’ona',
+      district: 'Quva',
+      insurance_type: 'Select',
+      apply_date: '24.02.2024',
+    },
+    {
+      number: 6,
+      apply_status: status.in_progress,
+      company_name: 'RedFox',
+      region: 'Samarqand',
+      district: 'Qibray',
+      insurance_type: 'Select',
+      apply_date: '24.02.2024',
+    },
+    {
+      number: 7,
+      apply_status: status.success,
+      company_name: 'Najot talim',
+      region: 'Navoiy',
+      district: 'Zangiota',
+      insurance_type: 'Select',
+      apply_date: '24.02.2024',
+    },
+    {
+      number: 8,
+      apply_status: status.in_progress,
+      company_name: 'PDF Academy',
+      region: 'Andijon',
+      district: 'Asaka',
+      insurance_type: 'Select',
+      apply_date: '24.02.2024',
+    },
+    {
+      number: 9,
+      apply_status: status.canceled,
+      company_name: 'icon Education',
+      region: 'Farg’ona',
+      district: 'Quva',
+      insurance_type: 'Select',
+      apply_date: '24.02.2024',
+    },
+    {
+      number: 10,
+      apply_status: status.in_progress,
+      company_name: 'PDF Academy',
+      region: 'Andijon',
+      district: 'Asaka',
+      insurance_type: 'Select',
+      apply_date: '24.02.2024',
     },
   ]
 
