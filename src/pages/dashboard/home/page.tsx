@@ -1,8 +1,12 @@
 import { Grid, Stack, Typography } from '@mui/material'
 import { pages } from './constants'
 import { Card, Left, Right } from './style'
+import { useNavigate } from 'react-router-dom'
+import { ROUTER } from '@/constants/router'
 
 const Home = () => {
+  const navigate = useNavigate()
+
   return (
     <Stack>
       <Typography
@@ -18,7 +22,11 @@ const Home = () => {
         {pages.map(({ id, name, Icon }) => {
           return (
             <Grid item key={id} xs={6} sm={4} md={4}>
-              <Card>
+              <Card
+                onClick={() => {
+                  navigate(ROUTER.APPLY)
+                }}
+              >
                 <Left>
                   <Icon />
                 </Left>

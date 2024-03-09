@@ -1,3 +1,9 @@
+:root {
+  --Gray: #60676d;
+  --dark: #313131;
+  --Gray-1: #f5f5f5;
+  --t-border: #e7e7e7;
+}
 @font-face {
   font-family: 'GothamProLight';
   src: url('./assets/fonts/GothaProLig.otf');

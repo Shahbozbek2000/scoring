@@ -6,6 +6,7 @@ import { createBrowserRouter } from 'react-router-dom'
 const Auth = lazy(async () => await import('@/pages/auth'))
 const NotFound = lazy(async () => await import('@/pages/404'))
 const Home = lazy(async () => await import('@/pages/dashboard/home'))
+const Apply = lazy(async () => await import('@/pages/dashboard/apply'))
 
 export const router = createBrowserRouter([
   {
@@ -18,7 +19,16 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTER.HOME,
-        element: <Home />,
+        children: [
+          {
+            index: true,
+            element: <Home />,
+          },
+          {
+            path: ROUTER.APPLY,
+            element: <Apply />,
+          },
+        ],
       },
     ],
   },
