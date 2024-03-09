@@ -48,6 +48,11 @@ export const InputCheckbox = <T extends FieldValues>({
             },
           },
         },
+        '& .MuiFormControlLabel-label': {
+          fontFamily: 'GothamProRegular',
+          color: 'var(--Gray)',
+          fontSize: 14,
+        },
       })}
     >
       <FormControlLabel

@@ -108,6 +108,10 @@ export const theme = extendTheme({
         {
           props: { variant: 'contained' },
           style: ({ theme }) => ({
+            fontFamily: 'GothamProRegular',
+            fontSize: 14,
+            height: 44,
+            minWidth: 150,
             '&.MuiLoadingButton-loading.Mui-disabled': {
               background: `${theme.palette.allColors.BRAND} !important`,
               '.MuiLoadingButton-loadingIndicator': {
@@ -120,6 +124,10 @@ export const theme = extendTheme({
           props: { variant: 'outlined' },
           style: ({ theme }) => ({
             borderColor: `${theme.palette.allColors.GREY20} !important`,
+            fontFamily: 'GothamProRegular',
+            fontSize: 14,
+            height: 44,
+            minWidth: 150,
             '&.MuiLoadingButton-loading.Mui-disabled': {
               background: `${theme.palette.allColors.TRANSPARENT} !important`,
               '.MuiLoadingButton-loadingIndicator': {
@@ -185,7 +193,7 @@ export const theme = extendTheme({
             height: 50,
             padding: '0 16px !important',
             fontSize: '14px',
-            fontWeight: '400',
+            fontFamily: 'GothamProRegular',
             color: `${theme.palette.allColors.BLACK} !important`,
           },
         }),
@@ -196,6 +204,8 @@ export const theme = extendTheme({
       styleOverrides: {
         root: {
           transform: 'translate(0, -25px) scale(1)',
+          fontFamily: 'GothamProRegular',
+          fontSize: 14,
         },
       },
     },
@@ -205,6 +215,7 @@ export const theme = extendTheme({
           marginLeft: 0,
           fontSize: '12px',
           fontWeight: 400,
+          fontFamily: 'GothamProRegular',
           color: theme.palette.allColors.RED,
         }),
       },
@@ -314,7 +325,7 @@ export const theme = extendTheme({
       defaultProps: {
         PaperProps: {
           sx: () => ({
-            borderRadius: '24px',
+            borderRadius: '16px',
             backgroundImage: 'none',
             boxShadow: 'none',
           }),

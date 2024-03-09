@@ -2,7 +2,6 @@ import { Grid, Stack, Typography } from '@mui/material'
 import { pages } from './constants'
 import { Card, Left, Right } from './style'
 import { useNavigate } from 'react-router-dom'
-import { ROUTER } from '@/constants/router'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -19,12 +18,12 @@ const Home = () => {
         Bosh sahifa
       </Typography>
       <Grid container spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-        {pages.map(({ id, name, Icon }) => {
+        {pages.map(({ id, name, Icon, link }) => {
           return (
             <Grid item key={id} xs={6} sm={4} md={4}>
               <Card
                 onClick={() => {
-                  navigate(ROUTER.APPLY)
+                  navigate(link)
                 }}
               >
                 <Left>

@@ -1,7 +1,7 @@
 export const COLORS = {
   TRANSPARENT: 'transparent',
   WHITE: '#FFF',
-  RED: '#EB5769',
+  RED: '#EB5757',
   RED10: '#bb3c4c',
   BRAND: '#004646',
   BLACK: '#1B2149',

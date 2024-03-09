@@ -6,6 +6,7 @@ import { ReactComponent as IconEyes } from '@/assets/icons/eyes.svg'
 import { status } from '@/constants/status'
 import { Badge } from './style'
 import { getStatus } from '@/utils/status'
+import { useState } from 'react'
 
 interface Person {
   number: number
@@ -21,6 +22,8 @@ interface Person {
 const columnHelper = createColumnHelper<Person>()
 
 export const usePage = () => {
+  const [open, setOpen] = useState(false)
+
   const columns = [
     columnHelper.accessor('number', {
       cell: info => info.getValue(),
@@ -82,6 +85,9 @@ export const usePage = () => {
             sx={{
               borderRadius: '4px !important',
               backgroundColor: 'rgba(62, 91, 116, 0.20)',
+            }}
+            onClick={() => {
+              setOpen(true)
             }}
           >
             <IconEyes />
@@ -185,7 +191,9 @@ export const usePage = () => {
   ]
 
   return {
+    open,
     data,
     columns,
+    setOpen,
   }
 }

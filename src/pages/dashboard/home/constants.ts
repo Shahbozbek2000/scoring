@@ -12,16 +12,16 @@ import { ReactComponent as IconTechnicSupport } from '@/assets/icons/technical-s
 import { ReactComponent as IconDocuments } from '@/assets/icons/documents.svg'
 
 export const pages = [
-  { id: 1, name: 'Arizalar', Icon: IconApply },
-  { id: 2, name: 'Skoring', Icon: IconScoring },
-  { id: 3, name: 'Shartnomalar', Icon: IconContracts },
-  { id: 4, name: 'Yer maydonlari', Icon: IconLandAreas },
-  { id: 5, name: 'Ekin joylashuvi', Icon: IconCropLocation },
-  { id: 6, name: 'Bank kreditlash', Icon: IconBankLending },
-  { id: 7, name: 'Monitoring', Icon: IconMonitoring },
-  { id: 8, name: 'Agrotexnik tadbirlar', Icon: IconAgroActivities },
-  { id: 9, name: 'Yuridik xulosa', Icon: IconLegalOpinion },
-  { id: 10, name: 'Statistika', Icon: IconStatistics },
-  { id: 11, name: 'Texnik yordam', Icon: IconTechnicSupport },
-  { id: 12, name: 'Hisobotlar', Icon: IconDocuments },
+  { id: 1, name: 'Arizalar', Icon: IconApply, link: 'apply', disabled: false },
+  { id: 2, name: 'Skoring', Icon: IconScoring, link: '/main', disabled: true },
+  { id: 3, name: 'Shartnomalar', Icon: IconContracts, link: 'contracts', disabled: false },
+  { id: 4, name: 'Yer maydonlari', Icon: IconLandAreas, link: '/main', disabled: true },
+  { id: 5, name: 'Ekin joylashuvi', Icon: IconCropLocation, link: '/main', disabled: true },
+  { id: 6, name: 'Bank kreditlash', Icon: IconBankLending, link: '/main', disabled: true },
+  { id: 7, name: 'Monitoring', Icon: IconMonitoring, link: '/main', disabled: true },
+  { id: 8, name: 'Agrotexnik tadbirlar', Icon: IconAgroActivities, link: '/main', disabled: true },
+  { id: 9, name: 'Yuridik xulosa', Icon: IconLegalOpinion, link: '/main', disabled: true },
+  { id: 10, name: 'Statistika', Icon: IconStatistics, link: '/main', disabled: true },
+  { id: 11, name: 'Texnik yordam', Icon: IconTechnicSupport, link: '/main', disabled: true },
+  { id: 12, name: 'Hisobotlar', Icon: IconDocuments, link: '/main', disabled: true },
 ]

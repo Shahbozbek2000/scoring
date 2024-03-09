@@ -1,6 +1,6 @@
 import { type ErrorProps } from '@/types/error'
 import axios from 'axios'
-const baseURL = '/static/'
+const baseURL = import.meta.env.VITE_API_BASE_URL
 export const request = axios.create({
   baseURL,
 })

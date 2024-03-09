@@ -1,9 +1,17 @@
 import Stack from '@mui/material/Stack'
 import Pagination from '@mui/material/Pagination'
+import { Typography } from '@mui/material'
 
 export const CustomPagination = () => {
   return (
-    <Stack width='100%' display='flex' justifyContent='center' alignItems='center'>
+    <Stack
+      width='100%'
+      display='flex'
+      justifyContent='center'
+      alignItems='center'
+      direction='row'
+      spacing={3}
+    >
       <Pagination
         count={10}
         variant='outlined'
@@ -24,6 +32,15 @@ export const CustomPagination = () => {
           },
         }}
       />
+      <Typography
+        sx={{
+          color: 'var(--Gray)',
+          fontFamily: 'GothamProRegular',
+          fontSize: 14,
+        }}
+      >
+        Barchasi: 38
+      </Typography>
     </Stack>
   )
 }

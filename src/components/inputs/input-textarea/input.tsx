@@ -2,7 +2,12 @@ import TextField from '@mui/material/TextField'
 import { type InputProps } from '@/types/components'
 import { type FieldValues, useController } from 'react-hook-form'
 
-export const Input = <T extends FieldValues>({ label, name, control, ...props }: InputProps<T>) => {
+export const TextArea = <T extends FieldValues>({
+  label,
+  name,
+  control,
+  ...props
+}: InputProps<T>) => {
   const {
     field: { ref, disabled, onChange, ...inputProps },
     fieldState: { invalid, error },
@@ -19,12 +24,12 @@ export const Input = <T extends FieldValues>({ label, name, control, ...props }:
       label={label}
       error={invalid}
       size='small'
-      variant='outlined'
       fullWidth
       helperText={error?.message}
       value={inputProps?.value ?? ''}
       inputRef={props.inputRef ?? ref}
       InputLabelProps={{ shrink: true }}
+      multiline
       onChange={e => {
         onChange(e)
         if (props.onChange) {
