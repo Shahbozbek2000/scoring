@@ -10,6 +10,18 @@ import { ReactComponent as IconLegalOpinion } from '@/assets/icons/legal-opinion
 import { ReactComponent as IconStatistics } from '@/assets/icons/statistics.svg'
 import { ReactComponent as IconTechnicSupport } from '@/assets/icons/technical-support.svg'
 import { ReactComponent as IconDocuments } from '@/assets/icons/documents.svg'
+// import IconApply from '@/assets/images/apply.png'
+// import IconScoring from '@/assets/images/scoring.png'
+// import IconContracts from '@/assets/images/contracts.png'
+// import IconLandAreas from '@/assets/images/land_areas.png'
+// import IconCropLocation from '@/assets/images/crop_location.png'
+// import IconBankLending from '@/assets/images/bank_lending.png'
+// import IconMonitoring from '@/assets/images/monitoring.png'
+// import IconAgroActivities from '@/assets/images/agroactivity.png'
+// import IconLegalOpinion from '@/assets/images/legal_opinion.png'
+// import IconStatistics from '@/assets/images/statistics.png'
+// import IconTechnicSupport from '@/assets/images/technical_support.png'
+// import IconDocuments from '@/assets/images/documents.png'
 
 export const pages = [
   { id: 1, name: 'Arizalar', Icon: IconApply, link: 'apply', disabled: false },
