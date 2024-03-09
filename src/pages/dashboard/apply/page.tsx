@@ -1,6 +1,7 @@
 import { Stack } from '@mui/material'
 import { CustomTable } from './components/table'
 import { usePage } from './usePage'
+import { CustomPagination } from '@/components/pagination'
 
 const Apply = () => {
   const { data, columns } = usePage()
@@ -16,6 +17,7 @@ const Apply = () => {
         bgcolor={theme => theme.palette.allColors.WHITE}
       >
         <CustomTable data={data} columns={columns} />
+        <CustomPagination />
       </Stack>
     </Stack>
   )
