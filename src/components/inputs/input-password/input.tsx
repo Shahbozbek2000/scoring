@@ -4,8 +4,8 @@ import IconButton from '@mui/material/IconButton'
 import { type FieldValues } from 'react-hook-form'
 import InputAdornment from '@mui/material/InputAdornment'
 import { type InputPasswordProps } from '@/types/components'
-import { ReactComponent as IconEyeOpen } from '@/assets/icons/eye-open.svg'
-import { ReactComponent as IconEyeClose } from '@/assets/icons/eye-close.svg'
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
 export const InputPassword = <T extends FieldValues>(props: InputPasswordProps<T>) => {
   const { value, toggle } = useBoolean()
@@ -18,7 +18,9 @@ export const InputPassword = <T extends FieldValues>(props: InputPasswordProps<T
       InputProps={{
         endAdornment: (
           <InputAdornment position='end'>
-            <IconButton onClick={toggle}>{value ? <IconEyeOpen /> : <IconEyeClose />}</IconButton>
+            <IconButton onClick={toggle}>
+              {value ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
+            </IconButton>
           </InputAdornment>
         ),
         ...props.InputProps,

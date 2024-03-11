@@ -1,17 +1,17 @@
-import { Button, TextField, Typography } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import Stack from '@mui/material/Stack'
 import { ReactComponent as Logogreeen } from '@/assets/icons/logo-green.svg'
-import { Form, useNavigate } from 'react-router-dom'
-import { ROUTER } from '@/constants/router'
+import { Form } from 'react-router-dom'
+import { Input } from '@/components/inputs/input'
+import { InputPassword } from '@/components/inputs/input-password'
+import { useLogin } from './useLogin'
+import { LoadingOverlay } from '@/components/loading-overlay'
 
 const Auth = () => {
-  const navigate = useNavigate()
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault()
-    navigate(ROUTER.HOME)
-  }
+  const { form, onLogin, isLoading } = useLogin()
+
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={form.handleSubmit(onLogin)}>
       <Stack
         width='832px'
         borderRadius='12px'
@@ -32,8 +32,19 @@ const Auth = () => {
 
         <Stack width='100%' gap='24px' direction='row' alignItems='center'>
           <Stack gap='24px' width='50%'>
-            <TextField label='Email' type='email' name='user' />
-            <TextField label='Password' name='pass' type='password' />
+            <Input
+              control={form.control}
+              name='stir'
+              placeholder='Stir'
+              label='Stir'
+              type='number'
+            />
+            <InputPassword
+              control={form.control}
+              name='password'
+              placeholder='Parolni kiriting'
+              label='Parolni kiriting'
+            />
             <Button type='submit'>Tizimga kirish</Button>
           </Stack>
           <Stack
@@ -49,6 +60,7 @@ const Auth = () => {
           </Stack>
         </Stack>
       </Stack>
+      <LoadingOverlay isLoading={isLoading} />
     </Form>
   )
 }

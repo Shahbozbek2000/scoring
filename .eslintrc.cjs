@@ -59,6 +59,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@tanstack/query/exhaustive-deps': 'error',
     '@typescript-eslint/naming-convention': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     '@tanstack/query/prefer-query-object-syntax': 'error',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-misused-promises': 'off',

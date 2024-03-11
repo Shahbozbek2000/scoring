@@ -14,7 +14,7 @@ export const ModalForm = ({ open, setOpen }: IModal) => {
   const [isCanceled, setIsCanceled] = useState(false)
 
   return (
-    <CustomModal open={open} setOpen={setOpen} title='Proweb korxonasining ariza anketasi'>
+    <CustomModal open={open} setOpen={setOpen} title='Anketa generatsiya qilish'>
       <Form>
         <Grid container spacing={{ xs: 2, md: 2 }}>
           <Grid item xs={6} sm={4} md={4}>
