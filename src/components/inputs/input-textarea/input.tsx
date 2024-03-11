@@ -27,7 +27,7 @@ export const TextArea = <T extends FieldValues>({
       helperText={error?.message}
       value={inputProps?.value ?? ''}
       inputRef={props.inputRef ?? ref}
-      InputLabelProps={{ shrink: true }}
+      InputLabelProps={{ shrink: true, style: { color: '#EB5757' } }}
       multiline
       minRows={4}
       maxRows={16}

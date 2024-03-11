@@ -8,6 +8,12 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import htmlPlugin from 'vite-plugin-html-config'
 
 export default defineConfig({
+  server: {
+    https: {
+      key: 'localhost-key.pem',
+      cert: 'localhost.pem',
+    },
+  },
   build: {
     emptyOutDir: true,
     cssCodeSplit: true,
