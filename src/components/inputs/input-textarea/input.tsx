@@ -23,13 +23,19 @@ export const TextArea = <T extends FieldValues>({
       id={name}
       label={label}
       error={invalid}
-      size='small'
       fullWidth
       helperText={error?.message}
       value={inputProps?.value ?? ''}
       inputRef={props.inputRef ?? ref}
       InputLabelProps={{ shrink: true }}
       multiline
+      minRows={4}
+      maxRows={16}
+      sx={{
+        '& .MuiInputBase-sizeSmall': {
+          height: 'auto !important',
+        },
+      }}
       onChange={e => {
         onChange(e)
         if (props.onChange) {

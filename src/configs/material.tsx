@@ -154,13 +154,13 @@ export const theme = extendTheme({
       },
       styleOverrides: {
         root: ({ theme }) => ({
-          height: 50,
+          height: 'auto',
           borderRadius: '8px !important',
           // backgroundColor: theme.palette.allColors.TRANSPARENT,
           backgroundColor: theme.palette.allColors.GREY,
 
           '&.MuiInputBase-sizeSmall': {
-            height: 42,
+            height: '44px',
           },
           'input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,input:-webkit-autofill:active':
             {
