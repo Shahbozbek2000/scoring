@@ -3,7 +3,6 @@ import { createColumnHelper } from '@tanstack/react-table'
 import { ReactComponent as IconCheck } from '@/assets/icons/check.svg'
 import { ReactComponent as IconClose } from '@/assets/icons/close.svg'
 import { ReactComponent as IconEyes } from '@/assets/icons/eyes.svg'
-import { status } from '@/constants/status'
 import { Badge } from './style'
 import { getStatus } from '@/utils/status'
 import { useState } from 'react'
@@ -13,12 +12,12 @@ import { getAllApplications } from '@/apis/applications'
 
 interface Person {
   number: number
-  apply_status: string
-  company_name: string
+  name: string
+  full_name: string
   region: string
   district: string
-  insurance_type: string
-  apply_date: string
+  type: string
+  date: string
   check_status?: string
 }
 
@@ -27,32 +26,38 @@ const columnHelper = createColumnHelper<Person>()
 export const usePage = () => {
   const [open, setOpen] = useState(false)
 
-  useQuery({
+  const { data = [], isLoading } = useQuery({
     queryKey: [REACT_QUERY_KEYS.GET_ALL_APPLICATIONS],
     queryFn: getAllApplications,
-    onSuccess: res => {
-      console.log(res, 'resssss')
-    },
+    select: res => res?.data,
+    keepPreviousData: true,
   })
 
   const columns = [
     columnHelper.accessor('number', {
-      cell: info => info.getValue(),
+      cell: info => info.row.index + 1,
       header: () => <span>№</span>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor(row => row.apply_status, {
+    columnHelper.accessor('name', {
       id: 'apply_status',
-      cell: info => {
-        console.log(info.getValue(), 'get-values')
-        return <Badge className={info.getValue()}>{getStatus(info.getValue())}</Badge>
+      cell: (info: any) => {
+        return (
+          <Badge
+            className={`${info.row.original.status?.code === 1 ? 'in_progress' : info.row.original.status?.code === 2 ? 'success' : 'canceled'}`}
+          >
+            {getStatus(info.row.original.status?.code)}
+          </Badge>
+        )
       },
       header: () => <span>Ariza statusi</span>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor('company_name', {
+    columnHelper.accessor('full_name', {
       header: () => 'Korxona nomi',
-      cell: info => info.renderValue(),
+      cell: (info: any) => {
+        return <p>{info.row.original.farmer?.full_name}</p>
+      },
       footer: info => info.column.id,
     }),
     columnHelper.accessor('region', {
@@ -63,11 +68,14 @@ export const usePage = () => {
       header: () => <span>Tuman</span>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor('insurance_type', {
+    columnHelper.accessor('type', {
       header: () => <span>Sug’urta turi</span>,
+      cell: (info: any) => {
+        return <p>{info.row.original.type?.name}</p>
+      },
       footer: info => info.column.id,
     }),
-    columnHelper.accessor('apply_date', {
+    columnHelper.accessor('date', {
       header: () => <span>Ariza sanasi</span>,
       footer: info => info.column.id,
     }),
@@ -108,103 +116,11 @@ export const usePage = () => {
     }),
   ]
 
-  const data: Person[] = [
-    {
-      number: 1,
-      apply_status: status.success,
-      company_name: 'Proweb',
-      region: 'Toshkent sh.',
-      district: 'Yunusobod',
-      insurance_type: 'Select',
-      apply_date: '12.02.2024',
-    },
-    {
-      number: 2,
-      apply_status: status.success,
-      company_name: 'RedFox',
-      region: 'Samarqand',
-      district: 'Qibray',
-      insurance_type: 'Select',
-      apply_date: '12.02.2024',
-    },
-    {
-      number: 3,
-      apply_status: status.success,
-      company_name: 'Najot talim',
-      region: 'Navoiy',
-      district: 'Zangiota',
-      insurance_type: 'Select',
-      apply_date: '12.02.2024',
-    },
-    {
-      number: 4,
-      apply_status: status.in_progress,
-      company_name: 'PDF Academy',
-      region: 'Andijon',
-      district: 'Asaka',
-      insurance_type: 'Select',
-      apply_date: '12.02.2024',
-    },
-    {
-      number: 5,
-      apply_status: status.canceled,
-      company_name: 'icon Education',
-      region: 'Farg’ona',
-      district: 'Quva',
-      insurance_type: 'Select',
-      apply_date: '24.02.2024',
-    },
-    {
-      number: 6,
-      apply_status: status.in_progress,
-      company_name: 'RedFox',
-      region: 'Samarqand',
-      district: 'Qibray',
-      insurance_type: 'Select',
-      apply_date: '24.02.2024',
-    },
-    {
-      number: 7,
-      apply_status: status.success,
-      company_name: 'Najot talim',
-      region: 'Navoiy',
-      district: 'Zangiota',
-      insurance_type: 'Select',
-      apply_date: '24.02.2024',
-    },
-    {
-      number: 8,
-      apply_status: status.in_progress,
-      company_name: 'PDF Academy',
-      region: 'Andijon',
-      district: 'Asaka',
-      insurance_type: 'Select',
-      apply_date: '24.02.2024',
-    },
-    {
-      number: 9,
-      apply_status: status.canceled,
-      company_name: 'icon Education',
-      region: 'Farg’ona',
-      district: 'Quva',
-      insurance_type: 'Select',
-      apply_date: '24.02.2024',
-    },
-    {
-      number: 10,
-      apply_status: status.in_progress,
-      company_name: 'PDF Academy',
-      region: 'Andijon',
-      district: 'Asaka',
-      insurance_type: 'Select',
-      apply_date: '24.02.2024',
-    },
-  ]
-
   return {
     open,
     data,
     columns,
     setOpen,
+    isLoading,
   }
 }

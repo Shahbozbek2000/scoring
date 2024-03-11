@@ -2,7 +2,11 @@ import Stack from '@mui/material/Stack'
 import Pagination from '@mui/material/Pagination'
 import { Typography } from '@mui/material'
 
-export const CustomPagination = () => {
+interface ICustomPagination {
+  count: number
+}
+
+export const CustomPagination = ({ count = 0 }: ICustomPagination) => {
   return (
     <Stack
       width='100%'
@@ -39,7 +43,7 @@ export const CustomPagination = () => {
           fontSize: 14,
         }}
       >
-        Barchasi: 38
+        Barchasi: {count} ta
       </Typography>
     </Stack>
   )

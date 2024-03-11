@@ -4,9 +4,10 @@ import { usePage } from './usePage'
 import { CustomPagination } from '@/components/pagination'
 import { ModalForm } from './components/form'
 import { Header } from './components/header'
+import { LoadingOverlay } from '@/components/loading-overlay'
 
 const Apply = () => {
-  const { open, data, columns, setOpen } = usePage()
+  const { open, data, columns, setOpen, isLoading } = usePage()
 
   return (
     <Stack gap='32px'>
@@ -20,9 +21,10 @@ const Apply = () => {
         bgcolor={theme => theme.palette.allColors.WHITE}
       >
         <CustomTable data={data} columns={columns} />
-        <CustomPagination />
+        {data.length > 0 ? <CustomPagination count={data?.length} /> : null}
         <ModalForm open={open} setOpen={setOpen} />
       </Stack>
+      <LoadingOverlay isLoading={isLoading} />
     </Stack>
   )
 }

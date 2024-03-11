@@ -1,11 +1,11 @@
 /* eslint-disable quotes */
-export const getStatus = (status: string) => {
+export const getStatus = (status: number) => {
   switch (status) {
-    case 'success':
-      return "Ro'yxatdan o'tdi"
-    case 'in_progress':
+    case 1:
       return 'Jarayonda'
+    case 2:
+      return "Ro'yxatdan o'tdi"
     default:
-      return 'Bekor qilindi'
+      return 'Bekor qilingan'
   }
 }
