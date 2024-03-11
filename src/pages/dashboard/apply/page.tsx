@@ -5,9 +5,10 @@ import { CustomPagination } from '@/components/pagination'
 import { ModalForm } from './components/form'
 import { Header } from './components/header'
 import { LoadingOverlay } from '@/components/loading-overlay'
+import { Reject } from './components/reject'
 
 const Apply = () => {
-  const { open, data, columns, setOpen, isLoading } = usePage()
+  const { open, data, columns, setOpen, isLoading, rejectOpen, setRejectOpen } = usePage()
 
   return (
     <Stack gap='32px'>
@@ -22,9 +23,10 @@ const Apply = () => {
       >
         <CustomTable data={data} columns={columns} />
         {data.length > 0 ? <CustomPagination count={data?.length} /> : null}
-        <ModalForm open={open} setOpen={setOpen} />
       </Stack>
       <LoadingOverlay isLoading={isLoading} />
+      <ModalForm open={open} setOpen={setOpen} />
+      <Reject rejectOpen={rejectOpen} setRejectOpen={setRejectOpen} />
     </Stack>
   )
 }

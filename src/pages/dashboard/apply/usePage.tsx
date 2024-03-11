@@ -25,6 +25,7 @@ const columnHelper = createColumnHelper<Person>()
 
 export const usePage = () => {
   const [open, setOpen] = useState(false)
+  const [rejectOpen, setRejectOpen] = useState(false)
 
   const { data = [], isLoading } = useQuery({
     queryKey: [REACT_QUERY_KEYS.GET_ALL_APPLICATIONS],
@@ -97,6 +98,9 @@ export const usePage = () => {
               borderRadius: '4px !important',
               backgroundColor: 'rgba(235, 87, 87, 0.20)',
             }}
+            onClick={() => {
+              setRejectOpen(true)
+            }}
           >
             <IconClose />
           </IconButton>
@@ -122,5 +126,7 @@ export const usePage = () => {
     columns,
     setOpen,
     isLoading,
+    rejectOpen,
+    setRejectOpen,
   }
 }

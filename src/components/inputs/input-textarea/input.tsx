@@ -27,7 +27,10 @@ export const TextArea = <T extends FieldValues>({
       helperText={error?.message}
       value={inputProps?.value ?? ''}
       inputRef={props.inputRef ?? ref}
-      InputLabelProps={{ shrink: true, style: { color: '#EB5757' } }}
+      InputLabelProps={{
+        shrink: true,
+        style: { color: '#EB5757', fontFamily: 'GothamProRegular' },
+      }}
       multiline
       minRows={4}
       maxRows={16}
@@ -35,6 +38,7 @@ export const TextArea = <T extends FieldValues>({
         '& .MuiInputBase-sizeSmall': {
           height: 'auto !important',
         },
+        fontFamily: 'GothamProRegular !important',
       }}
       onChange={e => {
         onChange(e)
