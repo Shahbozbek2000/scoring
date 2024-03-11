@@ -7,6 +7,9 @@ import { status } from '@/constants/status'
 import { Badge } from './style'
 import { getStatus } from '@/utils/status'
 import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
+import { getAllApplications } from '@/apis/applications'
 
 interface Person {
   number: number
@@ -23,6 +26,14 @@ const columnHelper = createColumnHelper<Person>()
 
 export const usePage = () => {
   const [open, setOpen] = useState(false)
+
+  useQuery({
+    queryKey: [REACT_QUERY_KEYS.GET_ALL_APPLICATIONS],
+    queryFn: getAllApplications,
+    onSuccess: res => {
+      console.log(res, 'resssss')
+    },
+  })
 
   const columns = [
     columnHelper.accessor('number', {
