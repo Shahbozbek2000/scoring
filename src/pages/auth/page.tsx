@@ -35,15 +35,15 @@ const Auth = () => {
             <Input
               control={form.control}
               name='stir'
-              placeholder='Stir'
-              label='Stir'
+              placeholder='Email (login)*'
+              label='Email (login)*'
               type='number'
             />
             <InputPassword
               control={form.control}
               name='password'
-              placeholder='Parolni kiriting'
-              label='Parolni kiriting'
+              placeholder='Parol*'
+              label='Parol*'
             />
             <Button type='submit'>Tizimga kirish</Button>
           </Stack>

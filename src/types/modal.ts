@@ -6,4 +6,5 @@ export interface IModal {
   setOpen: Dispatch<SetStateAction<boolean>>
   children?: ReactNode
   maxWidth?: 'lg' | 'md' | 'sm' | 'xs'
+  id?: string | null
 }

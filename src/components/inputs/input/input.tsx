@@ -21,6 +21,7 @@ export const Input = <T extends FieldValues>({ label, name, control, ...props }:
       size='small'
       variant='outlined'
       fullWidth
+      aria-readonly
       helperText={error?.message}
       value={inputProps?.value ?? ''}
       inputRef={props.inputRef ?? ref}

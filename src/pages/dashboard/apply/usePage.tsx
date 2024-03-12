@@ -6,14 +6,14 @@ import { ReactComponent as IconEyes } from '@/assets/icons/eyes.svg'
 import { Badge } from './style'
 import { getStatus } from '@/utils/status'
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
-import { getAllApplications } from '@/apis/applications'
+import { acceptApplications, getAllApplications } from '@/apis/applications'
 
 interface Person {
   number: number
   name: string
-  full_name: string
+  farmer_name: string
   region: string
   district: string
   type: string
@@ -24,15 +24,44 @@ interface Person {
 const columnHelper = createColumnHelper<Person>()
 
 export const usePage = () => {
+  const [rowId, setRowId] = useState(null)
   const [open, setOpen] = useState(false)
   const [rejectOpen, setRejectOpen] = useState(false)
 
-  const { data = [], isLoading } = useQuery({
+  const {
+    data = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: [REACT_QUERY_KEYS.GET_ALL_APPLICATIONS],
     queryFn: getAllApplications,
     select: res => res?.data,
     keepPreviousData: true,
   })
+
+  const handleOpen = (info: any) => {
+    setRowId(info?.row?.original?._id)
+    setOpen(true)
+  }
+
+  const { mutate } = useMutation({
+    mutationFn: async data => await acceptApplications(data),
+    onSuccess: res => {
+      void refetch()
+    },
+    onError: err => {
+      console.log(err)
+    },
+  })
+
+  const accept = (id: string | any) => {
+    mutate(id)
+  }
+
+  const reject = (id: string | any) => {
+    setRejectOpen(true)
+    setRowId(id)
+  }
 
   const columns = [
     columnHelper.accessor('number', {
@@ -45,19 +74,19 @@ export const usePage = () => {
       cell: (info: any) => {
         return (
           <Badge
-            className={`${info.row.original.status?.code === 1 ? 'in_progress' : info.row.original.status?.code === 2 ? 'success' : 'canceled'}`}
+            className={`${info.row.original.status_code === null ? 'in_progress' : info.row.original?.status_code === true ? 'success' : 'canceled'}`}
           >
-            {getStatus(info.row.original.status?.code)}
+            {info.row.original?.status_name}
           </Badge>
         )
       },
       header: () => <span>Ariza statusi</span>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor('full_name', {
+    columnHelper.accessor('farmer_name', {
       header: () => 'Korxona nomi',
       cell: (info: any) => {
-        return <p>{info.row.original.farmer?.full_name}</p>
+        return <p>{info.row.original.farmer_name}</p>
       },
       footer: info => info.column.id,
     }),
@@ -72,7 +101,7 @@ export const usePage = () => {
     columnHelper.accessor('type', {
       header: () => <span>Sug’urta turi</span>,
       cell: (info: any) => {
-        return <p>{info.row.original.type?.name}</p>
+        return <p>{info.row.original.type_name}</p>
       },
       footer: info => info.column.id,
     }),
@@ -83,12 +112,15 @@ export const usePage = () => {
     columnHelper.accessor('check_status', {
       header: () => <span>Statusni belgilash</span>,
       footer: info => info.column.id,
-      cell: () => (
+      cell: (info: any) => (
         <Stack direction='row' spacing={2}>
           <IconButton
             sx={{
               borderRadius: '4px !important',
               backgroundColor: 'rgba(8, 112, 95, 0.20)',
+            }}
+            onClick={() => {
+              accept(info?.row?.original?._id)
             }}
           >
             <IconCheck />
@@ -99,7 +131,7 @@ export const usePage = () => {
               backgroundColor: 'rgba(235, 87, 87, 0.20)',
             }}
             onClick={() => {
-              setRejectOpen(true)
+              reject(info?.row?.original?._id)
             }}
           >
             <IconClose />
@@ -110,7 +142,7 @@ export const usePage = () => {
               backgroundColor: 'rgba(62, 91, 116, 0.20)',
             }}
             onClick={() => {
-              setOpen(true)
+              handleOpen(info)
             }}
           >
             <IconEyes />
@@ -123,6 +155,7 @@ export const usePage = () => {
   return {
     open,
     data,
+    rowId,
     columns,
     setOpen,
     isLoading,

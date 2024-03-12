@@ -10,6 +10,7 @@ export const Badge = styled('span')`
   line-height: 20px;
   padding: 4px 8px;
   color: var(--Green);
+  white-space: nowrap;
   &.in_progress {
     color: #f2994a;
     background-color: rgba(242, 153, 74, 0.2);

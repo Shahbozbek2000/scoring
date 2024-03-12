@@ -7,23 +7,41 @@ import { useForm } from 'react-hook-form'
 import { formSchema } from './form.schema'
 import { Form } from 'react-router-dom'
 import { COLORS } from '@/constants/css'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { rejectApplications } from '@/apis/applications'
+import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
+import { LoadingOverlay } from '@/components/loading-overlay'
 
 interface IRejectProps {
   rejectOpen: boolean
   setRejectOpen: Dispatch<SetStateAction<boolean>>
+  id: string | null
 }
 
 interface FormValues {
   comment: string
 }
 
-export const Reject = ({ rejectOpen, setRejectOpen }: IRejectProps) => {
+export const Reject = ({ rejectOpen, setRejectOpen, id }: IRejectProps) => {
+  const queryClient = useQueryClient()
   const form = useForm<FormValues>({
     resolver: yupResolver(formSchema),
   })
 
-  const onReject = (data: FormValues) => {
-    console.log('reject', data)
+  const { mutate, isLoading } = useMutation({
+    mutationFn: async data => await rejectApplications(data),
+    onSuccess: res => {
+      void queryClient.invalidateQueries({ queryKey: [REACT_QUERY_KEYS.GET_ALL_APPLICATIONS] })
+      setRejectOpen(false)
+    },
+    onError: err => {
+      console.log(err)
+    },
+  })
+
+  const onReject = (data: FormValues | any) => {
+    const payload: any = { id, comment: data?.comment }
+    mutate(payload)
   }
 
   return (
@@ -45,6 +63,7 @@ export const Reject = ({ rejectOpen, setRejectOpen }: IRejectProps) => {
           </Button>
         </Stack>
       </Form>
+      <LoadingOverlay isLoading={isLoading} />
     </CustomModal>
   )
 }

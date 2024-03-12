@@ -19,7 +19,11 @@ export const InputPassword = <T extends FieldValues>(props: InputPasswordProps<T
         endAdornment: (
           <InputAdornment position='end'>
             <IconButton onClick={toggle}>
-              {value ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
+              {value ? (
+                <RemoveRedEyeIcon sx={{ width: 20, height: 20 }} />
+              ) : (
+                <VisibilityOffIcon sx={{ width: 20, height: 20 }} />
+              )}
             </IconButton>
           </InputAdornment>
         ),

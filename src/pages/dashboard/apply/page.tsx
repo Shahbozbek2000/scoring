@@ -8,7 +8,7 @@ import { LoadingOverlay } from '@/components/loading-overlay'
 import { Reject } from './components/reject'
 
 const Apply = () => {
-  const { open, data, columns, setOpen, isLoading, rejectOpen, setRejectOpen } = usePage()
+  const { open, data, rowId, columns, setOpen, isLoading, rejectOpen, setRejectOpen } = usePage()
 
   return (
     <Stack gap='32px'>
@@ -25,8 +25,8 @@ const Apply = () => {
         {data.length > 0 ? <CustomPagination count={data?.length} /> : null}
       </Stack>
       <LoadingOverlay isLoading={isLoading} />
-      <ModalForm open={open} setOpen={setOpen} />
-      <Reject rejectOpen={rejectOpen} setRejectOpen={setRejectOpen} />
+      <ModalForm open={open} setOpen={setOpen} id={rowId} />
+      <Reject rejectOpen={rejectOpen} setRejectOpen={setRejectOpen} id={rowId} />
     </Stack>
   )
 }

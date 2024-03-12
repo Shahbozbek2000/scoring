@@ -1,17 +1,39 @@
+import { getByIDApplications } from '@/apis/applications'
 import { Input } from '@/components/inputs/input'
 import { InputCheckbox } from '@/components/inputs/input-checkbox'
 import { TextArea } from '@/components/inputs/input-textarea'
+import { LoadingOverlay } from '@/components/loading-overlay'
 import { CustomModal } from '@/components/modal'
 import { COLORS } from '@/constants/css'
+import { DATE_FORMAT } from '@/constants/format'
+import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import type { IModal } from '@/types/modal'
 import { Button, Grid, Stack, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
+import dayjs from 'dayjs'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form } from 'react-router-dom'
 
-export const ModalForm = ({ open, setOpen }: IModal) => {
+export const ModalForm = ({ open, setOpen, id }: IModal) => {
   const form = useForm()
   const [isCanceled, setIsCanceled] = useState(false)
+
+  const { isLoading } = useQuery({
+    queryKey: [REACT_QUERY_KEYS.GET_BY_ID_APPLICATIONS, id],
+    queryFn: async () => await getByIDApplications(id),
+    select: res => {
+      return res?.data
+    },
+    onSuccess: response => {
+      form.reset({
+        date: dayjs(response?.date).format(DATE_FORMAT),
+        credit_area_contour_numbers: response?.credit_area_contour_numbers?.map(Number)?.join(','),
+        ...response,
+      })
+    },
+    enabled: id !== null,
+  })
 
   return (
     <CustomModal open={open} setOpen={setOpen} title='Anketa generatsiya qilish'>
@@ -20,21 +42,48 @@ export const ModalForm = ({ open, setOpen }: IModal) => {
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='apply_number'
+              name='id'
               placeholder='Ariza raqami'
               label='Ariza raqami'
               type='number'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
-            <Input control={form.control} name='date' placeholder='Sana' label='Sana' />
+            <Input
+              control={form.control}
+              name='date'
+              placeholder='Sana'
+              label='Sana'
+              InputProps={{
+                readOnly: true,
+              }}
+            />
           </Grid>
           <Grid item xs={6} sm={4} md={4} />
           <Grid item xs={6} sm={4} md={4}>
-            <Input control={form.control} name='region' placeholder='Viloyat' label='Viloyat' />
+            <Input
+              control={form.control}
+              name='region'
+              placeholder='Viloyat'
+              label='Viloyat'
+              InputProps={{
+                readOnly: true,
+              }}
+            />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
-            <Input control={form.control} name='district' placeholder='Tuman' label='Tuman' />
+            <Input
+              control={form.control}
+              name='district'
+              placeholder='Tuman'
+              label='Tuman'
+              InputProps={{
+                readOnly: true,
+              }}
+            />
           </Grid>
         </Grid>
         <Typography
@@ -51,33 +100,45 @@ export const ModalForm = ({ open, setOpen }: IModal) => {
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='fullname'
+              name='farmer_name'
               placeholder='To`liq nomi'
               label='To`liq nomi'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='fullname'
+              name='farmer_stir'
               placeholder='STIR raqami'
               label='STIR raqami'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='bank'
+              name='farmer_requisites'
               placeholder='Bank rekvizitlari'
               label='Bank rekvizitlari'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='legal_location'
+              name='creditor_address'
               placeholder='Yuridik manzili'
               label='Yuridik manzili'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
         </Grid>
@@ -95,33 +156,45 @@ export const ModalForm = ({ open, setOpen }: IModal) => {
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='fullname2'
+              name='creditor_name'
               placeholder='To`liq nomi'
               label='To`liq nomi'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='fullname2'
+              name='creditor_stir'
               placeholder='STIR raqami'
               label='STIR raqami'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='bank2'
+              name='creditor_requisites'
               placeholder='Bank rekvizitlari'
               label='Bank rekvizitlari'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='legal_location2'
+              name='creditor_address'
               placeholder='Yuridik manzili'
               label='Yuridik manzili'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
         </Grid>
@@ -142,38 +215,53 @@ export const ModalForm = ({ open, setOpen }: IModal) => {
               name='crop_name'
               placeholder='Q/x ekini nomi'
               label='Q/x ekini nomi'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='fullname2'
+              name='crop_area'
               placeholder='Ekin (ko‘chat) maydoni, ga'
               label='Ekin (ko‘chat) maydoni, ga'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='bank2'
+              name='crop_fertility_norm'
               placeholder='Me’yoriy hosildorlik, s/ga'
               label='Me’yoriy hosildorlik, s/ga'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='legal_location2'
+              name='crop_price'
               placeholder='Hosilni 1 tn narxi, so‘m'
               label='Hosilni 1 tn narxi, so‘m'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='legal_location2'
+              name='crop_actual_harvest'
               placeholder='Yalpi hosil, tn'
               label='Yalpi hosil, tn'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
@@ -182,22 +270,31 @@ export const ModalForm = ({ open, setOpen }: IModal) => {
               name='legal_location2'
               placeholder='Terim-yig‘im muddati'
               label='Terim-yig‘im muddati'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='legal_location2'
+              name='crop_harvest_start'
               placeholder='Boshlash sanasi'
               label='Boshlash sanasi'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='legal_location2'
+              name='crop_harvest_end'
               placeholder='Yakunlash sanasi'
               label='Yakunlash sanasi'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
         </Grid>
@@ -215,33 +312,45 @@ export const ModalForm = ({ open, setOpen }: IModal) => {
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='legal_location2'
+              name='credit_area_region_code'
               placeholder='Viloyat'
               label='Viloyat'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='legal_location2'
+              name='credit_area_district_code'
               placeholder='Tuman'
               label='Tuman'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='legal_location2'
+              name='credit_area_massiv_code'
               placeholder='Hudud (massiv)'
               label='Hudud (massiv)'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='legal_location2'
+              name='credit_area_contour_numbers'
               placeholder='Kontur raqamlari'
               label='Kontur raqamlari'
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </Grid>
         </Grid>
@@ -259,7 +368,7 @@ export const ModalForm = ({ open, setOpen }: IModal) => {
           <Grid item xs={6} sm={4} md={6}>
             <InputCheckbox
               control={form.control}
-              name='test0'
+              name='risk_factors_climatic'
               label='Surunkali yomg‘ir yog‘ishi xamda yog‘ingarchilikdan so‘ng xavo xaroratini 
               keskin isib ketishi natijasida tuproqning yuqori qatlamini qatqaloq bo‘lishi.'
               labelPlacement='start'
@@ -272,7 +381,7 @@ export const ModalForm = ({ open, setOpen }: IModal) => {
           <Grid item xs={6} sm={4} md={6}>
             <InputCheckbox
               control={form.control}
-              name='test'
+              name='risk_factors_dehydration'
               label='qurg‘oqchilik, yong‘in, bo‘ron, do‘l, kuchli yomg‘ir (jala), garmsel, qorasovuq,
                suv toshqini, yashin urishi, uchuvchi apparatlari va ularning qoldiqlarining tushishi'
               labelPlacement='start'
@@ -285,7 +394,7 @@ export const ModalForm = ({ open, setOpen }: IModal) => {
           <Grid item xs={6} sm={4} md={6}>
             <InputCheckbox
               control={form.control}
-              name='test2'
+              name='risk_factors_insects'
               label='Uchinchi shaxslar tomonidan sug‘urta qilingan paxta xom ashyosi ekinlari va/yoki ularning hosili 
               vegityatsiya davrida qasddan yo‘q qilinishi yoki shikastlantirilishi.'
               labelPlacement='start'
@@ -298,7 +407,7 @@ export const ModalForm = ({ open, setOpen }: IModal) => {
           <Grid item xs={6} sm={4} md={6}>
             <InputCheckbox
               control={form.control}
-              name='test3'
+              name='risk_factors_third_party'
               label='Zararkunanda xashoratlar yoki kasalliklarni Epifitotik xususiyatga ko‘ra tarqalishi'
               labelPlacement='start'
               sx={{
@@ -326,7 +435,7 @@ export const ModalForm = ({ open, setOpen }: IModal) => {
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='legal_location2'
+              name='insurance_amount'
               placeholder='Sug‘urta qiymati, so‘m'
               label='Sug‘urta qiymati (mahsulot qiymati), so‘m'
             />
@@ -334,7 +443,7 @@ export const ModalForm = ({ open, setOpen }: IModal) => {
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='legal_location2'
+              name='insurance_price'
               placeholder='Sug‘urta summasi, so‘m'
               label='Sug‘urta summasi (sug‘urta javobgarligi), so‘m'
             />
@@ -371,6 +480,7 @@ export const ModalForm = ({ open, setOpen }: IModal) => {
           </Button>
         </Stack>
       </Form>
+      <LoadingOverlay isLoading={isLoading} />
     </CustomModal>
   )
 }
