@@ -2,7 +2,7 @@
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { Table, TableWrapper } from './style'
 
-export const CustomTable = ({ data = [], columns = [] }: any) => {
+export const CustomTable = ({ data = [], columns = [], emptyText }: any) => {
   const table = useReactTable({
     data,
     columns,
@@ -26,13 +26,21 @@ export const CustomTable = ({ data = [], columns = [] }: any) => {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map(row => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map(cell => (
-                <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-              ))}
+          {data.length === 0 ? (
+            <tr>
+              <td colSpan={columns.length} style={{ textAlign: 'center' }}>
+                {emptyText}
+              </td>
             </tr>
-          ))}
+          ) : (
+            table.getRowModel().rows.map(row => (
+              <tr key={row.id}>
+                {row.getVisibleCells().map(cell => (
+                  <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                ))}
+              </tr>
+            ))
+          )}
         </tbody>
       </Table>
     </TableWrapper>

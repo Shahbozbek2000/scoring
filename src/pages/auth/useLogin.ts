@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { ROUTER } from '@/constants/router'
 
 interface FormValues {
-  stir: string
+  login: string
   password: string
 }
 

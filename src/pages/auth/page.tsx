@@ -34,10 +34,9 @@ const Auth = () => {
           <Stack gap='24px' width='50%'>
             <Input
               control={form.control}
-              name='stir'
+              name='login'
               placeholder='Email (login)*'
               label='Email (login)*'
-              type='number'
             />
             <InputPassword
               control={form.control}

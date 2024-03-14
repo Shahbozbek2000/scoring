@@ -21,7 +21,7 @@ const Apply = () => {
         gap='24px'
         bgcolor={theme => theme.palette.allColors.WHITE}
       >
-        <CustomTable data={data} columns={columns} />
+        <CustomTable data={data} columns={columns} emptyText="Ma'lumot mavjud emas!" />
         {data.length > 0 ? <CustomPagination count={data?.length} /> : null}
       </Stack>
       <LoadingOverlay isLoading={isLoading} />
