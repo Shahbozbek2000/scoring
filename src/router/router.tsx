@@ -7,6 +7,7 @@ const Auth = lazy(async () => await import('@/pages/auth'))
 const NotFound = lazy(async () => await import('@/pages/404'))
 const Home = lazy(async () => await import('@/pages/dashboard/home'))
 const Apply = lazy(async () => await import('@/pages/dashboard/apply'))
+const Contracts = lazy(async () => await import('@/pages/dashboard/contracts'))
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
           {
             path: ROUTER.APPLY,
             element: <Apply />,
+          },
+          {
+            path: ROUTER.CONTRACTS,
+            element: <Contracts />,
           },
         ],
       },

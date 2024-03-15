@@ -6,7 +6,7 @@ import { ReactComponent as IconCropLocation } from '@/assets/icons/crop-location
 import { ReactComponent as IconBankLending } from '@/assets/icons/bank-lending.svg'
 import { ReactComponent as IconMonitoring } from '@/assets/icons/monitoring.svg'
 import { ReactComponent as IconAgroActivities } from '@/assets/icons/agro-activities.svg'
-import { ReactComponent as IconLegalOpinion } from '@/assets/icons/legal-opinion.svg'
+// import { ReactComponent as IconLegalOpinion } from '@/assets/icons/legal-opinion.svg'
 import { ReactComponent as IconStatistics } from '@/assets/icons/statistics.svg'
 import { ReactComponent as IconTechnicSupport } from '@/assets/icons/technical-support.svg'
 import { ReactComponent as IconDocuments } from '@/assets/icons/documents.svg'
@@ -20,8 +20,8 @@ export const pages = [
   { id: 6, name: 'Bank kreditlash', Icon: IconBankLending, link: '/main', disabled: true },
   { id: 7, name: 'Monitoring', Icon: IconMonitoring, link: '/main', disabled: true },
   { id: 8, name: 'Agrotexnik tadbirlar', Icon: IconAgroActivities, link: '/main', disabled: true },
-  { id: 9, name: 'Yuridik xulosa', Icon: IconLegalOpinion, link: '/main', disabled: true },
-  { id: 10, name: 'Statistika', Icon: IconStatistics, link: '/main', disabled: true },
+  // { id: 9, name: 'Yuridik xulosa', Icon: IconLegalOpinion, link: '/main', disabled: true },
+  { id: 10, name: 'To‘lov holati', Icon: IconStatistics, link: '/main', disabled: true },
   { id: 11, name: 'Texnik yordam', Icon: IconTechnicSupport, link: '/main', disabled: true },
   { id: 12, name: 'Hisobotlar', Icon: IconDocuments, link: '/main', disabled: true },
 ]

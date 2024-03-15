@@ -87,11 +87,11 @@ export const Foooter = () => {
                 >
                   Tel:
                 </Typography>{' '}
-                +998902339809
+                +998 99 631 42 21
               </Typography>
               <Typography
                 component={Link}
-                to='tel:+998902339809'
+                to='tel:+998996314221'
                 color={theme => theme.palette.allColors.BLACK}
                 sx={{ textDecoration: 'none' }}
                 fontFamily='GothamProRegular'
@@ -103,7 +103,7 @@ export const Foooter = () => {
                 >
                   Email:
                 </Typography>{' '}
-                azamov980@gmail.com
+                info@ais.uz
               </Typography>
             </Stack>
           </Stack>

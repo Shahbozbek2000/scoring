@@ -3,4 +3,5 @@ export const ROUTER = {
   HOME: '/main',
   NOT_FOUND: '*',
   APPLY: 'apply',
+  CONTRACTS: 'contracts',
 }

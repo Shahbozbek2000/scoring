@@ -476,7 +476,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
             Rad etish
           </Button>
           <Button variant='contained' sx={{ background: '#08705F', opacity: 0.7 }}>
-            Shartnomaga jo`natish
+            Shartnomaga shakllantirish
           </Button>
         </Stack>
       </Form>
