@@ -1,14 +1,15 @@
+import { useState } from 'react'
 import { IconButton, Stack } from '@mui/material'
 import { createColumnHelper } from '@tanstack/react-table'
 import { ReactComponent as IconCheck } from '@/assets/icons/check.svg'
 import { ReactComponent as IconClose } from '@/assets/icons/close.svg'
 import { ReactComponent as IconEyes } from '@/assets/icons/eyes.svg'
-import { Badge } from './style'
-import { getStatus } from '@/utils/status'
-import { useState } from 'react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import { acceptApplications, getAllApplications } from '@/apis/applications'
+import { Badge } from './style'
+import dayjs from 'dayjs'
+import { DATE_FORMAT } from '@/constants/format'
 
 interface Person {
   number: number
@@ -107,6 +108,9 @@ export const usePage = () => {
     }),
     columnHelper.accessor('date', {
       header: () => <span>Ariza sanasi</span>,
+      cell: (info: any) => {
+        return <p>{dayjs(info.row.original.date).format(DATE_FORMAT)}</p>
+      },
       footer: info => info.column.id,
     }),
     columnHelper.accessor('check_status', {

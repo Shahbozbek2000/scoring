@@ -1,12 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import {
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from '@tanstack/react-table'
 import { Table, TableWrapper } from './style'
+import { type TableProps } from '@/types/table'
 
-export const CustomTable = ({ data = [], columns = [], emptyText }: any) => {
+export const CustomTable = <T extends object>({ options, emptyTitle }: TableProps<T>) => {
   const table = useReactTable({
-    data,
-    columns,
+    ...options,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   })
 
   return (
@@ -26,10 +31,10 @@ export const CustomTable = ({ data = [], columns = [], emptyText }: any) => {
           ))}
         </thead>
         <tbody>
-          {data.length === 0 ? (
+          {options.data.length === 0 ? (
             <tr>
-              <td colSpan={columns.length} style={{ textAlign: 'center' }}>
-                {emptyText}
+              <td colSpan={options.columns.length} style={{ textAlign: 'center' }}>
+                {emptyTitle}
               </td>
             </tr>
           ) : (

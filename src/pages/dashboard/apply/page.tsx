@@ -1,11 +1,11 @@
 import { Stack } from '@mui/material'
-import { CustomTable } from './components/table'
 import { usePage } from './usePage'
 import { CustomPagination } from '@/components/pagination'
 import { ModalForm } from './components/form'
 import { Header } from './components/header'
 import { LoadingOverlay } from '@/components/loading-overlay'
 import { Reject } from './components/reject'
+import { CustomTable } from '@/components/table'
 
 const Apply = () => {
   const { open, data, rowId, columns, setOpen, isLoading, rejectOpen, setRejectOpen } = usePage()
@@ -21,7 +21,7 @@ const Apply = () => {
         gap='24px'
         bgcolor={theme => theme.palette.allColors.WHITE}
       >
-        <CustomTable data={data} columns={columns} emptyText="Ma'lumot mavjud emas!" />
+        <CustomTable options={{ data, columns }} emptyTitle="Ma'lumot mavjud emas!" />
         {data.length > 0 ? <CustomPagination count={data?.length} /> : null}
       </Stack>
       <LoadingOverlay isLoading={isLoading} />
