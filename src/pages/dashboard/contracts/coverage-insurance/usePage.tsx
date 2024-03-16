@@ -1,9 +1,11 @@
 /* eslint-disable quotes */
 import { DATE_FORMAT } from '@/constants/format'
+import { ROUTER } from '@/constants/router'
 import { Badge } from '@/styles/global'
 import { Button, Stack } from '@mui/material'
 import { createColumnHelper } from '@tanstack/react-table'
 import dayjs from 'dayjs'
+import { useNavigate } from 'react-router-dom'
 
 interface IColumns {
   number: string | number
@@ -19,6 +21,8 @@ interface IColumns {
 const columnHelper = createColumnHelper<IColumns>()
 
 export const usePage = () => {
+  const navigate = useNavigate()
+
   const columns = [
     columnHelper.accessor('number', {
       cell: info => info.row.index + 1,
@@ -83,6 +87,9 @@ export const usePage = () => {
               color: 'var(--Green)',
               borderRadius: '4px',
               cursor: 'pointer',
+            }}
+            onClick={() => {
+              navigate(ROUTER.CREATE)
             }}
           >
             Yaratish

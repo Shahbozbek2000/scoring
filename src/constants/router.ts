@@ -6,4 +6,5 @@ export const ROUTER = {
   CONTRACTS: 'contracts',
   COVERAGE_INSURANCE: 'coverage-insurance',
   CROP_INSURANCE: 'crop-insurance',
+  CREATE: 'create',
 }
