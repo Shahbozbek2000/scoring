@@ -8,6 +8,10 @@ const NotFound = lazy(async () => await import('@/pages/404'))
 const Home = lazy(async () => await import('@/pages/dashboard/home'))
 const Apply = lazy(async () => await import('@/pages/dashboard/apply'))
 const Contracts = lazy(async () => await import('@/pages/dashboard/contracts'))
+const CoverageInsurance = lazy(
+  async () => await import('@/pages/dashboard/contracts/coverage-insurance'),
+)
+const CropInsurance = lazy(async () => await import('@/pages/dashboard/contracts/crop-insurance'))
 
 export const router = createBrowserRouter([
   {
@@ -31,7 +35,20 @@ export const router = createBrowserRouter([
           },
           {
             path: ROUTER.CONTRACTS,
-            element: <Contracts />,
+            children: [
+              {
+                index: true,
+                element: <Contracts />,
+              },
+              {
+                path: ROUTER.COVERAGE_INSURANCE,
+                element: <CoverageInsurance />,
+              },
+              {
+                path: ROUTER.CROP_INSURANCE,
+                element: <CropInsurance />,
+              },
+            ],
           },
         ],
       },

@@ -4,4 +4,6 @@ export const ROUTER = {
   NOT_FOUND: '*',
   APPLY: 'apply',
   CONTRACTS: 'contracts',
+  COVERAGE_INSURANCE: 'coverage-insurance',
+  CROP_INSURANCE: 'crop-insurance',
 }
