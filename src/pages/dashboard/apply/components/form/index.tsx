@@ -1,39 +1,20 @@
-import { getByIDApplications } from '@/apis/applications'
 import { Input } from '@/components/inputs/input'
 import { InputCheckbox } from '@/components/inputs/input-checkbox'
 import { TextArea } from '@/components/inputs/input-textarea'
 import { LoadingOverlay } from '@/components/loading-overlay'
 import { CustomModal } from '@/components/modal'
 import { COLORS } from '@/constants/css'
-import { DATE_FORMAT } from '@/constants/format'
-import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import type { IModal } from '@/types/modal'
 import { Button, Grid, Stack, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
-import dayjs from 'dayjs'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form } from 'react-router-dom'
+import { useReset } from './useReset'
 
 export const ModalForm = ({ open, setOpen, id }: IModal) => {
   const form = useForm()
   const [isCanceled, setIsCanceled] = useState(false)
-
-  const { isLoading } = useQuery({
-    queryKey: [REACT_QUERY_KEYS.GET_BY_ID_APPLICATIONS, id],
-    queryFn: async () => await getByIDApplications(id),
-    select: res => {
-      return res?.data
-    },
-    onSuccess: response => {
-      form.reset({
-        date: dayjs(response?.date).format(DATE_FORMAT),
-        credit_area_contour_numbers: response?.credit_area_contour_numbers?.map(Number)?.join(','),
-        ...response,
-      })
-    },
-    enabled: id !== null,
-  })
+  const { isLoading } = useReset({ id, form })
 
   return (
     <CustomModal open={open} setOpen={setOpen} title='Anketa generatsiya qilish'>
@@ -42,10 +23,9 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
           <Grid item xs={6} sm={4} md={4}>
             <Input
               control={form.control}
-              name='id'
+              name='number'
               placeholder='Ariza raqami'
               label='Ariza raqami'
-              type='number'
               InputProps={{
                 readOnly: true,
               }}

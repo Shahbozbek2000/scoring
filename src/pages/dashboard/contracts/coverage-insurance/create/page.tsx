@@ -1,13 +1,22 @@
 import { Input } from '@/components/inputs/input'
-import { Button, Grid, Stack, Typography } from '@mui/material'
+import { Button, Grid, Stack } from '@mui/material'
 import { type SubmitHandler, useForm } from 'react-hook-form'
-import { Content, Paper, PaperWrapper } from './style'
+import { PaperWrapper } from './style'
 import { Form } from 'react-router-dom'
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer'
 
 interface FormValues {
   status_plan: string
   percent: string
 }
+
+const PageContent = () => (
+  <View style={styles.page}>
+    <Text style={styles.text}>Page Content Here</Text>
+  </View>
+)
+
+const pages = Array.from({ length: 5 }, (_, index) => <PageContent key={index} />)
 
 const CreateCoverageInsurance = () => {
   const form = useForm<FormValues>()
@@ -51,24 +60,23 @@ const CreateCoverageInsurance = () => {
                   sx={{ width: '30%' }}
                 />
               </Stack>
-              <Button type='submit' sx={{ maxWidth: 173, backgroundColor: 'var(--Green)' }}>
+              <Button type='submit' sx={{ maxWidth: 173, backgroundColor: 'var()' }}>
                 Tasdiqlash
               </Button>
             </Stack>
           </Grid>
           <Grid item xs={6} sm={9} md={9}>
             <PaperWrapper>
-              <Paper>
-                <Content>
-                  <Typography>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo eius odio tempora
-                    quia repellat nihil modi quaerat, laborum aspernatur quidem rerum similique
-                    reiciendis vel laboriosam voluptatibus hic nemo, minus placeat, saepe omnis sit.
-                    Adipisci ipsa at, maiores illum corrupti incidunt facere dicta dignissimos,
-                    inventore tempore consequatur, ex id atque qui.
-                  </Typography>
-                </Content>
-              </Paper>
+              {/* <Paper>
+                <Content></Content>
+              </Paper> */}
+              <Document>
+                {pages.map((page, index) => (
+                  <Page key={index} size='A4'>
+                    {page}
+                  </Page>
+                ))}
+              </Document>
             </PaperWrapper>
           </Grid>
         </Grid>
@@ -76,5 +84,17 @@ const CreateCoverageInsurance = () => {
     </Stack>
   )
 }
+
+const styles = StyleSheet.create({
+  page: {
+    flexDirection: 'row',
+    backgroundColor: '#E4E4E4',
+    padding: 10,
+  },
+  text: {
+    fontSize: 12,
+    fontFamily: 'Times-Roman',
+  },
+})
 
 export default CreateCoverageInsurance

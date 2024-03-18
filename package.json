@@ -21,6 +21,7 @@
     "@mui/lab": "^5.0.0-alpha.147",
     "@mui/material": "^5.14.12",
     "@mui/x-date-pickers": "^6.18.5",
+    "@react-pdf/renderer": "^3.4.0",
     "@tanstack/react-query": "4.36.1",
     "@tanstack/react-table": "^8.10.7",
     "@types/leaflet": "^1.9.8",
