@@ -1,6 +1,8 @@
 import { ReactComponent as Logo } from '@/assets/icons/logo.svg'
+import { ROUTER } from '@/constants/router'
 import { Container } from '@mui/material'
 import Stack from '@mui/material/Stack'
+import { Link } from 'react-router-dom'
 
 export const Header = () => {
   return (
@@ -15,7 +17,9 @@ export const Header = () => {
       borderBottom={theme => `1px solid ${theme.palette.allColors.GREY20}`}
     >
       <Container>
-        <Logo />
+        <Link to={ROUTER.HOME}>
+          <Logo />
+        </Link>
       </Container>
     </Stack>
   )
