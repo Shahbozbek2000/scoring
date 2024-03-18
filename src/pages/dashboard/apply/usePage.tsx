@@ -1,15 +1,12 @@
 import { useState } from 'react'
-import { IconButton, Stack } from '@mui/material'
 import { createColumnHelper } from '@tanstack/react-table'
-import { ReactComponent as IconCheck } from '@/assets/icons/check.svg'
-import { ReactComponent as IconClose } from '@/assets/icons/close.svg'
-import { ReactComponent as IconEyes } from '@/assets/icons/eyes.svg'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import { acceptApplications, getAllApplications } from '@/apis/applications'
 import { Badge } from './style'
 import dayjs from 'dayjs'
 import { DATE_FORMAT } from '@/constants/format'
+import { CheckStatus } from './components/status'
 
 interface Person {
   number: number
@@ -117,41 +114,20 @@ export const usePage = () => {
       header: () => <span>Statusni belgilash</span>,
       footer: info => info.column.id,
       cell: (info: any) => (
-        <Stack direction='row' spacing={2}>
-          <IconButton
-            sx={{
-              borderRadius: '4px !important',
-              backgroundColor: 'rgba(8, 112, 95, 0.20)',
-            }}
-            onClick={() => {
-              accept(info?.row?.original?._id)
-            }}
-          >
-            <IconCheck />
-          </IconButton>
-          <IconButton
-            sx={{
-              borderRadius: '4px !important',
-              backgroundColor: 'rgba(235, 87, 87, 0.20)',
-            }}
-            onClick={() => {
-              reject(info?.row?.original?._id)
-            }}
-          >
-            <IconClose />
-          </IconButton>
-          <IconButton
-            sx={{
-              borderRadius: '4px !important',
-              backgroundColor: 'rgba(62, 91, 116, 0.20)',
-            }}
-            onClick={() => {
-              handleOpen(info)
-            }}
-          >
-            <IconEyes />
-          </IconButton>
-        </Stack>
+        <CheckStatus
+          id={info?.row?.original?._id}
+          status_code={info.row.original.status_code}
+          accept={() => {
+            accept(info?.row?.original?._id)
+          }}
+          reject={() => {
+            reject(info?.row?.original?._id)
+          }}
+          handleOpen={() => {
+            handleOpen(info)
+          }}
+          info={info}
+        />
       ),
     }),
   ]
