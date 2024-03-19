@@ -2,6 +2,7 @@
 import { Badge } from '@/styles/global'
 import { Button } from '@mui/material'
 import { createColumnHelper } from '@tanstack/react-table'
+import { useState } from 'react'
 
 interface IColumns {
   number: number
@@ -18,6 +19,8 @@ interface IColumns {
 const columnHelper = createColumnHelper<IColumns>()
 
 export const usePage = () => {
+  const [open, setOpen] = useState(false)
+
   const columns = [
     columnHelper.accessor('number', {
       cell: info => info.row.index + 1,
@@ -83,6 +86,9 @@ export const usePage = () => {
             width: 115,
             height: 32,
           }}
+          onClick={() => {
+            setOpen(true)
+          }}
         >
           Belgilash
         </Button>
@@ -114,7 +120,9 @@ export const usePage = () => {
   ]
 
   return {
+    open,
     data,
     columns,
+    setOpen,
   }
 }

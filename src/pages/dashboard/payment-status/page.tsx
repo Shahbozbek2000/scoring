@@ -4,9 +4,10 @@ import { CustomTable } from '@/components/table'
 import { Stack, Typography } from '@mui/material'
 import { usePage } from './usePage'
 import { Filter } from '@/components/filter'
+import { SetPaymentStatus } from './components/form'
 
 const PaymentStatus = () => {
-  const { data, columns } = usePage()
+  const { open, data, columns, setOpen } = usePage()
 
   return (
     <Stack gap='32px'>
@@ -38,6 +39,7 @@ const PaymentStatus = () => {
         <CustomPagination count={36} />
       </Stack>
       <LoadingOverlay isLoading={false} />
+      <SetPaymentStatus open={open} setOpen={setOpen} />
     </Stack>
   )
 }
