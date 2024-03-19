@@ -14,7 +14,7 @@ interface Person {
   farmer_name: string
   region: string
   district: string
-  type: string
+  type_name: string
   date: string
   check_status?: string
 }
@@ -69,12 +69,12 @@ export const usePage = () => {
     }),
     columnHelper.accessor('name', {
       id: 'apply_status',
-      cell: (info: any) => {
+      cell: ({ row }: any) => {
         return (
           <Badge
-            className={`${info.row.original.status_code === null ? 'in_progress' : info.row.original?.status_code === true ? 'success' : 'canceled'}`}
+            className={`${row.original.status_code === null ? 'in_progress' : row.original?.status_code === true ? 'success' : 'canceled'}`}
           >
-            {info.row.original?.status_name}
+            {row.original?.status_name}
           </Badge>
         )
       },
@@ -83,8 +83,8 @@ export const usePage = () => {
     }),
     columnHelper.accessor('farmer_name', {
       header: () => 'Korxona nomi',
-      cell: (info: any) => {
-        return <p>{info.row.original.farmer_name}</p>
+      cell: ({ row }) => {
+        return <p>{row.original.farmer_name}</p>
       },
       footer: info => info.column.id,
     }),
@@ -96,17 +96,17 @@ export const usePage = () => {
       header: () => <span>Tuman</span>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor('type', {
+    columnHelper.accessor('type_name', {
       header: () => <span>Sug’urta turi</span>,
-      cell: (info: any) => {
-        return <p>{info.row.original.type_name}</p>
+      cell: ({ row }) => {
+        return <p>{row.original.type_name}</p>
       },
       footer: info => info.column.id,
     }),
     columnHelper.accessor('date', {
       header: () => <span>Ariza sanasi</span>,
-      cell: (info: any) => {
-        return <p>{dayjs(info.row.original.date).format(DATE_FORMAT)}</p>
+      cell: ({ row }) => {
+        return <p>{dayjs(row.original.date).format(DATE_FORMAT)}</p>
       },
       footer: info => info.column.id,
     }),

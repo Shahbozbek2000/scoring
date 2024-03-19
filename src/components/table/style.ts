@@ -38,6 +38,7 @@ export const Table = styled('table')`
         font-size: 14px;
         font-style: normal;
         line-height: 20px;
+        max-width: 250px;
       }
     }
   }

@@ -3,9 +3,10 @@ import { Stack } from '@mui/material'
 import { usePage } from './usePage'
 import { Filter } from '@/components/filter'
 import { CustomPagination } from '@/components/pagination'
+import { LoadingOverlay } from '@/components/loading-overlay'
 
 const CoverageInsurance = () => {
-  const { data, columns } = usePage()
+  const { data, columns, isLoading, isFetching } = usePage()
 
   return (
     <Stack gap='32px'>
@@ -21,6 +22,7 @@ const CoverageInsurance = () => {
         <CustomTable options={{ data, columns }} emptyTitle="Ma'lumot mavjud emas!" />
         {data.length > 0 && <CustomPagination count={36} />}
       </Stack>
+      <LoadingOverlay isLoading={isLoading || isFetching} />
     </Stack>
   )
 }

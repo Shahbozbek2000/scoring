@@ -1,8 +1,11 @@
 /* eslint-disable quotes */
+import { getAllContracts } from '@/apis/contracts'
 import { DATE_FORMAT } from '@/constants/format'
+import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import { ROUTER } from '@/constants/router'
 import { Badge } from '@/styles/global'
 import { Button, Stack } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { createColumnHelper } from '@tanstack/react-table'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
@@ -16,6 +19,8 @@ interface IColumns {
   type?: string
   date?: string
   check_status?: string
+  status_code: boolean
+  status_name: string
 }
 
 const columnHelper = createColumnHelper<IColumns>()
@@ -23,20 +28,31 @@ const columnHelper = createColumnHelper<IColumns>()
 export const usePage = () => {
   const navigate = useNavigate()
 
+  const {
+    data = [],
+    isLoading,
+    isFetching,
+  } = useQuery({
+    queryKey: [REACT_QUERY_KEYS.GET_ALL_CONTRACTS],
+    queryFn: getAllContracts,
+    select: res => res?.data,
+    keepPreviousData: true,
+  })
+
   const columns = [
     columnHelper.accessor('number', {
       cell: info => info.row.index + 1,
       header: () => <span>№</span>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor('name', {
-      id: 'apply_status',
-      cell: (info: any) => {
+    columnHelper.accessor('status_name', {
+      id: 'status_name',
+      cell: ({ row }) => {
         return (
           <Badge
-            className={`${info.row.original.status_code === null ? 'in_progress' : info.row.original?.status_code === true ? 'success' : 'canceled'}`}
+            className={`${row.original.status_code === null ? 'in_progress' : row.original?.status_code ? 'success' : 'canceled'}`}
           >
-            Ro'yxatdan o'tdi
+            {row.original?.status_name}
           </Badge>
         )
       },
@@ -45,32 +61,36 @@ export const usePage = () => {
     }),
     columnHelper.accessor('farmer_name', {
       header: () => 'Korxona nomi',
-      cell: (info: any) => {
-        return <p>OMAR MCHJ</p>
+      cell: ({ row }: any) => {
+        return <p>{row.original.application?.farmer_name}</p>
       },
       footer: info => info.column.id,
     }),
     columnHelper.accessor('region', {
       header: () => <span>Viloyat</span>,
-      cell: () => <span>Andijon</span>,
+      cell: ({ row }: any) => {
+        return <p>{row.original.application?.region}</p>
+      },
       footer: info => info.column.id,
     }),
     columnHelper.accessor('district', {
       header: () => <span>Tuman</span>,
-      cell: () => <span>Baliqchi</span>,
+      cell: ({ row }: any) => {
+        return <p>{row.original.application?.district}</p>
+      },
       footer: info => info.column.id,
     }),
     columnHelper.accessor('type', {
       header: () => <span>Sug’urta turi</span>,
-      cell: (info: any) => {
-        return <p>Sug'urti turi</p>
+      cell: ({ row }: any) => {
+        return <p>{row.original.application?.type_name}</p>
       },
       footer: info => info.column.id,
     }),
     columnHelper.accessor('date', {
       header: () => <span>Ariza sanasi</span>,
-      cell: (info: any) => {
-        return <p>{dayjs(info.row.original.date).format(DATE_FORMAT)}</p>
+      cell: ({ row }: any) => {
+        return <p>{dayjs(row.original?.application?.date).format(DATE_FORMAT)}</p>
       },
       footer: info => info.column.id,
     }),
@@ -99,15 +119,10 @@ export const usePage = () => {
     }),
   ]
 
-  const data: IColumns[] = [
-    {
-      number: 1,
-      name: "Royxatdan o'tdi",
-    },
-  ]
-
   return {
     data,
     columns,
+    isLoading,
+    isFetching,
   }
 }
