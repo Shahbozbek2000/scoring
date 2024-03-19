@@ -7,4 +7,5 @@ export const ROUTER = {
   COVERAGE_INSURANCE: 'coverage-insurance',
   CROP_INSURANCE: 'crop-insurance',
   CREATE: 'create',
+  PAYMENT_STATUS: 'payment-status',
 }

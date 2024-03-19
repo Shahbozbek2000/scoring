@@ -15,6 +15,7 @@ const CreateCoverageInsurance = lazy(
   async () => await import('@/pages/dashboard/contracts/coverage-insurance/create'),
 )
 const CropInsurance = lazy(async () => await import('@/pages/dashboard/contracts/crop-insurance'))
+const PaymentStatus = lazy(async () => await import('@/pages/dashboard/payment-status'))
 
 export const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ export const router = createBrowserRouter([
                 element: <CropInsurance />,
               },
             ],
+          },
+          {
+            path: ROUTER.PAYMENT_STATUS,
+            element: <PaymentStatus />,
           },
         ],
       },

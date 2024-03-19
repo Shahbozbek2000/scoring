@@ -21,7 +21,7 @@ export const pages = [
   { id: 7, name: 'Monitoring', Icon: IconMonitoring, link: '/main', disabled: true },
   { id: 8, name: 'Agrotexnik tadbirlar', Icon: IconAgroActivities, link: '/main', disabled: true },
   // { id: 9, name: 'Yuridik xulosa', Icon: IconLegalOpinion, link: '/main', disabled: true },
-  { id: 10, name: 'To‘lov holati', Icon: IconStatistics, link: '/main', disabled: true },
+  { id: 10, name: 'To‘lov holati', Icon: IconStatistics, link: 'payment-status', disabled: false },
   { id: 11, name: 'Texnik yordam', Icon: IconTechnicSupport, link: '/main', disabled: true },
   { id: 12, name: 'Hisobotlar', Icon: IconDocuments, link: '/main', disabled: true },
 ]
