@@ -7,4 +7,5 @@ export interface IModal {
   children?: ReactNode
   maxWidth?: 'lg' | 'md' | 'sm' | 'xs'
   id?: string | null
+  fullScreen?: boolean
 }

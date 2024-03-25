@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { type SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { formSchema } from './form.schema'
 import { useMutation } from '@tanstack/react-query'
@@ -21,12 +21,13 @@ export const useLogin = () => {
     mutationFn: async data => await login(data),
     onSuccess: res => {
       localStorage.setItem('token', res?.data?.token)
+      sessionStorage.setItem('token', res?.data?.token)
       navigate(ROUTER.HOME)
     },
     onError: () => {},
   })
 
-  const onLogin = (credentials: FormValues | any) => {
+  const onLogin: SubmitHandler<FormValues | any> = credentials => {
     mutate(credentials)
   }
 

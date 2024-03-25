@@ -5,7 +5,14 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 import type { IModal } from '@/types/modal'
 
-export const CustomModal = ({ open, setOpen, title, children, maxWidth = 'lg' }: IModal) => {
+export const CustomModal = ({
+  open,
+  setOpen,
+  title,
+  children,
+  maxWidth = 'lg',
+  fullScreen: fullscreen = true,
+}: IModal) => {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
@@ -17,7 +24,7 @@ export const CustomModal = ({ open, setOpen, title, children, maxWidth = 'lg' }:
     <Dialog
       fullWidth
       maxWidth={maxWidth}
-      fullScreen={fullScreen}
+      fullScreen={!fullscreen ? false : fullScreen}
       open={open}
       onClose={handleClose}
       aria-labelledby='responsive-dialog-title'

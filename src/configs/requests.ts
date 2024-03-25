@@ -1,15 +1,16 @@
 import { type ErrorProps } from '@/types/error'
+import { getUser } from '@/utils/user'
 import axios, { type AxiosHeaders } from 'axios'
-const baseURL = import.meta.env.VITE_API_BASE_URL || 'https://agro.semurgins.uz/api/'
-const token = localStorage.getItem('token')
+const baseURL = import.meta.env.VITE_API_BASE_URL
+
 export const request = axios.create({
   baseURL,
 })
-
 request.interceptors.request.use(
   async config => {
-    if (token) {
-      ;(config.headers as AxiosHeaders).set('Authorization', `Bearer ${token}`)
+    const user = getUser()
+    if (user) {
+      ;(config.headers as AxiosHeaders).set('Authorization', `Bearer ${user}`)
       return config
     }
     return config
