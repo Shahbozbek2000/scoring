@@ -1,6 +1,6 @@
 import { type ErrorProps } from '@/types/error'
 import axios, { type AxiosHeaders } from 'axios'
-const baseURL = import.meta.env.VITE_API_BASE_URL
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'https://agro.semurgins.uz/api/'
 const token = localStorage.getItem('token')
 export const request = axios.create({
   baseURL,
