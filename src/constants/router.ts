@@ -9,4 +9,6 @@ export const ROUTER = {
   CREATE: 'create',
   PAYMENT_STATUS: 'payment-status',
   DOCUMENTS: 'documents',
+  POLIS: 'polis',
+  TECHNICAL_SUPPORT: 'technical-support',
 }

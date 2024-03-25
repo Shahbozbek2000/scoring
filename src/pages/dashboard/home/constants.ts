@@ -20,6 +20,12 @@ export const pages = [
   { id: 7, name: 'Monitoring', Icon: IconMonitoring, link: '/main', disabled: true },
   { id: 8, name: 'Agrotexnik tadbirlar', Icon: IconAgroActivities, link: '/main', disabled: true },
   { id: 10, name: 'To‘lov holati', Icon: IconStatistics, link: 'payment-status', disabled: false },
-  { id: 11, name: 'Texnik yordam', Icon: IconTechnicSupport, link: '/main', disabled: true },
+  {
+    id: 11,
+    name: 'Texnik yordam',
+    Icon: IconTechnicSupport,
+    link: 'technical-support',
+    disabled: true,
+  },
   { id: 12, name: 'Hisobotlar', Icon: IconDocuments, link: 'documents', disabled: true },
 ]

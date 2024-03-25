@@ -1,8 +1,8 @@
+import type { Dispatch, SetStateAction } from 'react'
 import { TextArea } from '@/components/inputs/input-textarea'
 import { CustomModal } from '@/components/modal'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Stack } from '@mui/material'
-import type { Dispatch, SetStateAction } from 'react'
 import { useForm } from 'react-hook-form'
 import { formSchema } from './form.schema'
 import { Form } from 'react-router-dom'
@@ -30,7 +30,7 @@ export const Reject = ({ rejectOpen, setRejectOpen, id }: IRejectProps) => {
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async data => await rejectApplications(data),
-    onSuccess: res => {
+    onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [REACT_QUERY_KEYS.GET_ALL_APPLICATIONS] })
       setRejectOpen(false)
     },
