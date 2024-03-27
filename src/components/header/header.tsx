@@ -3,8 +3,24 @@ import { ROUTER } from '@/constants/router'
 import { Container } from '@mui/material'
 import Stack from '@mui/material/Stack'
 import { Link } from 'react-router-dom'
+import { Profile } from './profile'
+import { getUser } from '@/utils/user'
+import { useEffect, useState } from 'react'
 
 export const Header = () => {
+  const users = getUser()
+  const [user, setUser] = useState<string | null>(users)
+
+  useEffect(() => {
+    const getFromStorage = async () => {
+      setUser(users)
+    }
+    window.addEventListener('storage', getFromStorage)
+    void getFromStorage()
+  }, [users, user])
+
+  console.log(users, 'user')
+
   return (
     <Stack
       width='100%'
@@ -17,9 +33,12 @@ export const Header = () => {
       borderBottom={theme => `1px solid ${theme.palette.allColors.GREY20}`}
     >
       <Container>
-        <Link to={ROUTER.HOME}>
-          <Logo />
-        </Link>
+        <Stack direction='row' width='100%' justifyContent='space-between' alignItems='center'>
+          <Link to={ROUTER.HOME}>
+            <Logo />
+          </Link>
+          {user && <Profile />}
+        </Stack>
       </Container>
     </Stack>
   )

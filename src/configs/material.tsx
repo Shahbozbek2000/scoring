@@ -259,7 +259,7 @@ export const theme = extendTheme({
       styleOverrides: {
         paper: ({ theme }) => ({
           marginTop: '8px',
-          borderRadius: '9px',
+          borderRadius: '10px',
           background: theme.palette.allColors.WHITE,
           border: `1px solid ${theme.palette.allColors.GREY}`,
           boxShadow: 'none',
@@ -273,6 +273,8 @@ export const theme = extendTheme({
           fontSize: '14px',
           padding: '8px 14px',
           lineHeight: 'normal',
+          fontFamily: 'GothamProRegular',
+          textAlign: 'center',
           color: theme.palette.allColors.BRAND,
           '.description': {
             opacity: 0.75,
