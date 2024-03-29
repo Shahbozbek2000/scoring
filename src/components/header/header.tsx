@@ -19,8 +19,6 @@ export const Header = () => {
     void getFromStorage()
   }, [users, user])
 
-  console.log(users, 'user')
-
   return (
     <Stack
       width='100%'

@@ -2,7 +2,6 @@ import { Grid, Stack, Typography } from '@mui/material'
 import { pages } from './constants'
 import { Card, Left, Right } from './style'
 import { useNavigate } from 'react-router-dom'
-import { Map } from '@/components/map'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -40,7 +39,6 @@ const Home = () => {
           )
         })}
       </Grid>
-      <Map />
     </Stack>
   )
 }
