@@ -3,7 +3,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { formSchema } from './form.schema'
 import { useMutation } from '@tanstack/react-query'
 import { login } from '@/apis/login'
-import { useNavigate } from 'react-router-dom'
 import { ROUTER } from '@/constants/router'
 
 interface FormValues {
@@ -12,7 +11,6 @@ interface FormValues {
 }
 
 export const useLogin = () => {
-  const navigate = useNavigate()
   const form = useForm<FormValues>({
     resolver: yupResolver(formSchema),
   })
@@ -22,7 +20,8 @@ export const useLogin = () => {
     onSuccess: res => {
       localStorage.setItem('token', res?.data?.token)
       sessionStorage.setItem('token', res?.data?.token)
-      navigate(ROUTER.HOME)
+      // navigate(ROUTER.HOME)
+      window.location.href = ROUTER.HOME
     },
     onError: () => {},
   })

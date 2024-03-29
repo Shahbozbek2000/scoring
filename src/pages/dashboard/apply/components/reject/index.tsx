@@ -3,7 +3,7 @@ import { TextArea } from '@/components/inputs/input-textarea'
 import { CustomModal } from '@/components/modal'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Stack } from '@mui/material'
-import { useForm } from 'react-hook-form'
+import { type SubmitHandler, useForm } from 'react-hook-form'
 import { formSchema } from './form.schema'
 import { Form } from 'react-router-dom'
 import { COLORS } from '@/constants/css'
@@ -39,7 +39,7 @@ export const Reject = ({ rejectOpen, setRejectOpen, id }: IRejectProps) => {
     },
   })
 
-  const onReject = (data: FormValues | any) => {
+  const onReject: SubmitHandler<FormValues> = data => {
     const payload: any = { id, comment: data?.comment }
     mutate(payload)
   }

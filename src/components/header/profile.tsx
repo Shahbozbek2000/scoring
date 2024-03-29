@@ -3,11 +3,9 @@ import { Avatar, Button, Menu, MenuItem, Stack, Typography } from '@mui/material
 import IconUser from '@/assets/icons/user.svg'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { COLORS } from '@/constants/css'
-import { useNavigate } from 'react-router-dom'
 import { ROUTER } from '@/constants/router'
 
 export const Profile = () => {
-  const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
 
@@ -21,7 +19,8 @@ export const Profile = () => {
 
   const handleLogout = () => {
     localStorage.clear()
-    navigate(ROUTER.AUTH)
+    window.location.href = ROUTER.AUTH
+    // navigate(ROUTER.AUTH)
     setAnchorEl(null)
   }
 

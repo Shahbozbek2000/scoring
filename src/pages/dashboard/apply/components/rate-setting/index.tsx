@@ -1,23 +1,51 @@
+import { acceptApplications } from '@/apis/applications'
 import { Input } from '@/components/inputs/input'
+import { LoadingOverlay } from '@/components/loading-overlay'
 import { CustomModal } from '@/components/modal'
+import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Grid, Stack } from '@mui/material'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { Form } from 'react-router-dom'
+import { formSchema } from './form.schema'
 
 interface IRateSetting {
+  id: string | null | undefined
   rateOpen: boolean
   setRateOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 interface FormValues {
-  rate: string
-  percent: string
+  insurance_liability: string
+  percent?: string
 }
-export const RateSetting = ({ rateOpen, setRateOpen }: IRateSetting) => {
-  const form = useForm<FormValues>()
+export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
+  const queryClient = useQueryClient()
+  const form = useForm<FormValues>({
+    resolver: yupResolver(formSchema),
+    defaultValues: {
+      insurance_liability: '',
+      percent: '10',
+    },
+  })
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: async data => await acceptApplications(id, data),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: [REACT_QUERY_KEYS.GET_ALL_APPLICATIONS] })
+      setRateOpen(false)
+    },
+    onError: err => {
+      console.log(err)
+    },
+  })
 
   const onSetting: SubmitHandler<FormValues> = data => {
-    console.log(data)
+    const payload: any = {
+      insurance_liability: parseFloat(data?.insurance_liability),
+    }
+    mutate(payload)
   }
 
   return (
@@ -31,10 +59,21 @@ export const RateSetting = ({ rateOpen, setRateOpen }: IRateSetting) => {
       <Form onSubmit={form.handleSubmit(onSetting)}>
         <Grid container spacing={{ xs: 2, md: 2 }}>
           <Grid item xs={6} sm={4} md={8}>
-            <Input control={form.control} name='rate' placeholder='Tarif' type='number' />
+            <Input
+              control={form.control}
+              name='insurance_liability'
+              placeholder='Tarif'
+              type='number'
+            />
           </Grid>
           <Grid item xs={6} sm={4} md={4}>
-            <Input control={form.control} name='percent' placeholder='Foiz' type='number' />
+            <Input
+              control={form.control}
+              name='percent'
+              placeholder='Foiz'
+              type='number'
+              disabled
+            />
           </Grid>
         </Grid>
         <Stack direction='row' spacing={2} sx={{ marginTop: '32px' }}>
@@ -46,11 +85,12 @@ export const RateSetting = ({ rateOpen, setRateOpen }: IRateSetting) => {
           >
             Ortga qaytish
           </Button>
-          <Button variant='contained' type='submit'>
+          <Button variant='contained' type='submit' sx={{ opacity: 0.7 }}>
             Shartnomani shakllantirish
           </Button>
         </Stack>
       </Form>
+      <LoadingOverlay isLoading={isLoading} />
     </CustomModal>
   )
 }

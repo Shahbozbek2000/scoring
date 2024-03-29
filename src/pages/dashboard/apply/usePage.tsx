@@ -43,7 +43,10 @@ export const usePage = () => {
   }
 
   const { mutate } = useMutation({
-    mutationFn: async data => await acceptApplications(data),
+    mutationFn: async data =>
+      await acceptApplications(data, {
+        insurance_liability: '10',
+      }),
     onSuccess: res => {
       void refetch()
     },

@@ -437,7 +437,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
               <Grid item xs={6} sm={4} md={4}>
                 <TextArea
                   control={form.control}
-                  name='cancel_info'
+                  name='comment'
                   placeholder='Arizani rad etish sababini kiriting'
                   label='Arizani rad etish sababini kiriting'
                 />
@@ -472,7 +472,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
         </Form>
         <LoadingOverlay isLoading={isLoading} />
       </CustomModal>
-      <RateSetting rateOpen={rateOpen} setRateOpen={setRateOpen} />
+      <RateSetting rateOpen={rateOpen} setRateOpen={setRateOpen} id={id} />
     </Fragment>
   )
 }
