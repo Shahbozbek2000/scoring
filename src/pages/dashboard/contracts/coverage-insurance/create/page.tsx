@@ -32,7 +32,6 @@ const CreateCoverageInsurance = () => {
           fileName: 'test.docx',
         },
       ])
-      toast.success('Shartnoma tasdiqlandi')
     },
     onError: () => {
       toast.error('Nimdur xatolik yuz berdi!')
@@ -43,9 +42,11 @@ const CreateCoverageInsurance = () => {
     mutationFn: async () => await acceptContract(id),
     onSuccess: res => {
       navigate('/main/contracts/coverage-insurance')
-      toast.success('Shartnoma yaratildi')
+      toast.success('Shartnoma tasdiqlandi')
     },
-    onError: () => {},
+    onError: () => {
+      toast.error('Nimdur xatolik yuz berdi!')
+    },
   })
   const onCreate: SubmitHandler<FormValues> = data => {
     console.log(data)
