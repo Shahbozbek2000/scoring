@@ -32,6 +32,7 @@ const CreateCoverageInsurance = () => {
           fileName: 'test.docx',
         },
       ])
+      toast.success('Shartnoma tasdiqlandi')
     },
     onError: () => {
       toast.error('Nimdur xatolik yuz berdi!')
