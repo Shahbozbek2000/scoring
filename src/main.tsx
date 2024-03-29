@@ -7,6 +7,7 @@ import { router } from './router'
 import { queryClient } from './configs/react-query'
 import { theme } from './configs/material'
 import { Suspense } from './components/suspense'
+import { Toaster } from 'react-hot-toast'
 import 'leaflet/dist/leaflet.css'
 import './index.css'
 
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <CssVarsProvider theme={theme}>
         <CssBaseline />
         <RouterProvider router={router} />
+        <Toaster position='top-right' reverseOrder={false} />
       </CssVarsProvider>
     </QueryClientProvider>
   </Suspense>,

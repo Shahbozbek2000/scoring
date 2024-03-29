@@ -7,6 +7,7 @@ import { acceptContract, contractGenerateDoc } from '@/apis/contracts'
 import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer'
 import { useState } from 'react'
 import { LoadingOverlay } from '@/components/loading-overlay'
+import toast from 'react-hot-toast'
 
 interface FormValues {
   status_plan: string
@@ -32,12 +33,16 @@ const CreateCoverageInsurance = () => {
         },
       ])
     },
+    onError: () => {
+      toast.error('Nimdur xatolik yuz berdi!')
+    },
   })
 
   const { mutate, isLoading: isLoadingAccept } = useMutation({
     mutationFn: async () => await acceptContract(id),
     onSuccess: res => {
       navigate('/main/contracts/coverage-insurance')
+      toast.success('Shartnoma yaratildi')
     },
     onError: () => {},
   })
