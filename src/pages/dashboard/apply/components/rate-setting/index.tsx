@@ -17,7 +17,7 @@ interface IRateSetting {
 }
 
 interface FormValues {
-  insurance_liability: string
+  interest_rate_percentage: string
   percent?: string
 }
 export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
@@ -25,7 +25,7 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
   const form = useForm<FormValues>({
     resolver: yupResolver(formSchema),
     defaultValues: {
-      insurance_liability: '',
+      interest_rate_percentage: '',
       percent: '10',
     },
   })
@@ -43,7 +43,7 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
 
   const onSetting: SubmitHandler<FormValues> = data => {
     const payload: any = {
-      insurance_liability: parseFloat(data?.insurance_liability),
+      interest_rate_percentage: parseFloat(data?.interest_rate_percentage),
     }
     mutate(payload)
   }
@@ -61,7 +61,7 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
           <Grid item xs={6} sm={4} md={8}>
             <Input
               control={form.control}
-              name='insurance_liability'
+              name='interest_rate_percentage'
               placeholder='Tarif'
               type='number'
             />

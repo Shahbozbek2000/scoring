@@ -55,7 +55,7 @@ export const router = createBrowserRouter([
                     element: <CoverageInsurance />,
                   },
                   {
-                    path: ROUTER.CREATE,
+                    path: `${ROUTER.CREATE}/:id`,
                     element: <CreateCoverageInsurance />,
                   },
                 ],

@@ -4,7 +4,7 @@ import { DATE_FORMAT } from '@/constants/format'
 import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import { ROUTER } from '@/constants/router'
 import { Badge } from '@/styles/global'
-import { Button, Stack } from '@mui/material'
+import { Button } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { createColumnHelper } from '@tanstack/react-table'
 import dayjs from 'dayjs'
@@ -97,25 +97,45 @@ export const usePage = () => {
     columnHelper.accessor('check_status', {
       header: () => <span>Statusni belgilash</span>,
       footer: info => info.column.id,
-      cell: (info: any) => (
-        <Stack direction='row' spacing={2}>
-          <Button
-            variant='outlined'
-            sx={{
-              width: 108,
-              height: 36,
-              color: 'var(--Green)',
-              borderRadius: '4px',
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              navigate(ROUTER.CREATE)
-            }}
-          >
-            Yaratish
-          </Button>
-        </Stack>
-      ),
+      cell: ({ row }: any) => {
+        return (
+          <>
+            {row.original?.status_code ? (
+              <Button
+                variant='outlined'
+                sx={{
+                  width: 108,
+                  height: 36,
+                  color: 'var(--Green)',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  navigate(`${ROUTER.CREATE}/${row?.original?._id}`)
+                }}
+              >
+                Ko'rish
+              </Button>
+            ) : (
+              <Button
+                variant='outlined'
+                sx={{
+                  width: 108,
+                  height: 36,
+                  color: 'var(--Green)',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  navigate(`${ROUTER.CREATE}/${row?.original?._id}`)
+                }}
+              >
+                Yaratish
+              </Button>
+            )}
+          </>
+        )
+      },
     }),
   ]
 
