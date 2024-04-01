@@ -117,7 +117,7 @@ export const Foooter = () => {
               color={theme => theme.palette.allColors.WHITE}
               fontFamily='GothamProRegular'
             >
-              © 2024; Agrosanoat sohasida sug'urtalashni avtomatlashtirilgan tizimi
+              2024; Agrosanoat sohasida sug'urtalashni avtomatlashtirilgan tizimi
             </Typography>
             <Logo />
           </Stack>
