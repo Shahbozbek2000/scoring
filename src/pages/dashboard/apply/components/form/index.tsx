@@ -7,21 +7,43 @@ import { COLORS } from '@/constants/css'
 import type { IModal } from '@/types/modal'
 import { Button, Grid, Stack, Typography } from '@mui/material'
 import { Fragment, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { type SubmitHandler, useForm } from 'react-hook-form'
 import { Form } from 'react-router-dom'
 import { useReset } from './useReset'
 import { RateSetting } from '../rate-setting'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { rejectApplications } from '@/apis/applications'
+import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
+import toast from 'react-hot-toast'
 
 export const ModalForm = ({ open, setOpen, id }: IModal) => {
   const form = useForm()
+  const queryClient = useQueryClient()
   const [isCanceled, setIsCanceled] = useState(false)
   const { isLoading } = useReset({ id, form })
   const [rateOpen, setRateOpen] = useState(false)
 
+  const { mutate } = useMutation({
+    mutationFn: async data => await rejectApplications(data),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: [REACT_QUERY_KEYS.GET_ALL_APPLICATIONS] })
+      setOpen(false)
+      toast.success('Ariza rad etildi')
+    },
+    onError: err => {
+      console.log(err)
+      toast.error('Nimadur xatolik yuz berdi')
+    },
+  })
+  const onReject: SubmitHandler<any> = data => {
+    const payload: any = { id, comment: data?.comment }
+    mutate(payload)
+  }
+
   return (
     <Fragment>
       <CustomModal open={open} setOpen={setOpen} title='Anketa generatsiya qilish'>
-        <Form>
+        <Form onSubmit={form.handleSubmit(onReject)}>
           <Grid container spacing={{ xs: 2, md: 2 }}>
             <Grid item xs={6} sm={4} md={4}>
               <Input
@@ -445,19 +467,34 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
             </Grid>
           )}
           <Stack direction='row' spacing={2}>
-            <Button
-              variant='outlined'
-              sx={{
-                color: COLORS.RED,
-                borderRadius: '8px',
-                border: `1.5px solid ${COLORS.RED} !important`,
-              }}
-              onClick={() => {
-                setIsCanceled(true)
-              }}
-            >
-              Rad etish
-            </Button>
+            {isCanceled ? (
+              <Button
+                variant='outlined'
+                sx={{
+                  color: COLORS.RED,
+                  borderRadius: '8px',
+                  border: `1.5px solid ${COLORS.RED} !important`,
+                }}
+                type='submit'
+              >
+                Rad etish
+              </Button>
+            ) : (
+              <Button
+                variant='outlined'
+                sx={{
+                  color: COLORS.RED,
+                  borderRadius: '8px',
+                  border: `1.5px solid ${COLORS.RED} !important`,
+                }}
+                onClick={() => {
+                  setIsCanceled(true)
+                }}
+              >
+                Rad etish
+              </Button>
+            )}
+
             <Button
               variant='contained'
               sx={{ background: '#08705F', opacity: 0.7 }}
