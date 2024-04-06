@@ -8,7 +8,8 @@ import { Button } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { createColumnHelper } from '@tanstack/react-table'
 import dayjs from 'dayjs'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 interface IColumns {
   number: string | number
@@ -27,6 +28,12 @@ const columnHelper = createColumnHelper<IColumns>()
 
 export const usePage = () => {
   const navigate = useNavigate()
+  const { search } = useLocation()
+  const initial_params = new URLSearchParams(search)
+  const [params, setParams] = useState({
+    page: initial_params.has('page') ? Number(initial_params.get('page')) : 1,
+    limit: initial_params.has('limit') ? Number(initial_params.get('limit')) : 10,
+  })
 
   const {
     data = [],
@@ -141,7 +148,9 @@ export const usePage = () => {
 
   return {
     data,
+    params,
     columns,
+    setParams,
     isLoading,
     isFetching,
   }

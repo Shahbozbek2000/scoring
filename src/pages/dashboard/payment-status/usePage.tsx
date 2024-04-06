@@ -3,6 +3,7 @@ import { Badge } from '@/styles/global'
 import { Button } from '@mui/material'
 import { createColumnHelper } from '@tanstack/react-table'
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 interface IColumns {
   number: number
@@ -20,6 +21,12 @@ const columnHelper = createColumnHelper<IColumns>()
 
 export const usePage = () => {
   const [open, setOpen] = useState(false)
+  const { search } = useLocation()
+  const initial_params = new URLSearchParams(search)
+  const [params, setParams] = useState({
+    page: initial_params.has('page') ? Number(initial_params.get('page')) : 1,
+    limit: initial_params.has('limit') ? Number(initial_params.get('limit')) : 10,
+  })
 
   const columns = [
     columnHelper.accessor('number', {
@@ -122,7 +129,9 @@ export const usePage = () => {
   return {
     open,
     data,
+    params,
     columns,
     setOpen,
+    setParams,
   }
 }

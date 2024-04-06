@@ -1,12 +1,29 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+// @ts-nocheck
 import Stack from '@mui/material/Stack'
 import Pagination from '@mui/material/Pagination'
 import { Typography } from '@mui/material'
+import { type ICustomPagination } from '@/types/pagination'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-interface ICustomPagination {
-  count: number
-}
+export const CustomPagination = ({ params, setParams, count = 0 }: ICustomPagination) => {
+  const navigate = useNavigate()
 
-export const CustomPagination = ({ count = 0 }: ICustomPagination) => {
+  useEffect(() => {
+    const queryParams: string = '?page=' + params.page + '&limit=' + params.limit
+    navigate({
+      pathname: location.pathname,
+      search: queryParams,
+    })
+  }, [params])
+
+  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+    setParams({
+      page,
+      limit: 10,
+    })
+  }
   return (
     <Stack
       width='100%'
@@ -17,9 +34,11 @@ export const CustomPagination = ({ count = 0 }: ICustomPagination) => {
       spacing={3}
     >
       <Pagination
-        count={10}
+        count={Math.ceil(count / params.limit)}
         variant='outlined'
         shape='rounded'
+        page={params.page}
+        onChange={handlePageChange}
         sx={{
           '& .MuiPaginationItem-root': {
             width: 32,

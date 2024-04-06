@@ -6,7 +6,7 @@ import { CustomPagination } from '@/components/pagination'
 import { LoadingOverlay } from '@/components/loading-overlay'
 
 const CoverageInsurance = () => {
-  const { data, columns, isLoading, isFetching } = usePage()
+  const { data, params, columns, setParams, isLoading, isFetching } = usePage()
 
   return (
     <Stack>
@@ -30,7 +30,9 @@ const CoverageInsurance = () => {
           bgcolor={theme => theme.palette.allColors.WHITE}
         >
           <CustomTable options={{ data, columns }} emptyTitle="Ma'lumot mavjud emas!" />
-          {data.length > 0 && <CustomPagination count={36} />}
+          {data.length > 0 && (
+            <CustomPagination params={params} setParams={setParams} count={data.length} />
+          )}
         </Stack>
         <LoadingOverlay isLoading={isLoading || isFetching} />
       </Stack>

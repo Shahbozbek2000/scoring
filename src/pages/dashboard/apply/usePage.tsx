@@ -7,6 +7,7 @@ import { Badge } from './style'
 import dayjs from 'dayjs'
 import { DATE_FORMAT } from '@/constants/format'
 import { CheckStatus } from './components/status'
+import { useLocation } from 'react-router-dom'
 
 interface Person {
   number: number
@@ -22,18 +23,32 @@ interface Person {
 const columnHelper = createColumnHelper<Person>()
 
 export const usePage = () => {
+  const { search } = useLocation()
+  const initial_params = new URLSearchParams(search)
   const [rowId, setRowId] = useState(null)
   const [open, setOpen] = useState(false)
   const [rejectOpen, setRejectOpen] = useState(false)
+  const [params, setParams] = useState({
+    page: initial_params.has('page') ? Number(initial_params.get('page')) : 1,
+    limit: initial_params.has('limit') ? Number(initial_params.get('limit')) : 10,
+  })
 
   const {
-    data = [],
+    data = {
+      count: 0,
+      results: [],
+    },
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: [REACT_QUERY_KEYS.GET_ALL_APPLICATIONS],
-    queryFn: getAllApplications,
-    select: res => res?.data,
+    queryKey: [REACT_QUERY_KEYS.GET_ALL_APPLICATIONS, params],
+    queryFn: async () => await getAllApplications(params),
+    select: res => {
+      return {
+        count: res?.data?.count,
+        results: res?.data?.result,
+      }
+    },
     keepPreviousData: true,
   })
 
@@ -137,10 +152,13 @@ export const usePage = () => {
 
   return {
     open,
-    data,
+    data: data.results,
+    count: data.count,
     rowId,
+    params,
     columns,
     setOpen,
+    setParams,
     isLoading,
     rejectOpen,
     setRejectOpen,

@@ -7,7 +7,7 @@ import { Filter } from '@/components/filter'
 import { SetPaymentStatus } from './components/form'
 
 const PaymentStatus = () => {
-  const { open, data, columns, setOpen } = usePage()
+  const { open, data, params, columns, setOpen, setParams } = usePage()
 
   return (
     <Stack gap='32px'>
@@ -36,7 +36,7 @@ const PaymentStatus = () => {
         bgcolor={theme => theme.palette.allColors.WHITE}
       >
         <CustomTable options={{ data, columns }} emptyTitle="Ma'lumot mavjud emas!" />
-        <CustomPagination count={36} />
+        <CustomPagination params={params} setParams={setParams} count={data.length} />
       </Stack>
       <LoadingOverlay isLoading={false} />
       <SetPaymentStatus open={open} setOpen={setOpen} />

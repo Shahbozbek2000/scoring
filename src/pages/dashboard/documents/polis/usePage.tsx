@@ -1,5 +1,7 @@
 import { Button } from '@mui/material'
 import { createColumnHelper } from '@tanstack/react-table'
+import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 interface IColumn {
   number: number
@@ -12,6 +14,13 @@ interface IColumn {
 const columnHelper = createColumnHelper<IColumn>()
 
 export const usePage = () => {
+  const { search } = useLocation()
+  const initial_params = new URLSearchParams(search)
+  const [params, setParams] = useState({
+    page: initial_params.has('page') ? Number(initial_params.get('page')) : 1,
+    limit: initial_params.has('limit') ? Number(initial_params.get('limit')) : 10,
+  })
+
   const columns = [
     columnHelper.accessor('number', {
       cell: info => info.row.index + 1,
@@ -120,6 +129,8 @@ export const usePage = () => {
 
   return {
     data,
+    params,
     columns,
+    setParams,
   }
 }

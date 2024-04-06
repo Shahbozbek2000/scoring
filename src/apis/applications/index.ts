@@ -1,7 +1,17 @@
 import { request } from '@/configs/requests'
 
-export const getAllApplications = async () => {
-  return await request('/application/get/all')
+interface IParams {
+  page: number
+  limit: number
+}
+
+export const getAllApplications = async (params: IParams) => {
+  return await request('/application/get/all', {
+    params: {
+      page: params.page,
+      limit: params.limit,
+    },
+  })
 }
 
 export const getByIDApplications = async <T>(id: T) => {

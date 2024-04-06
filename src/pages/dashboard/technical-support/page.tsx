@@ -5,7 +5,7 @@ import { LoadingOverlay } from '@/components/loading-overlay'
 import { usePage } from './usePage'
 
 const TechnicalSupport = () => {
-  const { data, columns } = usePage()
+  const { data, params, columns, setParams } = usePage()
 
   return (
     <Stack gap='32px'>
@@ -26,7 +26,7 @@ const TechnicalSupport = () => {
         bgcolor={theme => theme.palette.allColors.WHITE}
       >
         <CustomTable options={{ data, columns }} emptyTitle="Ma'lumot mavjud emas!" />
-        <CustomPagination count={38} />
+        <CustomPagination params={params} setParams={setParams} count={data.length} />
       </Stack>
       <LoadingOverlay isLoading={false} />
     </Stack>

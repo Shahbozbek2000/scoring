@@ -8,7 +8,19 @@ import { Reject } from './components/reject'
 import { CustomTable } from '@/components/table'
 
 const Apply = () => {
-  const { open, data, rowId, columns, setOpen, isLoading, rejectOpen, setRejectOpen } = usePage()
+  const {
+    open,
+    data,
+    count,
+    rowId,
+    params,
+    columns,
+    setOpen,
+    setParams,
+    isLoading,
+    rejectOpen,
+    setRejectOpen,
+  } = usePage()
 
   return (
     <Stack>
@@ -32,7 +44,9 @@ const Apply = () => {
           bgcolor={theme => theme.palette.allColors.WHITE}
         >
           <CustomTable options={{ data, columns }} emptyTitle="Ma'lumot mavjud emas!" />
-          {data.length > 0 ? <CustomPagination count={data?.length} /> : null}
+          {data.length > 0 ? (
+            <CustomPagination params={params} setParams={setParams} count={count} />
+          ) : null}
         </Stack>
         <LoadingOverlay isLoading={isLoading} />
         <ModalForm open={open} setOpen={setOpen} id={rowId} />
