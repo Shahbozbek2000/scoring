@@ -20,8 +20,9 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
   const form = useForm()
   const queryClient = useQueryClient()
   const [isCanceled, setIsCanceled] = useState(false)
-  const { isLoading } = useReset({ id, form })
+  const { data, isLoading } = useReset({ id, form })
   const [rateOpen, setRateOpen] = useState(false)
+  const isDisabled = data?.status_code === false || data?.status_code === true
 
   const { mutate } = useMutation({
     mutationFn: async data => await rejectApplications(data),
@@ -39,6 +40,8 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
     const payload: any = { id, comment: data?.comment }
     mutate(payload)
   }
+
+  console.log(data, 'data')
 
   return (
     <Fragment>
@@ -467,32 +470,36 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
             </Grid>
           )}
           <Stack direction='row' spacing={2}>
-            {isCanceled ? (
-              <Button
-                variant='outlined'
-                sx={{
-                  color: COLORS.RED,
-                  borderRadius: '8px',
-                  border: `1.5px solid ${COLORS.RED} !important`,
-                }}
-                type='submit'
-              >
-                Rad etish
-              </Button>
-            ) : (
-              <Button
-                variant='outlined'
-                sx={{
-                  color: COLORS.RED,
-                  borderRadius: '8px',
-                  border: `1.5px solid ${COLORS.RED} !important`,
-                }}
-                onClick={() => {
-                  setIsCanceled(true)
-                }}
-              >
-                Rad etish
-              </Button>
+            {isDisabled ? null : (
+              <Fragment>
+                {isCanceled ? (
+                  <Button
+                    variant='outlined'
+                    sx={{
+                      color: COLORS.RED,
+                      borderRadius: '8px',
+                      border: `1.5px solid ${COLORS.RED} !important`,
+                    }}
+                    type='submit'
+                  >
+                    Rad etish
+                  </Button>
+                ) : (
+                  <Button
+                    variant='outlined'
+                    sx={{
+                      color: COLORS.RED,
+                      borderRadius: '8px',
+                      border: `1.5px solid ${COLORS.RED} !important`,
+                    }}
+                    onClick={() => {
+                      setIsCanceled(true)
+                    }}
+                  >
+                    Rad etish
+                  </Button>
+                )}
+              </Fragment>
             )}
 
             <Button
@@ -502,6 +509,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                 setRateOpen(true)
                 setOpen(false)
               }}
+              disabled={isDisabled}
             >
               Tarifni belgilash
             </Button>

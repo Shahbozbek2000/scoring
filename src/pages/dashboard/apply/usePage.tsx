@@ -8,19 +8,9 @@ import dayjs from 'dayjs'
 import { DATE_FORMAT } from '@/constants/format'
 import { CheckStatus } from './components/status'
 import { useLocation } from 'react-router-dom'
+import type { Apply } from '@/types/apply'
 
-interface Person {
-  number: number
-  name: string
-  farmer_name: string
-  region: string
-  district: string
-  type_name: string
-  date: string
-  check_status?: string
-}
-
-const columnHelper = createColumnHelper<Person>()
+const columnHelper = createColumnHelper<Apply>()
 
 export const usePage = () => {
   const { search } = useLocation()

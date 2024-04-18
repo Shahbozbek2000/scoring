@@ -36,15 +36,25 @@ export const usePage = () => {
   })
 
   const {
-    data = [],
+    data = {
+      count: 0,
+      results: [],
+    },
     isLoading,
     isFetching,
   } = useQuery({
     queryKey: [REACT_QUERY_KEYS.GET_ALL_CONTRACTS],
     queryFn: getAllContracts,
-    select: res => res?.data,
+    select: res => {
+      return {
+        count: res?.data?.count,
+        results: res?.data?.result,
+      }
+    },
     keepPreviousData: true,
   })
+
+  console.log(data, 'data')
 
   const columns = [
     columnHelper.accessor('number', {
@@ -147,7 +157,8 @@ export const usePage = () => {
   ]
 
   return {
-    data,
+    data: data.results,
+    count: data.count,
     params,
     columns,
     setParams,
