@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@mui/material'
+import { Stack } from '@mui/material'
 import { usePage } from './usePage'
 import { CustomPagination } from '@/components/pagination'
 import { ModalForm } from './components/form'
@@ -6,6 +6,7 @@ import { Header } from './components/header'
 import { LoadingOverlay } from '@/components/loading-overlay'
 import { Reject } from './components/reject'
 import { CustomTable } from '@/components/table'
+import BreadcrumpCustom from '@/components/breadcrumb'
 
 const Apply = () => {
   const {
@@ -24,15 +25,7 @@ const Apply = () => {
 
   return (
     <Stack>
-      <Typography
-        variant='subtitle1'
-        fontWeight='light'
-        fontSize='18px'
-        mb='24px'
-        fontFamily='GothamProRegular'
-      >
-        Arizalar
-      </Typography>
+      <BreadcrumpCustom />
       <Stack gap='32px'>
         <Header />
         <Stack

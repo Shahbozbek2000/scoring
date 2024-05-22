@@ -1,24 +1,18 @@
 import { LoadingOverlay } from '@/components/loading-overlay'
 import { CustomPagination } from '@/components/pagination'
 import { CustomTable } from '@/components/table'
-import { Stack, Typography } from '@mui/material'
+import { Stack } from '@mui/material'
 import { usePage } from './usePage'
 import { Filter } from '@/components/filter'
 import { SetPaymentStatus } from './components/form'
+import BreadcrumpCustom from '@/components/breadcrumb'
 
 const PaymentStatus = () => {
   const { open, data, params, columns, setOpen, setParams } = usePage()
 
   return (
     <Stack gap='32px'>
-      <Typography
-        variant='subtitle1'
-        fontWeight='light'
-        fontSize='18px'
-        fontFamily='GothamProRegular'
-      >
-        To'lov holati
-      </Typography>
+      <BreadcrumpCustom />
       <Stack
         width='100%'
         borderRadius='12px'

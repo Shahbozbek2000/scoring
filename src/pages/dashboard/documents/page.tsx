@@ -2,21 +2,14 @@ import { Grid, Stack, Typography } from '@mui/material'
 import { pages } from './constants'
 import { Card, Left, Right } from './style'
 import { useNavigate } from 'react-router-dom'
+import BreadcrumpCustom from '@/components/breadcrumb'
 
 const Documents = () => {
   const navigate = useNavigate()
 
   return (
     <Stack>
-      <Typography
-        variant='subtitle1'
-        fontWeight='light'
-        fontSize='18px'
-        mb='24px'
-        fontFamily='GothamProRegular'
-      >
-        Hisobotlar
-      </Typography>
+      <BreadcrumpCustom />
       <Grid container spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         {pages.map(({ id, name, Icon, link }) => {
           return (

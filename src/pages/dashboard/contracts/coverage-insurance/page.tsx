@@ -1,24 +1,17 @@
 import { CustomTable } from '@/components/table'
-import { Stack, Typography } from '@mui/material'
+import { Stack } from '@mui/material'
 import { usePage } from './usePage'
 import { Filter } from '@/components/filter'
 import { CustomPagination } from '@/components/pagination'
 import { LoadingOverlay } from '@/components/loading-overlay'
+import BreadcrumpCustom from '@/components/breadcrumb'
 
 const CoverageInsurance = () => {
   const { data, count, params, columns, setParams, isLoading, isFetching } = usePage()
 
   return (
     <Stack>
-      <Typography
-        variant='subtitle1'
-        fontWeight='light'
-        fontSize='18px'
-        mb='24px'
-        fontFamily='GothamProRegular'
-      >
-        Kreditni qoplash sug’urtasi
-      </Typography>
+      <BreadcrumpCustom />
       <Stack gap='32px'>
         <Filter />
         <Stack

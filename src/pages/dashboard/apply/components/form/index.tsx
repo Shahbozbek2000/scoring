@@ -41,8 +41,6 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
     mutate(payload)
   }
 
-  console.log(data, 'data')
-
   return (
     <Fragment>
       <CustomModal open={open} setOpen={setOpen} title='Anketa generatsiya qilish'>

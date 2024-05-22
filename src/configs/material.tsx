@@ -162,16 +162,16 @@ export const theme = extendTheme({
           '&.MuiInputBase-sizeSmall': {
             height: '44px',
           },
-          'input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,input:-webkit-autofill:active':
-            {
-              fontWeight: 500,
-              fontSize: '14px',
-              borderRadius: '0 8px 8px 0',
-              WebkitTextFillColor: `${theme.palette.allColors.TRANSPARENT} !important`,
-              WebkitBoxShadow: `0 0 0 30px ${theme.palette.allColors.TRANSPARENT} inset !important`,
-              boxShadow: `0 0 0 30px ${theme.palette.allColors.TRANSPARENT} inset !important`,
-              backgroundColor: theme.palette.allColors.TRANSPARENT,
-            },
+          // 'input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,input:-webkit-autofill:active':
+          //   {
+          //     fontWeight: 500,
+          //     fontSize: '14px',
+          //     borderRadius: '0 8px 8px 0',
+          //     WebkitTextFillColor: `${theme.palette.allColors.TRANSPARENT} !important`,
+          //     WebkitBoxShadow: `0 0 0 30px ${theme.palette.allColors.TRANSPARENT} inset !important`,
+          //     boxShadow: `0 0 0 30px ${theme.palette.allColors.TRANSPARENT} inset !important`,
+          //     backgroundColor: theme.palette.allColors.TRANSPARENT,
+          //   },
           ':has(.MuiInputAdornment-positionStart)': {
             paddingLeft: '20px !important',
             input: {

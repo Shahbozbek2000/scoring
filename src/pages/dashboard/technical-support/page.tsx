@@ -1,22 +1,16 @@
-import { Stack, Typography } from '@mui/material'
+import { Stack } from '@mui/material'
 import { CustomTable } from '@/components/table'
 import { CustomPagination } from '@/components/pagination'
 import { LoadingOverlay } from '@/components/loading-overlay'
 import { usePage } from './usePage'
+import BreadcrumpCustom from '@/components/breadcrumb'
 
 const TechnicalSupport = () => {
   const { data, params, columns, setParams } = usePage()
 
   return (
     <Stack gap='32px'>
-      <Typography
-        variant='subtitle1'
-        fontWeight='light'
-        fontSize='18px'
-        fontFamily='GothamProRegular'
-      >
-        Texnik yordam
-      </Typography>
+      <BreadcrumpCustom />
       <Stack
         width='100%'
         borderRadius='12px'
