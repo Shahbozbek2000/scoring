@@ -1,50 +1,42 @@
-import { Stack } from '@mui/material'
-import { usePage } from './usePage'
-import { CustomPagination } from '@/components/pagination'
-import { ModalForm } from './components/form'
-import { Header } from './components/header'
-import { LoadingOverlay } from '@/components/loading-overlay'
-import { Reject } from './components/reject'
-import { CustomTable } from '@/components/table'
+import { Grid, Stack, Typography } from '@mui/material'
 import BreadcrumpCustom from '@/components/breadcrumb'
+import { useNavigate } from 'react-router-dom'
+import { pages } from './constants'
+import { Card, Left, Right } from './style'
 
 const Apply = () => {
-  const {
-    open,
-    data,
-    count,
-    rowId,
-    params,
-    columns,
-    setOpen,
-    setParams,
-    isLoading,
-    rejectOpen,
-    setRejectOpen,
-  } = usePage()
+  const navigate = useNavigate()
 
   return (
     <Stack>
       <BreadcrumpCustom />
-      <Stack gap='32px'>
-        <Header />
-        <Stack
-          width='100%'
-          borderRadius='12px'
-          p='32px 24px'
-          mx='auto'
-          gap='24px'
-          bgcolor={theme => theme.palette.allColors.WHITE}
-        >
-          <CustomTable options={{ data, columns }} emptyTitle="Ma'lumot mavjud emas!" />
-          {data.length > 0 ? (
-            <CustomPagination params={params} setParams={setParams} count={count} />
-          ) : null}
-        </Stack>
-        <LoadingOverlay isLoading={isLoading} />
-        <ModalForm open={open} setOpen={setOpen} id={rowId} />
-        <Reject rejectOpen={rejectOpen} setRejectOpen={setRejectOpen} id={rowId} />
-      </Stack>
+      <Grid container spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+        {pages.map(({ id, name, Icon, link, show }) => {
+          return (
+            <Grid item key={id} xs={6} sm={4} md={4}>
+              <Card
+                onClick={() => {
+                  navigate(link)
+                }}
+              >
+                <Left>
+                  <Icon />
+                </Left>
+                <Right>
+                  <Typography textAlign='center' fontSize={16} fontFamily='GothamProRegular'>
+                    {name}
+                  </Typography>
+                </Right>
+                {!show && (
+                  <div className='show'>
+                    <span>Jarayonda</span>
+                  </div>
+                )}
+              </Card>
+            </Grid>
+          )
+        })}
+      </Grid>
     </Stack>
   )
 }

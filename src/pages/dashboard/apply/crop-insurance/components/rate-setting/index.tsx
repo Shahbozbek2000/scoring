@@ -4,11 +4,14 @@ import { LoadingOverlay } from '@/components/loading-overlay'
 import { CustomModal } from '@/components/modal'
 import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Grid, Stack } from '@mui/material'
+import { Button, Grid, Stack, Typography } from '@mui/material'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { type SubmitHandler, useForm } from 'react-hook-form'
+import { type SubmitHandler, useForm, useFieldArray } from 'react-hook-form'
 import { Form } from 'react-router-dom'
 import { formSchema } from './form.schema'
+import { ReactComponent as IconPlus } from '@/assets/icons/plus.svg'
+import { Fragment } from 'react'
+import { InputDate } from '@/components/inputs/datepicker'
 
 interface IRateSetting {
   id: string | null | undefined
@@ -17,17 +20,22 @@ interface IRateSetting {
 }
 
 interface FormValues {
-  interest_rate_percentage: string
+  insurance_rate_percentage: string
   percent?: string
 }
 export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
   const queryClient = useQueryClient()
-  const form = useForm<FormValues>({
+  const form = useForm<FormValues | any>({
     resolver: yupResolver(formSchema),
     defaultValues: {
-      interest_rate_percentage: '',
+      insurance_rate_percentage: '',
       percent: '10',
+      paymentPercentage: [{ date: '', amount: null }],
     },
+  })
+  const { fields, append } = useFieldArray({
+    control: form.control,
+    name: 'paymentPercentage',
   })
 
   const { mutate, isLoading } = useMutation({
@@ -43,7 +51,7 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
 
   const onSetting: SubmitHandler<FormValues> = data => {
     const payload: any = {
-      interest_rate_percentage: parseFloat(data?.interest_rate_percentage),
+      insurance_rate_percentage: parseFloat(data?.insurance_rate_percentage),
     }
     mutate(payload)
   }
@@ -61,7 +69,7 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
           <Grid item xs={6} sm={4} md={8}>
             <Input
               control={form.control}
-              name='interest_rate_percentage'
+              name='insurance_rate_percentage'
               placeholder='Tarif'
               type='number'
             />
@@ -74,6 +82,41 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
               type='number'
               disabled
             />
+          </Grid>
+          <Grid item xs={12} sm={6} md={12}>
+            <Typography fontSize={16} fontWeight={400} fontFamily='GothamProRegular'>
+              Kontraktning to'lov foizini belgilang
+            </Typography>
+          </Grid>
+          {fields.map((item, index) => {
+            return (
+              <Fragment key={item.id}>
+                <Grid item xs={6} sm={4} md={8}>
+                  <Input
+                    control={form.control}
+                    name={`paymentPercentage.${index}.amount`}
+                    placeholder='Tarif'
+                    type='number'
+                  />
+                </Grid>
+                <Grid item xs={6} sm={4} md={4}>
+                  <InputDate control={form.control} name={`paymentPercentage.${index}.date`} />
+                </Grid>
+              </Fragment>
+            )
+          })}
+          <Grid item xs={12} sm={12} md={12} display='flex' justifyContent='center'>
+            <Button
+              startIcon={<IconPlus />}
+              onClick={() => {
+                append({
+                  amount: null,
+                  date: '',
+                })
+              }}
+            >
+              To'lov muddati qo‘shish
+            </Button>
           </Grid>
         </Grid>
         <Stack direction='row' spacing={2} sx={{ marginTop: '32px' }}>

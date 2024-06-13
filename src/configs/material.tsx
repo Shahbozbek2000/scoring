@@ -321,7 +321,7 @@ export const theme = extendTheme({
     MuiDialog: {
       styleOverrides: {
         root: {
-          zIndex: 9000,
+          zIndex: 1000,
         },
       },
       defaultProps: {

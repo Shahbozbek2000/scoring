@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import { type InputDateProps } from '@/types/components'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { type Path, Controller, type FieldValues } from 'react-hook-form'
-import { ReactComponent as IconCalendar } from '@/assets/icons/calendar.svg'
+// import { ReactComponent as IconCalendar } from '@/assets/icons/calendar.svg'
 
 export const InputDate = <T extends FieldValues>({
   name,
@@ -37,9 +37,9 @@ export const InputDate = <T extends FieldValues>({
                 helperText: error?.message,
               },
             }}
-            slots={{
-              openPickerIcon: IconCalendar,
-            }}
+            // slots={{
+            //   openPickerIcon: IconCalendar,
+            // }}
           />
         )
       }}

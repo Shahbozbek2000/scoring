@@ -33,7 +33,7 @@ const Page = () => {
       <Button
         sx={theme => ({ color: theme.palette.allColors.WHITE + ' !important' })}
         LinkComponent={Link}
-        href={ROUTER.AUTH}
+        href={ROUTER.HOME}
         variant='contained'
       >
         Back to home
