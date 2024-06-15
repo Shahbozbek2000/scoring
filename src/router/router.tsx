@@ -20,6 +20,9 @@ const Documents = lazy(async () => await import('@/pages/dashboard/documents'))
 const Polis = lazy(async () => await import('@/pages/dashboard/documents/polis'))
 const TechnicalSupport = lazy(async () => await import('@/pages/dashboard/technical-support'))
 const ApplyCropInsurance = lazy(async () => await import('@/pages/dashboard/apply/crop-insurance'))
+const ApplyCoverageInsurance = lazy(
+  async () => await import('@/pages/dashboard/apply/coverage-insurance'),
+)
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +50,10 @@ export const router = createBrowserRouter([
               {
                 path: ROUTER.CROP_INSURANCE,
                 element: <ApplyCropInsurance />,
+              },
+              {
+                path: ROUTER.COVERAGE_INSURANCE,
+                element: <ApplyCoverageInsurance />,
               },
             ],
           },

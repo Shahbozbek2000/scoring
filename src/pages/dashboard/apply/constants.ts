@@ -34,9 +34,9 @@ export const pages = [
     id: 1,
     name: 'Kreditni qoplash sug’urtasi',
     Icon: IconApply,
-    link: 'apply',
+    link: 'coverage-insurance',
     disabled: false,
-    show: false,
+    show: true,
   },
   {
     id: 2,
