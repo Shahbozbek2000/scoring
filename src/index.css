@@ -83,3 +83,8 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
   -webkit-text-fill-color: #000 !important;
 }
+
+button:disabled {
+  color: #fff !important;
+  opacity: 0.5;
+}

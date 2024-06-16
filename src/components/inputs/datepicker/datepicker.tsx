@@ -9,7 +9,9 @@ export const InputDate = ({ name, control }: any) => {
       <Controller
         name={name}
         control={control}
-        render={({ field }) => <DesktopDatePicker {...field} />}
+        render={({ field }) => (
+          <DesktopDatePicker {...field} sx={{ background: 'transparent !important' }} />
+        )}
       />
     </LocalizationProvider>
   )

@@ -6,11 +6,11 @@ import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Grid, Stack, Typography } from '@mui/material'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { type SubmitHandler, useForm, useFieldArray } from 'react-hook-form'
+import { type SubmitHandler, useForm, useFieldArray, useWatch } from 'react-hook-form'
 import { Form } from 'react-router-dom'
 import { formSchema } from './form.schema'
 import { ReactComponent as IconPlus } from '@/assets/icons/plus.svg'
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { InputDate } from '@/components/inputs/datepicker'
 
 interface IRateSetting {
@@ -24,6 +24,7 @@ interface FormValues {
   percent?: string
 }
 export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false)
   const queryClient = useQueryClient()
   const form = useForm<FormValues | any>({
     resolver: yupResolver(formSchema),
@@ -37,6 +38,24 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
     control: form.control,
     name: 'paymentPercentage',
   })
+  const watchedPaymentPercentage = useWatch({
+    control: form.control,
+    name: 'paymentPercentage',
+  })
+
+  useEffect(() => {
+    console.log(watchedPaymentPercentage, 'watchedPaymentPercentage')
+    const totalAmount = watchedPaymentPercentage.reduce(
+      (acc: any, curr: any) => Number(acc) + Number(curr.amount || 0),
+      0,
+    )
+
+    if (totalAmount > 100) {
+      setIsButtonDisabled(true)
+    } else {
+      setIsButtonDisabled(false)
+    }
+  }, [watchedPaymentPercentage])
 
   const { mutate, isLoading } = useMutation({
     mutationFn: async data => await acceptApplications(id, data),
@@ -49,9 +68,15 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
     },
   })
 
-  const onSetting: SubmitHandler<FormValues> = data => {
+  const onSetting: SubmitHandler<FormValues | any> = data => {
     const payload: any = {
       insurance_rate_percentage: parseFloat(data?.insurance_rate_percentage),
+      credit_periods: data?.paymentPercentage?.map((v: any) => {
+        return {
+          date: new Date(v?.date).toISOString(),
+          amount: Number(v?.amount),
+        }
+      }),
     }
     mutate(payload)
   }
@@ -66,7 +91,7 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
     >
       <Form onSubmit={form.handleSubmit(onSetting)}>
         <Grid container spacing={{ xs: 2, md: 2 }}>
-          <Grid item xs={6} sm={4} md={8}>
+          <Grid item xs={8} sm={8} md={8}>
             <Input
               control={form.control}
               name='insurance_rate_percentage'
@@ -74,7 +99,7 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
               type='number'
             />
           </Grid>
-          <Grid item xs={6} sm={4} md={4}>
+          <Grid item xs={4} sm={4} md={4}>
             <Input
               control={form.control}
               name='percent'
@@ -91,15 +116,15 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
           {fields.map((item, index) => {
             return (
               <Fragment key={item.id}>
-                <Grid item xs={6} sm={4} md={8}>
+                <Grid item xs={8} sm={8} md={8}>
                   <Input
                     control={form.control}
                     name={`paymentPercentage.${index}.amount`}
-                    placeholder='Tarif'
+                    placeholder='Foiz'
                     type='number'
                   />
                 </Grid>
-                <Grid item xs={6} sm={4} md={4}>
+                <Grid item xs={4} sm={4} md={4}>
                   <InputDate control={form.control} name={`paymentPercentage.${index}.date`} />
                 </Grid>
               </Fragment>
@@ -114,6 +139,9 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
                   date: '',
                 })
               }}
+              sx={{ background: '#08705F !important' }}
+              disabled={isButtonDisabled}
+              className='add-btn'
             >
               To'lov muddati qo‘shish
             </Button>
