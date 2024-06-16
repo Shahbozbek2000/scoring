@@ -50,7 +50,7 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
       0,
     )
 
-    if (totalAmount > 100) {
+    if (totalAmount === 100) {
       setIsButtonDisabled(true)
     } else {
       setIsButtonDisabled(false)

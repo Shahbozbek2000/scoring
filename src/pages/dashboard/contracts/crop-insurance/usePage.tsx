@@ -117,7 +117,7 @@ export const usePage = () => {
       cell: ({ row }: any) => {
         return (
           <>
-            {row.original?.status_code ? (
+            {row.original?.status_code || row?.original?.status_name === 'Rad etildi' ? (
               <Button
                 variant='outlined'
                 sx={{
@@ -128,7 +128,9 @@ export const usePage = () => {
                   cursor: 'pointer',
                 }}
                 onClick={() => {
-                  navigate(`${ROUTER.CREATE}/${row?.original?._id}`)
+                  navigate(
+                    `${ROUTER.CREATE}/${row?.original?._id}?status=${row?.original?.status_code ? 'accepted' : 'canceled'}`,
+                  )
                 }}
               >
                 Ko'rish
@@ -144,7 +146,9 @@ export const usePage = () => {
                   cursor: 'pointer',
                 }}
                 onClick={() => {
-                  navigate(`${ROUTER.CREATE}/${row?.original?._id}`)
+                  navigate(
+                    `${ROUTER.CREATE}/${row?.original?._id}?status=${row?.original?.status_code === null ? 'created' : 'created'}`,
+                  )
                 }}
               >
                 Belgilash

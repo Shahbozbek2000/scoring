@@ -3,11 +3,12 @@ import { type SubmitHandler, useForm } from 'react-hook-form'
 import { PaperWrapper } from './style'
 import { Form, useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { acceptContract, contractGenerateDoc } from '@/apis/contracts'
+import { contractGenerateDoc } from '@/apis/contracts'
 import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer'
 import { useState } from 'react'
 import { LoadingOverlay } from '@/components/loading-overlay'
 import toast from 'react-hot-toast'
+import { request } from '@/configs/requests'
 
 interface FormValues {
   status_plan: string
@@ -19,6 +20,8 @@ const CreateCoverageInsurance = () => {
   const form = useForm<FormValues>()
   const navigate = useNavigate()
   const [docs, setDocs] = useState<any[]>([])
+  const object = new URLSearchParams(document.location.search)
+  const socialParams = Object.fromEntries(object.entries())
 
   const { isLoading } = useQuery({
     queryKey: ['GENERATE-DOC', id],
@@ -39,7 +42,7 @@ const CreateCoverageInsurance = () => {
   })
 
   const { mutate, isLoading: isLoadingAccept } = useMutation({
-    mutationFn: async () => await acceptContract(id),
+    mutationFn: async data => await request.post(`/contract/action/${id}`, data),
     onSuccess: res => {
       navigate('/main/contracts/coverage-insurance')
       toast.success('Shartnoma tasdiqlandi')
@@ -48,9 +51,12 @@ const CreateCoverageInsurance = () => {
       toast.error('Nimdur xatolik yuz berdi!')
     },
   })
+
   const onCreate: SubmitHandler<FormValues> = data => {
-    console.log(data)
-    mutate()
+    const payload: any = {
+      action: 'accept',
+    }
+    mutate(payload)
   }
 
   return (
@@ -79,11 +85,13 @@ const CreateCoverageInsurance = () => {
             </PaperWrapper>
           </Grid>
         </Grid>
-        <Stack direction='row' width='100%' padding='24px 0' justifyContent='flex-end'>
-          <Button sx={{ backgroundColor: '#08705F' }} type='submit'>
-            Tasdiqlash
-          </Button>
-        </Stack>
+        {socialParams?.status === 'created' && (
+          <Stack direction='row' width='100%' padding='24px 0' justifyContent='flex-start'>
+            <Button sx={{ backgroundColor: '#08705F' }} type='submit'>
+              Tasdiqlash
+            </Button>
+          </Stack>
+        )}
       </Form>
       <LoadingOverlay isLoading={isLoading || isLoadingAccept} />
     </Stack>
