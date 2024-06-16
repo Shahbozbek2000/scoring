@@ -86,14 +86,14 @@ export const usePage = () => {
     columnHelper.accessor('region', {
       header: () => <span>Viloyat</span>,
       cell: ({ row }: any) => {
-        return <p>{row.original.application?.region}</p>
+        return <p>{row.original.application?.region_name}</p>
       },
       footer: info => info.column.id,
     }),
     columnHelper.accessor('district', {
       header: () => <span>Tuman</span>,
       cell: ({ row }: any) => {
-        return <p>{row.original.application?.district}</p>
+        return <p>{row.original.application?.district_name}</p>
       },
       footer: info => info.column.id,
     }),
@@ -147,7 +147,7 @@ export const usePage = () => {
                   navigate(`${ROUTER.CREATE}/${row?.original?._id}`)
                 }}
               >
-                Yaratish
+                Belgilash
               </Button>
             )}
           </>
