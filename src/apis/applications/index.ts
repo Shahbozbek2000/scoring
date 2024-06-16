@@ -1,15 +1,17 @@
 import { request } from '@/configs/requests'
 
-interface IParams {
+interface IApplications {
   page: number
   limit: number
+  type_code: number
 }
 
-export const getAllApplications = async (params: IParams) => {
-  return await request('/application/get/all', {
+export const getAllApplications = async ({ params, type_code }: any) => {
+  return await request('/application/get/filtered', {
     params: {
       page: params.page,
       limit: params.limit,
+      type_code,
     },
   })
 }
