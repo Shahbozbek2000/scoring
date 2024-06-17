@@ -44,7 +44,7 @@ export const usePage = () => {
     isFetching,
   } = useQuery({
     queryKey: [REACT_QUERY_KEYS.GET_ALL_CONTRACTS, params],
-    queryFn: async () => await getAllContracts({ params, type_code: 2 }),
+    queryFn: async () => await getAllContracts({ params, type_code: 1 }),
     select: res => {
       return {
         count: res?.data?.count,
@@ -86,14 +86,14 @@ export const usePage = () => {
     columnHelper.accessor('region', {
       header: () => <span>Viloyat</span>,
       cell: ({ row }: any) => {
-        return <p>{row.original.application?.region_name}</p>
+        return <p>{row.original.application?.region}</p>
       },
       footer: info => info.column.id,
     }),
     columnHelper.accessor('district', {
       header: () => <span>Tuman</span>,
       cell: ({ row }: any) => {
-        return <p>{row.original.application?.district_name}</p>
+        return <p>{row.original.application?.district}</p>
       },
       footer: info => info.column.id,
     }),

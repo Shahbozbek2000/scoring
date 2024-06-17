@@ -10,7 +10,7 @@ import { useState, useMemo } from 'react'
 import { LoadingOverlay } from '@/components/loading-overlay'
 import toast from 'react-hot-toast'
 import { request } from '@/configs/requests'
-import { TextArea } from '@/components/inputs/input-textarea'
+import BreadcrumpCustom from '@/components/breadcrumb'
 
 interface FormValues {
   status_plan: string
@@ -25,7 +25,6 @@ const CreateCropInsurance = () => {
   const [docs, setDocs] = useState<any[]>([])
   const object = new URLSearchParams(document.location.search)
   const socialParams = Object.fromEntries(object.entries())
-  const [isCancelled, setIsCancelled] = useState(false)
 
   const { isLoading } = useQuery({
     queryKey: ['GENERATE-DOC'],
@@ -52,7 +51,7 @@ const CreateCropInsurance = () => {
       toast.success('Shartnoma holati muvaffaqiyatli o`zgartirildi!')
     },
     onError: () => {
-      toast.error('Nimdur xatolik yuz berdi!')
+      toast.error('Nimadur xatolik yuz berdi!')
     },
   })
 
@@ -63,92 +62,48 @@ const CreateCropInsurance = () => {
     mutate(payload)
   }
 
-  const reject = () => {
-    if (form.watch('comment') === undefined) {
-      toast.error('Iltimos izoh yozing')
-    } else {
-      const payload: any = {
-        action: 'reject',
-        comment: form.watch('comment'),
-      }
-      mutate(payload)
-    }
-  }
-
   const memoizedDocs = useMemo(() => {
     return docs
   }, [docs])
 
   return (
-    <Stack
-      width='100%'
-      borderRadius='16px'
-      p='24px'
-      mx='auto'
-      gap='24px'
-      bgcolor={theme => theme.palette.allColors.WHITE}
-    >
-      <Form onSubmit={form.handleSubmit(onCreate)}>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={12}>
-            <PaperWrapper>
-              <DocViewer
-                documents={memoizedDocs}
-                pluginRenderers={DocViewerRenderers}
-                style={{ height: 750 }}
-                config={{
-                  header: {
-                    disableHeader: true,
-                  },
-                }}
-              />
-            </PaperWrapper>
-          </Grid>
-          {isCancelled && (
-            <Grid item xs={12} sm={12} md={6} sx={{ padding: '24px 0 0 0' }}>
-              <TextArea
-                control={form.control}
-                name='comment'
-                placeholder='Shartnomani rad etish sababini kiriting'
-                label='Shartnomani rad etish sababini kiriting'
-              />
+    <Stack>
+      <BreadcrumpCustom />
+      <Stack
+        width='100%'
+        borderRadius='16px'
+        p='24px'
+        mx='auto'
+        gap='24px'
+        bgcolor={theme => theme.palette.allColors.WHITE}
+      >
+        <Form onSubmit={form.handleSubmit(onCreate)}>
+          <Grid container>
+            <Grid item xs={12} sm={12} md={12}>
+              <PaperWrapper>
+                <DocViewer
+                  documents={memoizedDocs}
+                  pluginRenderers={DocViewerRenderers}
+                  style={{ height: 750 }}
+                  config={{
+                    header: {
+                      disableHeader: true,
+                    },
+                  }}
+                />
+              </PaperWrapper>
             </Grid>
+          </Grid>
+          {socialParams?.status === 'created' && (
+            <Stack direction='row' width='100%' padding='24px 0' justifyContent='flex-start'>
+              <Button sx={{ backgroundColor: '#08705F' }} type='submit'>
+                Tasdiqlash
+              </Button>
+            </Stack>
           )}
-        </Grid>
-        {socialParams?.status === 'created' && (
-          <Stack
-            direction='row'
-            width='100%'
-            padding='24px 0'
-            justifyContent='flex-start'
-            sx={{ gap: '16px' }}
-          >
-            {isCancelled ? (
-              <Button
-                variant='outlined'
-                sx={{ border: '1.5px solid #EB5757 !important', color: '#EB5757', opacity: 0.7 }}
-                onClick={reject}
-              >
-                Rad etish
-              </Button>
-            ) : (
-              <Button
-                variant='outlined'
-                sx={{ border: '1.5px solid #EB5757 !important', color: '#EB5757', opacity: 0.7 }}
-                onClick={() => {
-                  setIsCancelled(true)
-                }}
-              >
-                Rad etish
-              </Button>
-            )}
-            <Button sx={{ backgroundColor: '#08705F' }} type='submit'>
-              Tasdiqlash
-            </Button>
-          </Stack>
-        )}
-      </Form>
-      <LoadingOverlay isLoading={isLoading || isLoadingAccept} />
+        </Form>
+        <LoadingOverlay isLoading={isLoading || isLoadingAccept} />
+      </Stack>
     </Stack>
   )
 }

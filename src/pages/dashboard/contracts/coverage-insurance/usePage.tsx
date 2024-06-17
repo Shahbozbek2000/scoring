@@ -44,7 +44,7 @@ export const usePage = () => {
     isFetching,
   } = useQuery({
     queryKey: [REACT_QUERY_KEYS.GET_ALL_CONTRACTS, params],
-    queryFn: async () => await getAllContracts({ params, type_code: 1 }),
+    queryFn: async () => await getAllContracts({ params, type_code: 2 }),
     select: res => {
       return {
         count: res?.data?.count,
