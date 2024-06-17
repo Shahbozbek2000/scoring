@@ -1,3 +1,4 @@
+/* eslint-disable @tanstack/query/exhaustive-deps */
 import { Button, Grid, Stack } from '@mui/material'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { PaperWrapper } from './style'
@@ -5,14 +6,16 @@ import { Form, useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { contractGenerateDoc } from '@/apis/contracts'
 import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { LoadingOverlay } from '@/components/loading-overlay'
 import toast from 'react-hot-toast'
 import { request } from '@/configs/requests'
+import { TextArea } from '@/components/inputs/input-textarea'
 
 interface FormValues {
   status_plan: string
   percent: string
+  comment: string
 }
 
 const CreateCropInsurance = () => {
@@ -22,9 +25,10 @@ const CreateCropInsurance = () => {
   const [docs, setDocs] = useState<any[]>([])
   const object = new URLSearchParams(document.location.search)
   const socialParams = Object.fromEntries(object.entries())
+  const [isCancelled, setIsCancelled] = useState(false)
 
   const { isLoading } = useQuery({
-    queryKey: ['GENERATE-DOC', id],
+    queryKey: ['GENERATE-DOC'],
     queryFn: async () => await contractGenerateDoc(id),
     select: res => res?.data?.link,
     onSuccess: res => {
@@ -45,7 +49,7 @@ const CreateCropInsurance = () => {
     mutationFn: async data => await request.post(`/contract/action/${id}`, data),
     onSuccess: res => {
       navigate('/main/contracts/crop-insurance')
-      toast.success('Shartnoma tasdiqlandi')
+      toast.success('Shartnoma holati muvaffaqiyatli o`zgartirildi!')
     },
     onError: () => {
       toast.error('Nimdur xatolik yuz berdi!')
@@ -58,6 +62,22 @@ const CreateCropInsurance = () => {
     }
     mutate(payload)
   }
+
+  const reject = () => {
+    if (form.watch('comment') === undefined) {
+      toast.error('Iltimos izoh yozing')
+    } else {
+      const payload: any = {
+        action: 'reject',
+        comment: form.watch('comment'),
+      }
+      mutate(payload)
+    }
+  }
+
+  const memoizedDocs = useMemo(() => {
+    return docs
+  }, [docs])
 
   return (
     <Stack
@@ -73,7 +93,7 @@ const CreateCropInsurance = () => {
           <Grid item xs={12} sm={12} md={12}>
             <PaperWrapper>
               <DocViewer
-                documents={docs}
+                documents={memoizedDocs}
                 pluginRenderers={DocViewerRenderers}
                 style={{ height: 750 }}
                 config={{
@@ -84,9 +104,44 @@ const CreateCropInsurance = () => {
               />
             </PaperWrapper>
           </Grid>
+          {isCancelled && (
+            <Grid item xs={12} sm={12} md={6} sx={{ padding: '24px 0 0 0' }}>
+              <TextArea
+                control={form.control}
+                name='comment'
+                placeholder='Shartnomani rad etish sababini kiriting'
+                label='Shartnomani rad etish sababini kiriting'
+              />
+            </Grid>
+          )}
         </Grid>
         {socialParams?.status === 'created' && (
-          <Stack direction='row' width='100%' padding='24px 0' justifyContent='flex-start'>
+          <Stack
+            direction='row'
+            width='100%'
+            padding='24px 0'
+            justifyContent='flex-start'
+            sx={{ gap: '16px' }}
+          >
+            {isCancelled ? (
+              <Button
+                variant='outlined'
+                sx={{ border: '1.5px solid #EB5757 !important', color: '#EB5757', opacity: 0.7 }}
+                onClick={reject}
+              >
+                Rad etish
+              </Button>
+            ) : (
+              <Button
+                variant='outlined'
+                sx={{ border: '1.5px solid #EB5757 !important', color: '#EB5757', opacity: 0.7 }}
+                onClick={() => {
+                  setIsCancelled(true)
+                }}
+              >
+                Rad etish
+              </Button>
+            )}
             <Button sx={{ backgroundColor: '#08705F' }} type='submit'>
               Tasdiqlash
             </Button>

@@ -44,7 +44,6 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
   })
 
   useEffect(() => {
-    console.log(watchedPaymentPercentage, 'watchedPaymentPercentage')
     const totalAmount = watchedPaymentPercentage.reduce(
       (acc: any, curr: any) => Number(acc) + Number(curr.amount || 0),
       0,

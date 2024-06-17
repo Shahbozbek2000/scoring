@@ -44,12 +44,10 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
   })
 
   useEffect(() => {
-    console.log(watchedPaymentPercentage, 'watchedPaymentPercentage')
     const totalAmount = watchedPaymentPercentage.reduce(
       (acc: any, curr: any) => Number(acc) + Number(curr.amount || 0),
       0,
     )
-
     if (totalAmount === 100) {
       setIsButtonDisabled(true)
     } else {
