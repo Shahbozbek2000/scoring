@@ -124,7 +124,7 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
                   />
                 </Grid>
                 <Grid item xs={4} sm={4} md={4}>
-                  <InputDate control={form.control} name={`paymentPercentage.${index}.date`} />
+                  <InputDate control={form.control} name={`paymentPercentage.${index}.date`} />{' '}
                 </Grid>
               </Fragment>
             )

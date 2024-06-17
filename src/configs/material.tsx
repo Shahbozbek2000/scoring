@@ -237,7 +237,7 @@ export const theme = extendTheme({
           },
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
             borderWidth: '1px',
-            borderColor: `${theme.palette.allColors.BRAND} !important`,
+            // borderColor: `${theme.palette.allColors.BRAND} !important`,
           },
           '&.Mui-error .MuiOutlinedInput-notchedOutline': {
             borderWidth: '1px',
