@@ -88,3 +88,7 @@ button:disabled {
   color: #fff !important;
   opacity: 0.5;
 }
+
+fieldset {
+  border: none !important;
+}

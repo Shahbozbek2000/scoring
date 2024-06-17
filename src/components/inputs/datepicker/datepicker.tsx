@@ -31,7 +31,9 @@ export const InputDate = ({ name, control }: any) => {
                   '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
                     borderColor: '#08705F !important',
                   },
+                  fontSize: 14,
                 }}
+                placeholder='Select'
               />
             )}
           />

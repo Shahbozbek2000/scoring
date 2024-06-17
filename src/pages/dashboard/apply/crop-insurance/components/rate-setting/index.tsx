@@ -82,7 +82,7 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
 
   return (
     <CustomModal
-      open={rateOpen}
+      open={true}
       setOpen={setRateOpen}
       title='Tarif rejasi (franshiza)'
       fullScreen={false}
@@ -155,7 +155,7 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
           >
             Ortga qaytish
           </Button>
-          <Button variant='contained' type='submit' sx={{ opacity: 0.7 }}>
+          <Button variant='contained' type='submit' sx={{ opacity: 0.7, width: '100%' }}>
             Shartnomani shakllantirish
           </Button>
         </Stack>
