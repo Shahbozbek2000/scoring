@@ -82,7 +82,7 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
 
   return (
     <CustomModal
-      open={true}
+      open={rateOpen}
       setOpen={setRateOpen}
       title='Tarif rejasi (franshiza)'
       fullScreen={false}
