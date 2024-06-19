@@ -96,11 +96,11 @@ export const usePage = () => {
       },
       footer: info => info.column.id,
     }),
-    columnHelper.accessor('region', {
+    columnHelper.accessor('region_name', {
       header: () => <span>Viloyat</span>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor('district', {
+    columnHelper.accessor('district_name', {
       header: () => <span>Tuman</span>,
       footer: info => info.column.id,
     }),
