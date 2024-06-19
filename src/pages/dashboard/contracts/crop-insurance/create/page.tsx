@@ -94,11 +94,28 @@ const CreateCropInsurance = () => {
               </PaperWrapper>
             </Grid>
           </Grid>
-          {socialParams?.status === 'created' && (
+          {socialParams?.status === 'created' ? (
             <Stack direction='row' width='100%' padding='24px 0' justifyContent='flex-start'>
               <Button sx={{ backgroundColor: '#08705F' }} type='submit'>
                 Tasdiqlash
               </Button>
+            </Stack>
+          ) : (
+            <Stack
+              direction='row'
+              width='100%'
+              padding='24px 0'
+              justifyContent='flex-start'
+              gap='16px'
+            >
+              <a href={memoizedDocs?.[0]?.uri} download={true} target='_blank' rel='noreferrer'>
+                <Button
+                  variant='outlined'
+                  sx={{ color: '#08705F', border: '1px solid #08705F !important', opacity: 0.7 }}
+                >
+                  Yuklab olish
+                </Button>
+              </a>
             </Stack>
           )}
         </Form>
