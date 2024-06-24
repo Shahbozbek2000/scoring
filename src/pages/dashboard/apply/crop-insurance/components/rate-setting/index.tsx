@@ -12,6 +12,7 @@ import { formSchema } from './form.schema'
 import { ReactComponent as IconPlus } from '@/assets/icons/plus.svg'
 import { Fragment, useEffect, useState } from 'react'
 import { InputDate } from '@/components/inputs/datepicker'
+import toast from 'react-hot-toast'
 
 interface IRateSetting {
   id: string | null | undefined
@@ -49,7 +50,7 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
       0,
     )
 
-    if (totalAmount === 100) {
+    if (totalAmount >= 100) {
       setIsButtonDisabled(true)
     } else {
       setIsButtonDisabled(false)
@@ -77,7 +78,11 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
         }
       }),
     }
-    mutate(payload)
+    if (payload?.credit_periods?.length === 1 && payload?.credit_periods?.[0]?.amount < 100) {
+      toast.error('Foiz 100ga teng bo`lishi shart!')
+    } else {
+      mutate(payload)
+    }
   }
 
   return (

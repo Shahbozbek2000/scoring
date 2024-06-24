@@ -23,6 +23,8 @@ export const useReset = ({ id, form }: IReset) => {
         crop_harvest_start: dayjs(response?.crop_harvest_start).format(DATE_FORMAT),
         crop_harvest_end: dayjs(response?.crop_harvest_end).format(DATE_FORMAT),
         legal_location2: `${dayjs(response?.crop_harvest_start).format(DATE_FORMAT)} - ${dayjs(response?.crop_harvest_end).format(DATE_FORMAT)}`,
+        region: response?.region_name,
+        district: response?.district_name,
         ...response,
       })
     },
