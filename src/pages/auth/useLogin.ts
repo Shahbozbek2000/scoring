@@ -25,7 +25,6 @@ export const useLogin = () => {
       window.location.href = ROUTER.HOME
     },
     onError: (err: any) => {
-      console.log(err?.response?.data?.message, 'errr')
       toast.error(err?.response?.data?.message || 'Nimadur xatolik yuz berdi!')
     },
   })
