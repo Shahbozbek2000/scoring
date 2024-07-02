@@ -4,6 +4,7 @@ import { formSchema } from './form.schema'
 import { useMutation } from '@tanstack/react-query'
 import { login } from '@/apis/login'
 import { ROUTER } from '@/constants/router'
+import toast from 'react-hot-toast'
 
 interface FormValues {
   login: string
@@ -23,7 +24,10 @@ export const useLogin = () => {
       // navigate(ROUTER.HOME)
       window.location.href = ROUTER.HOME
     },
-    onError: () => {},
+    onError: (err: any) => {
+      console.log(err?.response?.data?.message, 'errr')
+      toast.error(err?.response?.data?.message || 'Nimadur xatolik yuz berdi!')
+    },
   })
 
   const onLogin: SubmitHandler<FormValues | any> = credentials => {
