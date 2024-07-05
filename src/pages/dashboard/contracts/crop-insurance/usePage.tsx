@@ -4,7 +4,7 @@ import { DATE_FORMAT } from '@/constants/format'
 import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import { ROUTER } from '@/constants/router'
 import { Badge } from '@/styles/global'
-import { Button } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { createColumnHelper } from '@tanstack/react-table'
 import dayjs from 'dayjs'
@@ -22,6 +22,7 @@ interface IColumns {
   check_status?: string
   status_code: boolean
   status_name: string
+  comment: string
 }
 
 const columnHelper = createColumnHelper<IColumns>()
@@ -53,8 +54,6 @@ export const usePage = () => {
     },
     keepPreviousData: true,
   })
-
-  console.log(data, 'data')
 
   const columns = [
     columnHelper.accessor('number', {
@@ -108,6 +107,17 @@ export const usePage = () => {
       header: () => <span>Ariza sanasi</span>,
       cell: ({ row }: any) => {
         return <p>{dayjs(row.original?.application?.date).format(DATE_FORMAT)}</p>
+      },
+      footer: info => info.column.id,
+    }),
+    columnHelper.accessor('comment', {
+      header: () => <span>Komment</span>,
+      cell: ({ row }: any) => {
+        return (
+          <Typography sx={{ textAlign: 'center', fontFamily: 'GothamProRegular', fontSize: 14 }}>
+            {row?.original?.user_acceptance?.comment ?? '-'}
+          </Typography>
+        )
       },
       footer: info => info.column.id,
     }),
