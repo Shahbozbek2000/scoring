@@ -327,7 +327,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
               <Grid item xs={6} sm={4} md={4}>
                 <Input
                   control={form.control}
-                  name='credit_area_region_code'
+                  name='credit_area_region_name'
                   placeholder='Viloyat'
                   label='Viloyat'
                   InputProps={{
@@ -338,7 +338,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
               <Grid item xs={6} sm={4} md={4}>
                 <Input
                   control={form.control}
-                  name='credit_area_district_code'
+                  name='credit_area_district_name'
                   placeholder='Tuman'
                   label='Tuman'
                   InputProps={{
@@ -349,7 +349,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
               <Grid item xs={6} sm={4} md={4}>
                 <Input
                   control={form.control}
-                  name='credit_area_massiv_code'
+                  name='credit_area_massiv_name'
                   placeholder='Hudud (massiv)'
                   label='Hudud (massiv)'
                   InputProps={{
@@ -391,6 +391,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                     fontFamily: 'GothamProRegular !important',
                     marginLeft: 0,
                   }}
+                  disabled
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={6}>
@@ -404,6 +405,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                     fontFamily: 'GothamProRegular !important',
                     marginLeft: 0,
                   }}
+                  disabled
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={6}>
@@ -417,6 +419,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                     fontFamily: 'GothamProRegular !important',
                     marginLeft: 0,
                   }}
+                  disabled
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={6}>
@@ -429,6 +432,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                     fontFamily: 'GothamProRegular !important',
                     marginLeft: 0,
                   }}
+                  disabled
                 />
               </Grid>
             </Grid>

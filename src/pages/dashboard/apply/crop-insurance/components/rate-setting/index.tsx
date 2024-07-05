@@ -62,6 +62,7 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [REACT_QUERY_KEYS.GET_ALL_APPLICATIONS] })
       setRateOpen(false)
+      toast.success('Ariza qabul qilindi')
     },
     onError: err => {
       console.log(err)
@@ -78,10 +79,14 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
         }
       }),
     }
-    if (payload?.credit_periods?.length === 1 && payload?.credit_periods?.[0]?.amount < 100) {
-      toast.error('Foiz 100ga teng bo`lishi shart!')
-    } else {
+    const total = payload?.credit_periods?.reduce(
+      (prev: number, next: any) => prev + next?.amount,
+      0,
+    )
+    if (total === 100) {
       mutate(payload)
+    } else {
+      toast.error('Foizlarning yig‘indisi 100% dan oshmasligi kerak')
     }
   }
 

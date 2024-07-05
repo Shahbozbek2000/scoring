@@ -25,6 +25,12 @@ export const useReset = ({ id, form }: IReset) => {
         legal_location2: `${dayjs(response?.crop_harvest_start).format(DATE_FORMAT)} - ${dayjs(response?.crop_harvest_end).format(DATE_FORMAT)}`,
         region: response?.region_name,
         district: response?.district_name,
+        credit_area_region_name:
+          response?.credit_area_region_name || response?.credit_area_region_code,
+        credit_area_district_name:
+          response?.credit_area_district_name || response?.credit_area_district_code,
+        credit_area_massiv_name:
+          response?.credit_area_massiv_name || response?.credit_area_massiv_code,
         ...response,
       })
     },
