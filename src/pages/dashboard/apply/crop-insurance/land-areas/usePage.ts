@@ -110,8 +110,6 @@ export const usePage = () => {
     }
   }, [date, data?.data, value])
 
-  console.log(form.watch('date'), 'date')
-
   const createNDVIImage = (
     bufferData: number[],
     geojsonLayer: L.LayerGroup,
