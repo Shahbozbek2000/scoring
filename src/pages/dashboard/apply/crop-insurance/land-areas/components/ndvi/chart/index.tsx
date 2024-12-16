@@ -100,13 +100,13 @@ export const VegetationChart = ({ series, categories }: IVegetationChart) => {
       labels: {
         style: { colors: '#6B7280' },
         rotate: -45,
-        show: categories[0] !== 'negative',
+        // show: categories[0] !== 'negative',
       },
       min: categories.length > 0 ? categories[0] : undefined,
       max: categories.length > 0 ? categories[categories.length - 1] : undefined,
     },
     yaxis: {
-      min: 0,
+      min: undefined,
       labels: { formatter: (val: number) => val.toFixed(2) },
     },
     annotations: {
