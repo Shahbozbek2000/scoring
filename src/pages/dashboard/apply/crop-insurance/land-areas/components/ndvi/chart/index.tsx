@@ -1,9 +1,9 @@
-// @ts-nocheck
 import ReactApexChart from 'react-apexcharts'
-import { useFormContext } from 'react-hook-form'
-import { useState, useEffect } from 'react'
+import { useRef } from 'react'
 import dayjs from 'dayjs'
-import { DATE_FORMAT } from '@/constants/format'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+
+dayjs.extend(customParseFormat)
 
 interface IVegetationChart {
   series: number[]
@@ -11,43 +11,7 @@ interface IVegetationChart {
 }
 
 export const VegetationChart = ({ series, categories }: IVegetationChart) => {
-  const form = useFormContext()
-  const selectedDate = form.watch('date')
-
-  const [annotations, setAnnotations] = useState<any[]>([])
-
-  useEffect(() => {
-    if (!selectedDate) return
-
-    const selectedDateIndex = categories.findIndex(
-      category => dayjs(category).format(DATE_FORMAT) === selectedDate,
-    )
-
-    // Log the index and selected date for debugging
-    console.log(dayjs('29 Apr').format(DATE_FORMAT), 'categories')
-    console.log(selectedDate, 'selectedDate')
-
-    if (selectedDateIndex !== -1) {
-      // Set the annotation for the selected date
-      setAnnotations([
-        {
-          x: selectedDateIndex, // X position based on the index of the selected date
-          y: series[selectedDateIndex], // Y position based on the series value
-          label: {
-            text: `Selected Date: ${selectedDate}`,
-            style: {
-              background: '#A855F7',
-              color: '#fff',
-              fontSize: '12px',
-              borderRadius: '3px',
-            },
-          },
-        },
-      ])
-    }
-  }, [selectedDate, categories, series]) // Dependency array includes selectedDate, categories, and series
-
-  console.log(annotations, 'annotations')
+  const chartRef = useRef<any>(null) // Chart uchun ref yaratamiz
 
   const data = [
     {
@@ -56,7 +20,7 @@ export const VegetationChart = ({ series, categories }: IVegetationChart) => {
     },
   ]
 
-  const options = {
+  const options: any = {
     chart: {
       type: 'line',
       height: 300,
@@ -100,17 +64,12 @@ export const VegetationChart = ({ series, categories }: IVegetationChart) => {
       labels: {
         style: { colors: '#6B7280' },
         rotate: -45,
-        // show: categories[0] !== 'negative',
+        show: true,
       },
-      min: categories.length > 0 ? categories[0] : undefined,
-      max: categories.length > 0 ? categories[categories.length - 1] : undefined,
     },
     yaxis: {
       min: undefined,
       labels: { formatter: (val: number) => val.toFixed(2) },
-    },
-    annotations: {
-      points: annotations, // Dynamically add points annotation based on selectedDate
     },
     legend: {
       show: true,
@@ -120,7 +79,14 @@ export const VegetationChart = ({ series, categories }: IVegetationChart) => {
 
   return (
     <div id='chart'>
-      <ReactApexChart options={options} series={data} type='line' width='60%' height={300} />
+      <ReactApexChart
+        ref={chartRef} // Refni chartga biriktiramiz
+        options={options}
+        series={data}
+        type='line'
+        width='70%'
+        height={300}
+      />
     </div>
   )
 }
