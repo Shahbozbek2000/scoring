@@ -6,11 +6,13 @@ export default function BreadcrumpCustom() {
   const { pathname } = useLocation()
   const pathSegments = pathname.split('/').slice(1)
 
+  console.log(pathSegments, 'pathname')
+
   const breadcrumbs = pathSegments.map((segment, i) => {
     const newPath = location.find(el => el.path === segment)
 
+    console.log(newPath, 'new-path')
     if (!newPath) return null
-
     const isLast = i === pathSegments.length - 1
     const href = `/${pathSegments.slice(0, i + 1).join('/')}`
 

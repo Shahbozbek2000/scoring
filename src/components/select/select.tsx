@@ -39,6 +39,7 @@ export const SelectInput = <T extends FieldValues>({
             props.onChange(e)
           }
         }}
+        placeholder='Select'
         MenuProps={{
           PaperProps: {
             sx: {

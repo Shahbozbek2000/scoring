@@ -1,9 +1,9 @@
 import { Input } from '@/components/inputs/input'
 import { Grid } from '@mui/material'
-import { useForm } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 
 export const Pointers = () => {
-  const form = useForm()
+  const form = useFormContext()
 
   return (
     <Grid container spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }}>
@@ -13,6 +13,9 @@ export const Pointers = () => {
           name='company_name'
           placeholder='Korxona nomi'
           label='Korxona nomi'
+          InputProps={{
+            readOnly: true,
+          }}
         />
       </Grid>
       <Grid item xs={6} sm={4} md={4}>
@@ -22,10 +25,21 @@ export const Pointers = () => {
           placeholder='Maydoni'
           label='Maydoni'
           type='number'
+          InputProps={{
+            readOnly: true,
+          }}
         />
       </Grid>
       <Grid item xs={6} sm={4} md={4}>
-        <Input control={form.control} name='pin' placeholder='INN' label='INN' />
+        <Input
+          control={form.control}
+          name='pin'
+          placeholder='INN'
+          label='INN'
+          InputProps={{
+            readOnly: true,
+          }}
+        />
       </Grid>
       <Grid item xs={6} sm={4} md={4}>
         <Input
@@ -33,24 +47,31 @@ export const Pointers = () => {
           name='cadastr_number'
           placeholder='Kadastr raqami'
           label='Kadastr raqami'
-          type='number'
+          InputProps={{
+            readOnly: true,
+          }}
         />
       </Grid>
       <Grid item xs={6} sm={4} md={4}>
         <Input
           control={form.control}
-          name='example_number'
-          placeholder='Namuna raqami'
-          label='Namuna raqami'
-          type='number'
+          name='contour_number'
+          placeholder='Kontur raqami'
+          label='Kontur raqami'
+          InputProps={{
+            readOnly: true,
+          }}
         />
       </Grid>
       <Grid item xs={6} sm={4} md={4}>
         <Input
           control={form.control}
-          name='crop_type'
-          placeholder='Hosil turi'
-          label='Hosil turi'
+          name='ball_bonitet'
+          placeholder='Ball boniteti'
+          label='Ball boniteti'
+          InputProps={{
+            readOnly: true,
+          }}
         />
       </Grid>
     </Grid>

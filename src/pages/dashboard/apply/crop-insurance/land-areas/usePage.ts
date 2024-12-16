@@ -31,6 +31,7 @@ export const usePage = () => {
   const [dates, setDates] = useState<any[]>([])
   const [geoLayer, setGeoLayer] = useState<L.LayerGroup | null>(null)
   const [currentOverlay, setCurrentOverlay] = useState<L.ImageOverlay | null>(null)
+  const { date } = form.watch()
 
   useEffect(() => {
     const mapInstance = new L.map(ref.current!, {
@@ -48,6 +49,8 @@ export const usePage = () => {
     }
   }, [])
 
+  console.log(geojson, 'geojson')
+
   const { data, isLoading } = useQuery({
     queryKey: [REACT_QUERY_KEYS.GET_NDVI_WITH_CONTOUR, params?.id],
     queryFn: async () => await getNdviWithContour(params?.id),
@@ -58,6 +61,16 @@ export const usePage = () => {
           value: `${dayjs(ndvi?.time).format(DATE_FORMAT)}`,
         })),
       )
+      const properties = geojson?.data?.features?.[0]?.properties
+      form.reset({
+        company_name: properties?.farmer_name,
+        area: properties?.area,
+        pin: properties?.farmer_tax_number,
+        cadastr_number: properties?.cad_number,
+        contour_number: properties?.contour_number,
+        ball_bonitet: properties?.ball_bonitet,
+        date: res?.data?.length > 0 ? dayjs(res?.data?.[0]?.time).format(DATE_FORMAT) : '',
+      })
 
       const geometry = geojson?.data?.features?.[0]?.geometry
       const geo = L.geoJSON(geometry, {
@@ -65,7 +78,7 @@ export const usePage = () => {
           // Drawing polygon
           if (feature?.type === 'Polygon' || feature?.type === 'MultiPolygon') {
             layer.setStyle({
-              color: 'blue',
+              color: 'white',
               weight: 2,
               opacity: 0.7,
               fillColor: 'blue',
@@ -80,11 +93,24 @@ export const usePage = () => {
       map?.flyToBounds(bounds, {
         maxZoom: 16,
       })
-      if (res?.data?.length > 0) {
-        displayRecord(res?.data?.[0], bounds)
-      }
     },
   })
+
+  useEffect(() => {
+    if (value === 1) {
+      const record = data?.data?.find((ndvi: any) => dayjs(ndvi?.time).format(DATE_FORMAT) === date)
+      if (record) {
+        displayRecord(record, map?.getBounds())
+      }
+    } else {
+      if (currentOverlay) {
+        map?.removeLayer(currentOverlay)
+        setCurrentOverlay(null) // Clear the overlay state
+      }
+    }
+  }, [date, data?.data, value])
+
+  console.log(form.watch('date'), 'date')
 
   const createNDVIImage = (
     bufferData: number[],

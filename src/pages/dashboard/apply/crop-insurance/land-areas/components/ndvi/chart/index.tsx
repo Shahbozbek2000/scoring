@@ -1,5 +1,9 @@
 // @ts-nocheck
 import ReactApexChart from 'react-apexcharts'
+import { useFormContext } from 'react-hook-form'
+import { useState, useEffect } from 'react'
+import dayjs from 'dayjs'
+import { DATE_FORMAT } from '@/constants/format'
 
 interface IVegetationChart {
   series: number[]
@@ -7,6 +11,44 @@ interface IVegetationChart {
 }
 
 export const VegetationChart = ({ series, categories }: IVegetationChart) => {
+  const form = useFormContext()
+  const selectedDate = form.watch('date')
+
+  const [annotations, setAnnotations] = useState<any[]>([])
+
+  useEffect(() => {
+    if (!selectedDate) return
+
+    const selectedDateIndex = categories.findIndex(
+      category => dayjs(category).format(DATE_FORMAT) === selectedDate,
+    )
+
+    // Log the index and selected date for debugging
+    console.log(dayjs('29 Apr').format(DATE_FORMAT), 'categories')
+    console.log(selectedDate, 'selectedDate')
+
+    if (selectedDateIndex !== -1) {
+      // Set the annotation for the selected date
+      setAnnotations([
+        {
+          x: selectedDateIndex, // X position based on the index of the selected date
+          y: series[selectedDateIndex], // Y position based on the series value
+          label: {
+            text: `Selected Date: ${selectedDate}`,
+            style: {
+              background: '#A855F7',
+              color: '#fff',
+              fontSize: '12px',
+              borderRadius: '3px',
+            },
+          },
+        },
+      ])
+    }
+  }, [selectedDate, categories, series]) // Dependency array includes selectedDate, categories, and series
+
+  console.log(annotations, 'annotations')
+
   const data = [
     {
       name: 'Средняя',
@@ -17,7 +59,7 @@ export const VegetationChart = ({ series, categories }: IVegetationChart) => {
   const options = {
     chart: {
       type: 'line',
-      height: 350,
+      height: 300,
       toolbar: { show: false },
       zoom: {
         enabled: true,
@@ -25,21 +67,20 @@ export const VegetationChart = ({ series, categories }: IVegetationChart) => {
         autoScaleYaxis: true,
       },
     },
-    colors: ['#A855F7', '#8B5CF6', '#D8B4FE'], // Turli chiziqlar uchun ranglar
+    colors: ['#A855F7', '#8B5CF6', '#D8B4FE'],
     stroke: {
       curve: 'smooth',
       width: 2,
     },
     fill: {
       type: 'solid',
-      opacity: [0.3, 0.2, 0.1], // Soyali maydonlar uchun
+      opacity: [0.3, 0.2, 0.1],
     },
     markers: {
       size: 4,
       hover: { sizeOffset: 2 },
     },
     dataLabels: {
-      enabled: true,
       style: { colors: ['#A855F7'] },
     },
     tooltip: {
@@ -58,17 +99,18 @@ export const VegetationChart = ({ series, categories }: IVegetationChart) => {
       categories,
       labels: {
         style: { colors: '#6B7280' },
-        rotate: -45, // Rotate the labels to avoid overlap
-        show: true,
+        rotate: -45,
+        show: categories[0] !== 'negative',
       },
-      tickAmount: categories.length > 10 ? 10 : undefined, // Adjust number of ticks if categories are too many
       min: categories.length > 0 ? categories[0] : undefined,
       max: categories.length > 0 ? categories[categories.length - 1] : undefined,
     },
     yaxis: {
-      min: -0.14,
-      max: 0.84,
+      min: 0,
       labels: { formatter: (val: number) => val.toFixed(2) },
+    },
+    annotations: {
+      points: annotations, // Dynamically add points annotation based on selectedDate
     },
     legend: {
       show: true,
@@ -78,7 +120,7 @@ export const VegetationChart = ({ series, categories }: IVegetationChart) => {
 
   return (
     <div id='chart'>
-      <ReactApexChart options={options} series={data} type='line' width='60%' height={250} />
+      <ReactApexChart options={options} series={data} type='line' width='60%' height={300} />
     </div>
   )
 }
