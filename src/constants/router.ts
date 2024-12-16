@@ -11,4 +11,5 @@ export const ROUTER = {
   DOCUMENTS: 'documents',
   POLIS: 'polis',
   TECHNICAL_SUPPORT: 'technical-support',
+  LAND_AREAS: 'land-areas',
 }

@@ -48,6 +48,10 @@ export const location: ILocartionProps[] = [
     name: 'Arizani ko`rish',
   },
   {
+    path: 'land-areas',
+    name: 'Yer maydonlari',
+  },
+  {
     path: 'payment-status',
     name: 'To`lov holati',
   },

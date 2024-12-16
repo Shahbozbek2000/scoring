@@ -92,3 +92,22 @@ button:disabled {
 fieldset {
   border: none !important;
 }
+
+.contour-numbers label {
+  font-family: GothamProRegular;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.contour-numbers button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  height: 42px;
+  min-width: 100px;
+  border-radius: 6px;
+  background-color: #f5f5f5;
+  font-family: GothamProRegular;
+  font-size: 14px;
+  color: #1b2149;
+}

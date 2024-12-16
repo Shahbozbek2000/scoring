@@ -18,6 +18,9 @@ const PaymentStatus = lazy(async () => await import('@/pages/dashboard/payment-s
 const Documents = lazy(async () => await import('@/pages/dashboard/documents'))
 const Polis = lazy(async () => await import('@/pages/dashboard/documents/polis'))
 const TechnicalSupport = lazy(async () => await import('@/pages/dashboard/technical-support'))
+const LandAreas = lazy(
+  async () => await import('@/pages/dashboard/apply/crop-insurance/land-areas'),
+)
 const ApplyCropInsurance = lazy(async () => await import('@/pages/dashboard/apply/crop-insurance'))
 const ApplyCoverageInsurance = lazy(
   async () => await import('@/pages/dashboard/apply/coverage-insurance'),
@@ -54,7 +57,16 @@ export const router = createBrowserRouter([
               },
               {
                 path: ROUTER.CROP_INSURANCE,
-                element: <ApplyCropInsurance />,
+                children: [
+                  {
+                    index: true,
+                    element: <ApplyCropInsurance />,
+                  },
+                  {
+                    path: `${ROUTER.LAND_AREAS}/:id`,
+                    element: <LandAreas />,
+                  },
+                ],
               },
               {
                 path: ROUTER.COVERAGE_INSURANCE,
@@ -113,6 +125,10 @@ export const router = createBrowserRouter([
                 element: <Polis />,
               },
             ],
+          },
+          {
+            path: ROUTER.LAND_AREAS,
+            element: <LandAreas />,
           },
           {
             path: ROUTER.TECHNICAL_SUPPORT,

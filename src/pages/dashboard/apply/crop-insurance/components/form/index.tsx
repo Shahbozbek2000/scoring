@@ -8,21 +8,24 @@ import type { IModal } from '@/types/modal'
 import { Button, Grid, Stack, Typography } from '@mui/material'
 import { Fragment, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Form } from 'react-router-dom'
+import { Form, useNavigate } from 'react-router-dom'
 import { useReset } from './useReset'
 import { RateSetting } from '../rate-setting'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { rejectApplications } from '@/apis/applications'
 import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import toast from 'react-hot-toast'
+import { useGeoJsonStore } from '@/store/geojson'
 
 export const ModalForm = ({ open, setOpen, id }: IModal) => {
   const form = useForm()
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const [isCanceled, setIsCanceled] = useState(false)
   const { data, isLoading } = useReset({ id, form })
   const [rateOpen, setRateOpen] = useState(false)
   const isDisabled = data?.status_code === false || data?.status_code === true
+  const { setGeoJson } = useGeoJsonStore()
 
   const { mutate } = useMutation({
     mutationFn: async data => await rejectApplications(data),
@@ -45,6 +48,15 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
       mutate(payload)
     }
   }
+
+  const handleContourNumber = (item: any) => {
+    setGeoJson(item)
+    if (item?.data) {
+      navigate(`/main/apply/crop-insurance/land-areas/${item?.data?.features?.[0]?.properties?.id}`)
+    }
+  }
+
+  console.log(data, 'data')
 
   return (
     <Fragment>
@@ -358,15 +370,24 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                 />
               </Grid>
               <Grid item xs={6} sm={4} md={4}>
-                <Input
-                  control={form.control}
-                  name='credit_area_contour_numbers'
-                  placeholder='Kontur raqamlari'
-                  label='Kontur raqamlari'
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
+                <div className='contour-numbers'>
+                  <label>Kontur raqamlari</label>
+                  <Stack sx={{ display: 'flex', flexDirection: 'row', gap: 1 }} mt='4px'>
+                    {data?.credit_area_contour_numbers?.map((v: any, idx: number) => {
+                      return (
+                        <button
+                          key={idx}
+                          type='button'
+                          onClick={() => {
+                            handleContourNumber(v)
+                          }}
+                        >
+                          {v?.number ? v?.number : v}
+                        </button>
+                      )
+                    })}
+                  </Stack>
+                </div>
               </Grid>
             </Grid>
             <Typography
