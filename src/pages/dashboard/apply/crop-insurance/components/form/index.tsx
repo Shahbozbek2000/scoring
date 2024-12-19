@@ -60,7 +60,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
 
   return (
     <Fragment>
-      <CustomModal open={open} setOpen={setOpen} title='Anketa generatsiya qilish'>
+      <CustomModal open={open} setOpen={setOpen} title='Shartnoma generatsiya qilish'>
         {isLoading ? (
           <LoadingOverlay isLoading={isLoading} />
         ) : (
@@ -120,7 +120,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                 margin: '8px 0',
               }}
             >
-              Sug’urta qildiruvchi to`g’risidagi ma’lumot
+              Sug’urta qildiruvchi
             </Typography>
             <Grid container spacing={{ xs: 2, md: 2 }}>
               <Grid item xs={6} sm={4} md={4}>
@@ -176,7 +176,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                 margin: '8px 0',
               }}
             >
-              Naf oluvchi to‘g‘risida ma’lumot
+              Naf oluvchi
             </Typography>
             <Grid container spacing={{ xs: 2, md: 2 }}>
               <Grid item xs={6} sm={4} md={4}>
@@ -232,7 +232,72 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                 margin: '8px 0',
               }}
             >
-              Sug‘urtalash so‘ralgan ekinlar haqida asosiy ma’lumotlar
+              Sug‘urtalash hududi
+            </Typography>
+            <Grid container spacing={{ xs: 2, md: 2 }}>
+              <Grid item xs={6} sm={4} md={4}>
+                <Input
+                  control={form.control}
+                  name='credit_area_region_name'
+                  placeholder='Viloyat'
+                  label='Viloyat'
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={4} md={4}>
+                <Input
+                  control={form.control}
+                  name='credit_area_district_name'
+                  placeholder='Tuman'
+                  label='Tuman'
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={4} md={4}>
+                <Input
+                  control={form.control}
+                  name='credit_area_massiv_name'
+                  placeholder='Hudud (massiv)'
+                  label='Hudud (massiv)'
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={4} md={4}>
+                <div className='contour-numbers'>
+                  <label>Kontur raqamlari</label>
+                  <Stack sx={{ display: 'flex', flexDirection: 'row', gap: 1 }} mt='4px'>
+                    {data?.credit_area_contour_numbers?.map((v: any, idx: number) => {
+                      return (
+                        <button
+                          key={idx}
+                          type='button'
+                          onClick={() => {
+                            handleContourNumber(v)
+                          }}
+                        >
+                          {v?.number ? v?.number : v}
+                        </button>
+                      )
+                    })}
+                  </Stack>
+                </div>
+              </Grid>
+            </Grid>
+            <Typography
+              sx={{
+                fontFamily: 'GothamProRegular',
+                fontSize: 16,
+                color: 'var(--dark)',
+                margin: '8px 0',
+              }}
+            >
+              Sug‘urtalash uchun so‘ralgan ekinlar
             </Typography>
             <Grid container spacing={{ xs: 2, md: 2 }}>
               <Grid item xs={6} sm={4} md={4}>
@@ -325,71 +390,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                 />
               </Grid>
             </Grid>
-            <Typography
-              sx={{
-                fontFamily: 'GothamProRegular',
-                fontSize: 16,
-                color: 'var(--dark)',
-                margin: '8px 0',
-              }}
-            >
-              Sug‘urtalash hududi
-            </Typography>
-            <Grid container spacing={{ xs: 2, md: 2 }}>
-              <Grid item xs={6} sm={4} md={4}>
-                <Input
-                  control={form.control}
-                  name='credit_area_region_name'
-                  placeholder='Viloyat'
-                  label='Viloyat'
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={4}>
-                <Input
-                  control={form.control}
-                  name='credit_area_district_name'
-                  placeholder='Tuman'
-                  label='Tuman'
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={4}>
-                <Input
-                  control={form.control}
-                  name='credit_area_massiv_name'
-                  placeholder='Hudud (massiv)'
-                  label='Hudud (massiv)'
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={4}>
-                <div className='contour-numbers'>
-                  <label>Kontur raqamlari</label>
-                  <Stack sx={{ display: 'flex', flexDirection: 'row', gap: 1 }} mt='4px'>
-                    {data?.credit_area_contour_numbers?.map((v: any, idx: number) => {
-                      return (
-                        <button
-                          key={idx}
-                          type='button'
-                          onClick={() => {
-                            handleContourNumber(v)
-                          }}
-                        >
-                          {v?.number ? v?.number : v}
-                        </button>
-                      )
-                    })}
-                  </Stack>
-                </div>
-              </Grid>
-            </Grid>
+
             <Typography
               sx={{
                 fontFamily: 'GothamProRegular',
@@ -486,6 +487,14 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                   name='insurance_price'
                   placeholder='Sug‘urta summasi, so‘m'
                   label='Sug‘urta summasi (sug‘urta javobgarligi), so‘m'
+                />
+              </Grid>
+              <Grid item xs={6} sm={4} md={4}>
+                <Input
+                  control={form.control}
+                  name='insurance_liability'
+                  placeholder='Sug‘urta foizi, %'
+                  label='Sug‘urta foizi, %'
                 />
               </Grid>
             </Grid>

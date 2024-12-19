@@ -49,8 +49,6 @@ export const usePage = () => {
     }
   }, [])
 
-  console.log(geojson, 'geojson')
-
   const { data, isLoading } = useQuery({
     queryKey: [REACT_QUERY_KEYS.GET_NDVI_WITH_CONTOUR, params?.id],
     queryFn: async () => await getNdviWithContour(params?.id),
@@ -78,7 +76,7 @@ export const usePage = () => {
           // Drawing polygon
           if (feature?.type === 'Polygon' || feature?.type === 'MultiPolygon') {
             layer.setStyle({
-              color: 'white',
+              color: 'green',
               weight: 2,
               opacity: 0.7,
               fillColor: 'blue',
@@ -191,7 +189,6 @@ export const usePage = () => {
     }
 
     const imageUrl = createNDVIImage(record?.ndvi_image?.data, geoLayer!, bounds)
-    console.log(imageUrl, 'imageUrl')
     const imageBounds = [
       [bounds.getSouth(), bounds.getWest()],
       [bounds.getNorth(), bounds.getEast()],

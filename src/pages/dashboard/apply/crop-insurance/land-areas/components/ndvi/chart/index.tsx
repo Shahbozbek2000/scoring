@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/array-type */
 import ReactApexChart from 'react-apexcharts'
 import { useRef } from 'react'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { useFormContext } from 'react-hook-form'
+import { DATE_FORMAT } from '@/constants/format'
 
 dayjs.extend(customParseFormat)
 
@@ -11,7 +14,7 @@ interface IVegetationChart {
 }
 
 export const VegetationChart = ({ series, categories }: IVegetationChart) => {
-  const chartRef = useRef<any>(null) // Chart uchun ref yaratamiz
+  const form = useFormContext()
 
   const data = [
     {
@@ -45,8 +48,36 @@ export const VegetationChart = ({ series, categories }: IVegetationChart) => {
       hover: { sizeOffset: 2 },
     },
     dataLabels: {
-      style: { colors: ['#A855F7'] },
+      enabled: true,
+      style: {
+        fontSize: '12px',
+        colors: ['#A855F7'],
+        borderRadius: '50%',
+      },
+      formatter: function (
+        val: number,
+        {
+          seriesIndex,
+          dataPointIndex,
+          w,
+        }: {
+          seriesIndex: number
+          dataPointIndex: number
+          w: { config: { series: { data: { date: string }[] }[] }; globals: any }
+        },
+      ) {
+        if (
+          dayjs(`${w?.globals?.categoryLabels[dataPointIndex]} 2024`, 'DD MMMM YYYY')
+            .add(1, 'month')
+            .format('DD.MM.YYYY') === dayjs(form.watch('date')).format(DATE_FORMAT)
+        ) {
+          return val.toFixed(2)
+        } else {
+          return ''
+        }
+      },
     },
+
     tooltip: {
       shared: true,
       intersect: false,
@@ -79,14 +110,7 @@ export const VegetationChart = ({ series, categories }: IVegetationChart) => {
 
   return (
     <div id='chart'>
-      <ReactApexChart
-        ref={chartRef} // Refni chartga biriktiramiz
-        options={options}
-        series={data}
-        type='line'
-        width='70%'
-        height={300}
-      />
+      <ReactApexChart options={options} series={data} type='line' width='70%' height={300} />
     </div>
   )
 }

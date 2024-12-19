@@ -111,3 +111,7 @@ fieldset {
   font-size: 14px;
   color: #1b2149;
 }
+
+.MuiPaginationItem-root svg {
+  fill: #000;
+}
