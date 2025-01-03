@@ -36,6 +36,7 @@
     "leaflet": "^1.9.4",
     "leaflet-arrowheads": "^1.4.0",
     "leaflet-draw": "^1.0.4",
+    "leaflet-fullscreen": "^1.0.2",
     "leaflet-polylinedecorator": "^1.6.0",
     "mkcert": "^3.2.0",
     "react": "^18.2.0",

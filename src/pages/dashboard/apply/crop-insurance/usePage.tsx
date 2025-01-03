@@ -7,7 +7,7 @@ import { Badge } from '../style'
 import dayjs from 'dayjs'
 import { DATE_FORMAT } from '@/constants/format'
 import { CheckStatus } from './components/status'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import type { Apply } from '@/types/apply'
 
 const columnHelper = createColumnHelper<Apply>()
@@ -15,6 +15,7 @@ const columnHelper = createColumnHelper<Apply>()
 export const usePage = () => {
   const { search } = useLocation()
   const initial_params = new URLSearchParams(search)
+  const navigate = useNavigate()
   const [rowId, setRowId] = useState(null)
   const [open, setOpen] = useState(false)
   const [rejectOpen, setRejectOpen] = useState(false)
@@ -42,10 +43,10 @@ export const usePage = () => {
     keepPreviousData: true,
   })
 
-  const handleOpen = (info: any) => {
-    setRowId(info?.row?.original?._id)
-    setOpen(true)
-  }
+  // const handleOpen = (info: any) => {
+  //   setRowId(info?.row?.original?._id)
+  //   // setOpen(true)
+  // }
 
   const { mutate } = useMutation({
     mutationFn: async data =>
@@ -132,7 +133,7 @@ export const usePage = () => {
             reject(info?.row?.original?._id)
           }}
           handleOpen={() => {
-            handleOpen(info)
+            navigate(`/main/apply/crop-insurance/form-contract/${info?.row?.original?._id}`)
           }}
           info={info}
         />

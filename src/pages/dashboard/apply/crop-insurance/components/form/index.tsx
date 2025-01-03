@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { Input } from '@/components/inputs/input'
 import { InputCheckbox } from '@/components/inputs/input-checkbox'
 import { TextArea } from '@/components/inputs/input-textarea'
@@ -6,57 +7,27 @@ import { CustomModal } from '@/components/modal'
 import { COLORS } from '@/constants/css'
 import type { IModal } from '@/types/modal'
 import { Button, Grid, Stack, Typography } from '@mui/material'
-import { Fragment, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Form, useNavigate } from 'react-router-dom'
-import { useReset } from './useReset'
+import { Form } from 'react-router-dom'
 import { RateSetting } from '../rate-setting'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { rejectApplications } from '@/apis/applications'
-import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
-import toast from 'react-hot-toast'
-import { useGeoJsonStore } from '@/store/geojson'
+import { useAppForm } from './useAppForm'
 
 export const ModalForm = ({ open, setOpen, id }: IModal) => {
-  const form = useForm()
-  const queryClient = useQueryClient()
-  const navigate = useNavigate()
-  const [isCanceled, setIsCanceled] = useState(false)
-  const { data, isLoading } = useReset({ id, form })
-  const [rateOpen, setRateOpen] = useState(false)
-  const isDisabled = data?.status_code === false || data?.status_code === true
-  const { setGeoJson } = useGeoJsonStore()
-
-  const { mutate } = useMutation({
-    mutationFn: async data => await rejectApplications(data),
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: [REACT_QUERY_KEYS.GET_ALL_APPLICATIONS] })
-      setOpen(false)
-      setIsCanceled(false)
-      toast.success('Ariza rad etildi')
-    },
-    onError: err => {
-      console.log(err)
-      toast.error('Nimadur xatolik yuz berdi')
-    },
+  const {
+    data,
+    form,
+    rateOpen,
+    onReject,
+    isLoading,
+    isDisabled,
+    isCanceled,
+    riskFactors,
+    setRateOpen,
+    setIsCanceled,
+    handleContourNumber,
+  } = useAppForm({
+    setOpen,
+    id,
   })
-  const onReject = () => {
-    if (form.watch('comment') === undefined) {
-      toast.error('Izoh kiriting!')
-    } else {
-      const payload: any = { id, comment: form.watch('comment') }
-      mutate(payload)
-    }
-  }
-
-  const handleContourNumber = (item: any) => {
-    setGeoJson(item)
-    if (item?.data) {
-      navigate(`/main/apply/crop-insurance/land-areas/${item?.data?.features?.[0]?.properties?.id}`)
-    }
-  }
-
-  console.log(data, 'data')
 
   return (
     <Fragment>
@@ -402,21 +373,23 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
               Sug‘urta tavakkalchiliklari
             </Typography>
             <Grid container spacing={{ xs: 2, md: 2 }}>
-              <Grid item xs={6} sm={4} md={6}>
-                <InputCheckbox
-                  control={form.control}
-                  name='risk_factors_climatic'
-                  label='Surunkali yomg‘ir yog‘ishi xamda yog‘ingarchilikdan so‘ng xavo xaroratini 
-              keskin isib ketishi natijasida tuproqning yuqori qatlamini qatqaloq bo‘lishi.'
-                  labelPlacement='start'
-                  sx={{
-                    fontFamily: 'GothamProRegular !important',
-                    marginLeft: 0,
-                  }}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} md={6}>
+              {riskFactors?.map((v: any, idx: number) => {
+                return (
+                  <Grid item xs={6} sm={4} md={6} key={idx}>
+                    <InputCheckbox
+                      control={form.control}
+                      name={v?.key}
+                      label={v?.text}
+                      sx={{
+                        fontFamily: 'GothamProRegular !important',
+                        marginLeft: 0,
+                      }}
+                    />
+                  </Grid>
+                )
+              })}
+
+              {/* <Grid item xs={6} sm={4} md={6}>
                 <InputCheckbox
                   control={form.control}
                   name='risk_factors_dehydration'
@@ -456,7 +429,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                   }}
                   disabled
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
             <Typography
               sx={{
@@ -493,8 +466,8 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                 <Input
                   control={form.control}
                   name='insurance_liability'
-                  placeholder='Sug‘urta foizi, %'
-                  label='Sug‘urta foizi, %'
+                  placeholder='Sug‘urta javobgarlik foizi, %'
+                  label='Sug‘urta javobgarlik foizi, %'
                 />
               </Grid>
             </Grid>

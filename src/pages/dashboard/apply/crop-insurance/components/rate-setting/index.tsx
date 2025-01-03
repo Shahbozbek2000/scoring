@@ -5,7 +5,7 @@ import { CustomModal } from '@/components/modal'
 import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Grid, Stack, Typography } from '@mui/material'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { type SubmitHandler, useForm, useFieldArray, useWatch } from 'react-hook-form'
 import { Form } from 'react-router-dom'
 import { formSchema } from './form.schema'
@@ -13,6 +13,7 @@ import { ReactComponent as IconPlus } from '@/assets/icons/plus.svg'
 import { Fragment, useEffect, useState } from 'react'
 import { InputDate } from '@/components/inputs/datepicker'
 import toast from 'react-hot-toast'
+import { request } from '@/configs/requests'
 
 interface IRateSetting {
   id: string | null | undefined
@@ -43,6 +44,23 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
     control: form.control,
     name: 'paymentPercentage',
   })
+
+  useQuery({
+    queryKey: ['config-insurance'],
+    queryFn: async () => await request('/config/insurance'),
+    select: response => {
+      return response?.data?.insurance
+    },
+  })
+
+  const { data = [] } = useQuery({
+    queryKey: ['config-payment-schedule'],
+    queryFn: async () => await request('/config/payment-schedule'),
+    select: response => {
+      return response?.data?.payment_schedule
+    },
+  })
+  console.log(data, 'data')
 
   useEffect(() => {
     const totalAmount = watchedPaymentPercentage.reduce(

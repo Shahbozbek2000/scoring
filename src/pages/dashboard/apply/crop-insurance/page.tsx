@@ -1,6 +1,5 @@
 import { Stack } from '@mui/material'
 import { CustomPagination } from '@/components/pagination'
-import { Header } from './components/header'
 import { LoadingOverlay } from '@/components/loading-overlay'
 import { Reject } from './components/reject'
 import { CustomTable } from '@/components/table'
@@ -27,7 +26,6 @@ const ApplyCropInsurance = () => {
     <Stack>
       <BreadcrumpCustom />
       <Stack gap='32px'>
-        <Header />
         <Stack
           width='100%'
           borderRadius='12px'

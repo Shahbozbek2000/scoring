@@ -12,9 +12,9 @@ const queryCache = new QueryCache({
   onError: res => {
     const error = res as ErrorProps
     console.log(error, 'errr')
-    if (error?.response?.status === 401) {
-      window.location.href = '/'
-    }
+    // if (error?.response?.status === 401) {
+    //   window.location.href = '/'
+    // }
   },
 })
 

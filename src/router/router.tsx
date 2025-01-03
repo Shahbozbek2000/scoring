@@ -22,6 +22,11 @@ const LandAreas = lazy(
   async () => await import('@/pages/dashboard/apply/crop-insurance/land-areas'),
 )
 const ApplyCropInsurance = lazy(async () => await import('@/pages/dashboard/apply/crop-insurance'))
+
+const FormContract = lazy(
+  async () => await import('@/pages/dashboard/apply/crop-insurance/form-contract'),
+)
+
 const ApplyCoverageInsurance = lazy(
   async () => await import('@/pages/dashboard/apply/coverage-insurance'),
 )
@@ -61,6 +66,10 @@ export const router = createBrowserRouter([
                   {
                     index: true,
                     element: <ApplyCropInsurance />,
+                  },
+                  {
+                    path: `${ROUTER.FORM_CONTRACT}/:id`,
+                    element: <FormContract />,
                   },
                   {
                     path: `${ROUTER.LAND_AREAS}/:id`,
