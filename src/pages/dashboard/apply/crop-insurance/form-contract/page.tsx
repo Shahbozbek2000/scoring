@@ -5,6 +5,7 @@ import { FormProvider } from 'react-hook-form'
 
 const FormContract = () => {
   const { slug, form, value, setValue } = usePage()
+
   return (
     <Stack>
       <Stack gap='24px'>

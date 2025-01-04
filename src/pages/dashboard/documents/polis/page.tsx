@@ -16,14 +16,6 @@ const Polis = () => {
         mx='auto'
         gap='24px'
         bgcolor={theme => theme.palette.allColors.WHITE}
-      ></Stack>
-      <Stack
-        width='100%'
-        borderRadius='12px'
-        p='32px 24px'
-        mx='auto'
-        gap='24px'
-        bgcolor={theme => theme.palette.allColors.WHITE}
       >
         <CustomTable options={{ data, columns }} emptyTitle="Ma'lumot mavjud emas!" />
         <CustomPagination count={data.length} params={params} setParams={setParams} />

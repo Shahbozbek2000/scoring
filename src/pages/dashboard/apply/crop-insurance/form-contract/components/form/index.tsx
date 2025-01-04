@@ -7,6 +7,7 @@ import { Form } from 'react-router-dom'
 import { useAppForm } from './useAppForm'
 import { InputCheckbox } from '@/components/inputs/input-checkbox'
 import { LoadingOverlay } from '@/components/loading-overlay'
+import LoadingButton from '@mui/lab/LoadingButton'
 
 interface IContractFormProps {
   slug: string | undefined
@@ -16,12 +17,12 @@ export const ContractForm = ({ slug }: IContractFormProps) => {
   const {
     data,
     form,
+    accept,
     onReject,
     isLoading,
     isDisabled,
     isCanceled,
     riskFactors,
-    setRateOpen,
     setIsCanceled,
   } = useAppForm({ slug })
 
@@ -35,17 +36,6 @@ export const ContractForm = ({ slug }: IContractFormProps) => {
             <Grid item xs={6} sm={4} md={4}>
               <Input
                 control={form.control}
-                name='number'
-                placeholder='Ariza raqami'
-                label='Ariza raqami'
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4} md={4}>
-              <Input
-                control={form.control}
                 name='date'
                 placeholder='Sana'
                 label='Sana'
@@ -54,7 +44,6 @@ export const ContractForm = ({ slug }: IContractFormProps) => {
                 }}
               />
             </Grid>
-            <Grid item xs={6} sm={4} md={4} />
             <Grid item xs={6} sm={4} md={4}>
               <Input
                 control={form.control}
@@ -463,16 +452,14 @@ export const ContractForm = ({ slug }: IContractFormProps) => {
               </Fragment>
             )}
 
-            <Button
+            <LoadingButton
               variant='contained'
               sx={{ background: '#08705F', opacity: 0.7 }}
-              onClick={() => {
-                setRateOpen(true)
-              }}
+              onClick={accept}
               disabled={isDisabled}
             >
               Tasdiqlash
-            </Button>
+            </LoadingButton>
           </Stack>
         </Form>
       )}
