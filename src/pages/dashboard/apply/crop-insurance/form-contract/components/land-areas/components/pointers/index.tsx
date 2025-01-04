@@ -41,39 +41,6 @@ export const Pointers = () => {
           }}
         />
       </Grid>
-      <Grid item xs={6} sm={4} md={4}>
-        <Input
-          control={form.control}
-          name='cadastr_number'
-          placeholder='Kadastr raqami'
-          label='Kadastr raqami'
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-      </Grid>
-      <Grid item xs={6} sm={4} md={4}>
-        <Input
-          control={form.control}
-          name='contour_number'
-          placeholder='Kontur raqami'
-          label='Kontur raqami'
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-      </Grid>
-      <Grid item xs={6} sm={4} md={4}>
-        <Input
-          control={form.control}
-          name='ball_bonitet'
-          placeholder='Ball boniteti'
-          label='Ball boniteti'
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-      </Grid>
     </Grid>
   )
 }

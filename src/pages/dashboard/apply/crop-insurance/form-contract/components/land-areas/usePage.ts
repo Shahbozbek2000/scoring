@@ -10,7 +10,7 @@ import { REACT_QUERY_KEYS } from '@/constants/react-query-keys' // Query keys
 import { useGeoJsonStore } from '@/store/geojson' // GeoJSON store
 import dayjs from 'dayjs'
 import { DATE_FORMAT } from '@/constants/format' // Date formatting
-import { useForm } from 'react-hook-form'
+import { useForm, useFormContext } from 'react-hook-form'
 
 // Initial map settings
 const ZOOM = 10
@@ -22,7 +22,7 @@ const DEFAULT_LAYER = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z
 })
 
 export const usePage = () => {
-  const form = useForm()
+  const form = useFormContext()
   const params = useParams()
   const ref = useRef<HTMLDivElement | null>(null)
   const { geojson } = useGeoJsonStore()
@@ -54,21 +54,14 @@ export const usePage = () => {
     queryKey: [REACT_QUERY_KEYS.GET_NDVI_WITH_CONTOUR, params?.id],
     queryFn: async () => await getNdviWithContour(params?.id),
     onSuccess: res => {
-      console.log(res, 'response-ndvi')
       setDates(
         res?.data?.map((ndvi: any) => ({
           label: `${dayjs(ndvi?.time).format(DATE_FORMAT)}`,
           value: `${dayjs(ndvi?.time).format(DATE_FORMAT)}`,
         })),
       )
-      const properties = geojson?.data?.features?.[0]?.properties
       form.reset({
-        company_name: properties?.farmer_name,
-        area: properties?.area,
-        pin: properties?.farmer_tax_number,
-        cadastr_number: properties?.cad_number,
-        contour_number: properties?.contour_number,
-        ball_bonitet: properties?.ball_bonitet,
+        ...res,
         date: res?.data?.length > 0 ? dayjs(res?.data?.[0]?.time).format(DATE_FORMAT) : '',
       })
 
