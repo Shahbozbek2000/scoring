@@ -10,7 +10,7 @@ export const usePage = () => {
   const { id } = useParams()
   const [value, setValue] = useState(0)
 
-  useQuery({
+  const { data: details = null } = useQuery({
     queryKey: [REACT_QUERY_KEYS.GET_BY_ID_APPLICATIONS + 'new', id, value],
     queryFn: async () => await getByIDApplications(id),
     select: res => {
@@ -26,10 +26,13 @@ export const usePage = () => {
     },
   })
 
+  console.log(details, 'details')
+
   return {
     slug: id,
     form,
     value,
+    details,
     setValue,
   }
 }

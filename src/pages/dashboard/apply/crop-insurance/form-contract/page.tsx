@@ -4,7 +4,7 @@ import { usePage } from './usePage'
 import { FormProvider } from 'react-hook-form'
 
 const FormContract = () => {
-  const { slug, form, value, setValue } = usePage()
+  const { slug, form, value, details, setValue } = usePage()
 
   return (
     <Stack>
@@ -18,7 +18,12 @@ const FormContract = () => {
           bgcolor={theme => theme.palette.allColors.WHITE}
         >
           <FormProvider {...form}>
-            <CustomTabs slug={slug} value={value} setValue={setValue} />
+            <CustomTabs
+              slug={slug}
+              value={value}
+              pointerData={details?.credit_area_contour_numbers}
+              setValue={setValue}
+            />
           </FormProvider>
         </Stack>
       </Stack>

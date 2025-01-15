@@ -8,6 +8,7 @@ import { Weather } from '../weather'
 import { AnomalousArea } from '../anomalous-area'
 import { SoilAnalysis } from '../soil-analysis'
 import { NDVI } from '../ndvi'
+import type { CreditAreaContour } from '@/types/credit-area'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -68,10 +69,18 @@ interface ICustomTabsProps {
   dates: ISelect[]
   series: number[]
   categories: string[]
+  pointerData: CreditAreaContour[]
   setValue: React.Dispatch<React.SetStateAction<number>>
 }
 
-export const CustomTabs = ({ value, setValue, dates, series, categories }: ICustomTabsProps) => {
+export const CustomTabs = ({
+  value,
+  setValue,
+  dates,
+  series,
+  categories,
+  pointerData,
+}: ICustomTabsProps) => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
@@ -88,7 +97,7 @@ export const CustomTabs = ({ value, setValue, dates, series, categories }: ICust
         </StyledTabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <Pointers />
+        <Pointers pointerData={pointerData} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <NDVI dates={dates} series={series} categories={categories} />

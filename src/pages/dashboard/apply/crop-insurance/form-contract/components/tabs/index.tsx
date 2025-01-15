@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import { styled } from '@mui/material/styles'
 import { ContractForm } from '../form'
 import LandAreas from '../land-areas'
+import type { CreditAreaContour } from '@/types/credit-area'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -58,13 +59,16 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 interface ICustomTabsProps {
   slug: string | undefined
   value: number
+  pointerData: CreditAreaContour[]
   setValue: React.Dispatch<React.SetStateAction<number>>
 }
 
-export const CustomTabs = ({ slug, value, setValue }: ICustomTabsProps) => {
+export const CustomTabs = ({ slug, value, pointerData, setValue }: ICustomTabsProps) => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
+
+  console.log(pointerData, 'data')
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -78,7 +82,7 @@ export const CustomTabs = ({ slug, value, setValue }: ICustomTabsProps) => {
         <ContractForm slug={slug} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <LandAreas />
+        <LandAreas pointerData={pointerData} />
       </CustomTabPanel>
     </Box>
   )
