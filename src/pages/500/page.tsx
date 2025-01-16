@@ -13,7 +13,7 @@ const ErrorBoundary = ({ children }: HocProps) => {
           onReset={reset}
           fallbackRender={({ resetErrorBoundary }) => (
             <Stack p='50px' height='100%' alignItems='center' justifyContent='center'>
-              <Typography>Oops! Something went Awry</Typography>
+              <Typography>Oops! Something went wrong!</Typography>
               <Typography>
                 We’re sorry, but seems there’s been a hiccup on our end. Our team has been notified
                 and is working diligently to resolve this issue.

@@ -1,14 +1,20 @@
 import { Button, Typography } from '@mui/material'
 import Stack from '@mui/material/Stack'
 import { ReactComponent as Logogreeen } from '@/assets/icons/logo-green.svg'
-import { Form } from 'react-router-dom'
+import { Form, Navigate } from 'react-router-dom'
 import { Input } from '@/components/inputs/input'
 import { InputPassword } from '@/components/inputs/input-password'
 import { useLogin } from './useLogin'
 import { LoadingOverlay } from '@/components/loading-overlay'
+import { ROUTER } from '@/constants/router'
 
 const Auth = () => {
+  const user = localStorage.getItem('token')
   const { form, onLogin, isLoading } = useLogin()
+
+  if (user) {
+    return <Navigate to={ROUTER.HOME} />
+  }
 
   return (
     <Form onSubmit={form.handleSubmit(onLogin)}>
