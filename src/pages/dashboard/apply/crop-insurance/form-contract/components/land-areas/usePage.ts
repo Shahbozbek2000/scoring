@@ -152,19 +152,6 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
           marker.bindPopup(`<b>${station?.station?.name}</b>`)
         }
       })
-
-      const latLngs = meteoData
-        .map((station: any) => {
-          const { coordinates } = station?.station?.location
-          return coordinates ? [coordinates[1], coordinates[0]] : null
-        })
-        .filter(Boolean)
-
-      if (latLngs.length > 0) {
-        map?.flyToBounds(latLngs, {
-          maxZoom: 16,
-        })
-      }
     }
   }, [meteoData, map])
 
