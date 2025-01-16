@@ -35,6 +35,7 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
   const [map, setMap] = useState<L.Map | null>(null)
   const [value, setValue] = useState(0)
   const [dates, setDates] = useState<any[]>([])
+  const [centerLatLng, setCenterLatLng] = useState<L.LatLng | null>(null)
   const [geoLayer, setGeoLayer] = useState<L.LayerGroup | null>(null)
   const [currentOverlay, setCurrentOverlay] = useState<L.ImageOverlay | null>(null)
   const { date } = form.watch()
@@ -82,6 +83,9 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
                 fillColor: 'blue',
                 fillOpacity: 0.1,
               })
+              const bounds = layer.getBounds()
+              const center = bounds.getCenter()
+              setCenterLatLng(center)
             }
           },
         }).addTo(geoLayer!)
@@ -94,10 +98,21 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     },
   })
 
+  console.log(centerLatLng?.lat, 'centerLatLng')
+
   const { data: meteoData = [] } = useQuery({
-    queryKey: ['get-meteo', value],
+    queryKey: [
+      'get-meteo',
+      value,
+      centerLatLng,
+      centerLatLng,
+      centerLatLng?.lng,
+      centerLatLng?.lat,
+    ],
     queryFn: async () =>
-      await request(`meteo/stations/closest?longitude=${CENTER?.[1]}&latitude=${CENTER?.[0]}`),
+      await request(
+        `meteo/stations/closest?longitude=${centerLatLng?.lng}&latitude=${centerLatLng?.lat}`,
+      ),
     select: response => response?.data,
     onSuccess: res => {
       if (res?.length > 0) {
