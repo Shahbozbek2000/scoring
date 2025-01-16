@@ -15,7 +15,7 @@ interface ILandAreasProps {
 }
 
 const LandAreas = ({ pointerData }: ILandAreasProps) => {
-  const { ref, form, data, value, dates, setValue, isLoading } = usePage({ pointerData })
+  const { ref, form, data, value, dates, setValue, isLoading, meteoData } = usePage({ pointerData })
 
   const series = data?.map((item: any) => Number(item?.average_ndvi)?.toFixed(2))
   const categories = data?.map((item: any) => dayjs(item?.time).locale('uz-latn').format('DD MMM'))
@@ -39,6 +39,7 @@ const LandAreas = ({ pointerData }: ILandAreasProps) => {
             series={series}
             categories={categories}
             pointerData={pointerData}
+            meteoData={meteoData}
           />
         </FormProvider>
       </Stack>

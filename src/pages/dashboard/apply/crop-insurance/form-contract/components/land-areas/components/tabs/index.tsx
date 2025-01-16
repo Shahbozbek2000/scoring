@@ -9,6 +9,7 @@ import { AnomalousArea } from '../anomalous-area'
 import { SoilAnalysis } from '../soil-analysis'
 import { NDVI } from '../ndvi'
 import type { CreditAreaContour } from '@/types/credit-area'
+import type { StationData } from '@/types/meteo'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -70,6 +71,7 @@ interface ICustomTabsProps {
   series: number[]
   categories: string[]
   pointerData: CreditAreaContour[]
+  meteoData: StationData[]
   setValue: React.Dispatch<React.SetStateAction<number>>
 }
 
@@ -80,10 +82,13 @@ export const CustomTabs = ({
   series,
   categories,
   pointerData,
+  meteoData,
 }: ICustomTabsProps) => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
+
+  console.log(meteoData, 'meteoData')
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -92,8 +97,8 @@ export const CustomTabs = ({
           <StyledTab label="Ko'rsatgichlari" {...a11yProps(0)} />
           <StyledTab label='NDVI' {...a11yProps(1)} />
           <StyledTab label='Ob-havo' {...a11yProps(2)} />
-          <StyledTab label='Anamal hudud' {...a11yProps(3)} />
           <StyledTab label='Tuproq tahlili' {...a11yProps(4)} />
+          <StyledTab label='Anamal hudud' {...a11yProps(3)} disabled />
         </StyledTabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -106,10 +111,10 @@ export const CustomTabs = ({
         <Weather />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <AnomalousArea />
+        <SoilAnalysis data={meteoData} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <SoilAnalysis />
+        <AnomalousArea />
       </CustomTabPanel>
     </Box>
   )

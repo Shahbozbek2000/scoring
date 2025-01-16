@@ -27,3 +27,7 @@ export const rejectApplications = async (payload: any) => {
 export const acceptApplications = async <T>(id: any, data?: T) => {
   return await request.post(`/application/accept/${id}`, data)
 }
+
+export const getMeteoStations = async () => {
+  return await request('meteo/stations')
+}
