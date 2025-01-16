@@ -98,8 +98,6 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     },
   })
 
-  console.log(centerLatLng?.lat, 'centerLatLng')
-
   const { data: meteoData = [] } = useQuery({
     queryKey: [
       'get-meteo',
