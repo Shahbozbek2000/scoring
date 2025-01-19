@@ -3,7 +3,6 @@ import { CustomPagination } from '@/components/pagination'
 import { CustomTable } from '@/components/table'
 import { Stack } from '@mui/material'
 import { usePage } from './usePage'
-import { Filter } from '@/components/filter'
 import { SetPaymentStatus } from './components/form'
 import BreadcrumpCustom from '@/components/breadcrumb'
 
@@ -13,14 +12,6 @@ const PaymentStatus = () => {
   return (
     <Stack gap='32px'>
       <BreadcrumpCustom />
-      <Stack
-        width='100%'
-        borderRadius='12px'
-        mx='auto'
-        bgcolor={theme => theme.palette.allColors.WHITE}
-      >
-        <Filter />
-      </Stack>
       <Stack
         width='100%'
         borderRadius='12px'
