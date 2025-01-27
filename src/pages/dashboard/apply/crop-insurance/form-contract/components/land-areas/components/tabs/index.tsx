@@ -68,7 +68,7 @@ interface ISelect {
 interface ICustomTabsProps {
   value: number
   dates: ISelect[]
-  series: number[]
+  series: number[] | any
   categories: string[]
   pointerData: CreditAreaContour[]
   meteoData: StationData[]
@@ -87,8 +87,6 @@ export const CustomTabs = ({
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
-
-  console.log(meteoData, 'meteoData')
 
   return (
     <Box sx={{ width: '100%' }}>

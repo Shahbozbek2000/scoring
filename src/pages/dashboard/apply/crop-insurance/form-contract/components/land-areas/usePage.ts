@@ -4,10 +4,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 // @ts-nocheck
 import { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import L, { type LatLngExpression } from 'leaflet'
 import { useQuery } from '@tanstack/react-query'
-import { getNdviWithContour } from '@/apis/ndvi'
 import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import dayjs from 'dayjs'
 import { DATE_FORMAT } from '@/constants/format' // Date formatting
@@ -30,7 +29,7 @@ interface ICreditAreaContour {
 
 export const usePage = ({ pointerData }: ICreditAreaContour) => {
   const form = useFormContext()
-  const params = useParams()
+  const location = useLocation()
   const ref = useRef<HTMLDivElement | null>(null)
   const [map, setMap] = useState<L.Map | null>(null)
   const [value, setValue] = useState(0)
@@ -39,6 +38,8 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
   const [geoLayer, setGeoLayer] = useState<L.LayerGroup | null>(null)
   const [currentOverlay, setCurrentOverlay] = useState<L.ImageOverlay | null>(null)
   const { date } = form.watch()
+  const query = new URLSearchParams(location.search)
+  const apply_number = query.get('number')
 
   useEffect(() => {
     const mapInstance = new L.map(ref.current!, {
@@ -57,19 +58,28 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     }
   }, [])
 
-  const { data, isLoading } = useQuery({
-    queryKey: [REACT_QUERY_KEYS.GET_NDVI_WITH_CONTOUR, params?.id],
-    queryFn: async () => await getNdviWithContour(params?.id),
+  const { data = [], isLoading } = useQuery({
+    queryKey: [REACT_QUERY_KEYS.GET_NDVI_WITH_CONTOUR, apply_number],
+    queryFn: async () => await request(`ndvi/insurance/${apply_number}`),
+    select: res => {
+      if (Array.isArray(res?.data)) {
+        return res?.data
+      } else {
+        return []
+      }
+    },
     onSuccess: res => {
-      setDates(
-        res?.data?.map((ndvi: any) => ({
-          label: `${dayjs(ndvi?.time).format(DATE_FORMAT)}`,
-          value: `${dayjs(ndvi?.time).format(DATE_FORMAT)}`,
-        })),
-      )
-      form.reset({
-        date: res?.data?.length > 0 ? dayjs(res?.data?.[0]?.time).format(DATE_FORMAT) : '',
-      })
+      if (Array.isArray(res)) {
+        setDates(
+          res?.map((ndvi: any) => ({
+            label: `${dayjs(ndvi?.time).format(DATE_FORMAT)}`,
+            value: `${dayjs(ndvi?.time).format(DATE_FORMAT)}`,
+          })),
+        )
+        form.reset({
+          date: res?.length > 0 ? dayjs(res?.[0]?.time).format(DATE_FORMAT) : '',
+        })
+      }
 
       pointerData.forEach((item: CreditAreaContour) => {
         const geometry = item.data?.features?.[0]?.geometry
@@ -97,6 +107,8 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
       })
     },
   })
+
+  console.log(data, 'data')
 
   const { data: meteoData = [] } = useQuery({
     queryKey: [
@@ -127,10 +139,11 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     },
     enabled: value === 3,
   })
+  console.log(value, 'value')
 
   useEffect(() => {
     if (value === 1) {
-      const record = data?.data?.find((ndvi: any) => dayjs(ndvi?.time).format(DATE_FORMAT) === date)
+      const record = data?.find((ndvi: any) => dayjs(ndvi?.time).format(DATE_FORMAT) === date)
       if (record) {
         displayRecord(record, map?.getBounds())
       }
@@ -140,7 +153,7 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
         setCurrentOverlay(null) // Clear the overlay state
       }
     }
-  }, [date, data?.data, value])
+  }, [date, data, value])
 
   useEffect(() => {
     if (meteoData?.length > 0) {
@@ -156,6 +169,7 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
   }, [meteoData, map])
 
   const displayRecord = (record: any, bounds: L.LatLngBounds) => {
+    console.log(record?.ndvi_image, 'record')
     if (!record?.ndvi_image) {
       console.error('NDVI image data not found in the record')
       return
@@ -166,6 +180,7 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     if (currentOverlay) {
       map?.removeLayer(currentOverlay)
     }
+    console.log(imageUrl, 'imageurl')
 
     const imageBounds = [
       [bounds.getSouth(), bounds.getWest()],
@@ -173,7 +188,7 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     ]
 
     const overlay = L.imageOverlay(imageUrl, imageBounds, {
-      opacity: 0.8,
+      opacity: 0.8, // Tasvirning shaffofligi
     }).addTo(map!)
 
     setCurrentOverlay(overlay)
@@ -182,7 +197,7 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
   return {
     ref,
     form,
-    data: data?.data,
+    data: data || [],
     value,
     dates,
     setValue,

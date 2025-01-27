@@ -133,7 +133,9 @@ export const usePage = () => {
             reject(info?.row?.original?._id)
           }}
           handleOpen={() => {
-            navigate(`/main/apply/crop-insurance/form-contract/${info?.row?.original?._id}`)
+            navigate(
+              `/main/apply/crop-insurance/form-contract/${info?.row?.original?._id}?number=${info?.row?.original?.number}`,
+            )
           }}
           info={info}
         />
