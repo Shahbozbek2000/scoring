@@ -11,17 +11,24 @@ import 'leaflet-fullscreen'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 
 interface ILandAreasProps {
+  details: any
   pointerData: CreditAreaContour[]
 }
 
-const LandAreas = ({ pointerData }: ILandAreasProps) => {
+const LandAreas = ({ details, pointerData }: ILandAreasProps) => {
   const { ref, form, data, value, dates, setValue, isLoading, meteoData } = usePage({ pointerData })
 
-  const series = data?.map((item: any) => Number(item?.average_ndvi)?.toFixed(2)) || []
-  const categories =
-    data?.map((item: any) => dayjs(item?.time).locale('uz-latn').format('DD MMM')) || []
+  const series = Array.isArray(data)
+    ? data?.map((item: any) =>
+        value === 1
+          ? Number(item?.average_ndvi)?.toFixed(2)
+          : Number(item?.average_ndwi)?.toFixed(2),
+      )
+    : []
+  const categories = Array.isArray(data)
+    ? data?.map((item: any) => dayjs(item?.time).locale('uz-latn').format('DD MMM'))
+    : []
 
-  console.log(data, 'data')
   return (
     <Stack>
       <Stack
@@ -42,6 +49,7 @@ const LandAreas = ({ pointerData }: ILandAreasProps) => {
             categories={categories}
             pointerData={pointerData}
             meteoData={meteoData}
+            details={details}
           />
         </FormProvider>
       </Stack>

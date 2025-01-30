@@ -115,3 +115,11 @@ fieldset {
 .MuiPaginationItem-root svg {
   fill: #000;
 }
+
+.info.legend {
+  background: white;
+  padding: 8px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  font-size: 12px;
+}

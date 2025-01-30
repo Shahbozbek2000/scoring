@@ -54,8 +54,6 @@ export const usePage = () => {
     keepPreviousData: true,
   })
 
-  console.log(data, 'data')
-
   const columns = [
     columnHelper.accessor('number', {
       cell: info => info.row.index + 1,

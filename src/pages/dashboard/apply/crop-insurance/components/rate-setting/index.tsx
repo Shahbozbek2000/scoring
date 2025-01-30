@@ -60,7 +60,6 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
       return response?.data?.payment_schedule
     },
   })
-  console.log(data, 'data')
 
   useEffect(() => {
     const totalAmount = watchedPaymentPercentage.reduce(

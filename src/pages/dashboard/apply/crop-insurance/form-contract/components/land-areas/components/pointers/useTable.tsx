@@ -40,9 +40,9 @@ export const useTable = ({ pointerData }: ITableProps) => {
       pointerData?.map((point: any) => {
         const properties = point?.data?.features?.[0]?.properties
         return {
-          cad_number: properties?.cad_number,
-          contour_number: properties?.contour_number,
-          ball_bonitet: properties?.ball_bonitet,
+          cad_number: properties?.cad_number ?? '-',
+          contour_number: properties?.contour_number ?? '-',
+          ball_bonitet: properties?.ball_bonitet ?? '-',
         }
       }) || [],
     columns,

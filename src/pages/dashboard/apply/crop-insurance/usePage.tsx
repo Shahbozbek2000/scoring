@@ -72,7 +72,12 @@ export const usePage = () => {
 
   const columns = [
     columnHelper.accessor('number', {
-      cell: info => info.row.index + 1,
+      cell: info => {
+        const currentPage = params?.page
+        const limit = params?.limit
+        const rowIndex = info?.row?.index
+        return (currentPage - 1) * limit + rowIndex + 1
+      },
       header: () => <span>№</span>,
       footer: info => info.column.id,
     }),

@@ -59,16 +59,15 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 interface ICustomTabsProps {
   slug: string | undefined
   value: number
+  details: any
   pointerData: CreditAreaContour[]
   setValue: React.Dispatch<React.SetStateAction<number>>
 }
 
-export const CustomTabs = ({ slug, value, pointerData, setValue }: ICustomTabsProps) => {
+export const CustomTabs = ({ slug, value, details, pointerData, setValue }: ICustomTabsProps) => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
-
-  console.log(pointerData, 'data')
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -82,7 +81,7 @@ export const CustomTabs = ({ slug, value, pointerData, setValue }: ICustomTabsPr
         <ContractForm slug={slug} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <LandAreas pointerData={pointerData} />
+        <LandAreas details={details} pointerData={pointerData} />
       </CustomTabPanel>
     </Box>
   )

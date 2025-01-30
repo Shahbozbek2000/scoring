@@ -19,14 +19,9 @@ export const usePage = () => {
     onSuccess: response => {
       form.reset({
         ...response,
-        company_name: response?.farmer_name,
-        area: response?.crop_area,
-        pin: response?.farmer_stir,
       })
     },
   })
-
-  console.log(details, 'details')
 
   return {
     slug: id,

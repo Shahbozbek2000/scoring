@@ -10,6 +10,7 @@ import { SoilAnalysis } from '../soil-analysis'
 import { NDVI } from '../ndvi'
 import type { CreditAreaContour } from '@/types/credit-area'
 import type { StationData } from '@/types/meteo'
+import { MNDWI } from '../mndwi'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -72,6 +73,7 @@ interface ICustomTabsProps {
   categories: string[]
   pointerData: CreditAreaContour[]
   meteoData: StationData[]
+  details: any
   setValue: React.Dispatch<React.SetStateAction<number>>
 }
 
@@ -83,6 +85,7 @@ export const CustomTabs = ({
   categories,
   pointerData,
   meteoData,
+  details,
 }: ICustomTabsProps) => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -94,25 +97,25 @@ export const CustomTabs = ({
         <StyledTabs value={value} onChange={handleChange} aria-label='custom styled tabs'>
           <StyledTab label="Ko'rsatgichlari" {...a11yProps(0)} />
           <StyledTab label='NDVI' {...a11yProps(1)} />
-          <StyledTab label='Ob-havo' {...a11yProps(2)} />
+          <StyledTab label='MNDWI' {...a11yProps(2)} />
+          <StyledTab label='Ob-havo' {...a11yProps(3)} />
           <StyledTab label='Tuproq tahlili' {...a11yProps(4)} />
-          <StyledTab label='Anamal hudud' {...a11yProps(3)} disabled />
         </StyledTabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <Pointers pointerData={pointerData} />
+        <Pointers details={details} pointerData={pointerData} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <NDVI dates={dates} series={series} categories={categories} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <Weather />
+        <MNDWI dates={dates} series={series} categories={categories} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <SoilAnalysis data={meteoData} />
+        <Weather />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <AnomalousArea />
+        <SoilAnalysis data={meteoData} />
       </CustomTabPanel>
     </Box>
   )

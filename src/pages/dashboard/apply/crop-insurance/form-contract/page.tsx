@@ -21,6 +21,7 @@ const FormContract = () => {
             <CustomTabs
               slug={slug}
               value={value}
+              details={details}
               pointerData={details?.credit_area_contour_numbers}
               setValue={setValue}
             />
