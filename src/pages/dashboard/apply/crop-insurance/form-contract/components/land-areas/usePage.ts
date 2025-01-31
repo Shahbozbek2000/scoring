@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 /* eslint-disable no-unsafe-optional-chaining */
@@ -46,6 +47,16 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
   const query = new URLSearchParams(location.search)
   const apply_number = query.get('number')
 
+  const ndviColors = {
+    veryLow: '#d73027',
+    low: '#f46d43',
+    modLow: '#fdae61',
+    moderate: '#fee08b',
+    modHigh: '#d9ef8b',
+    high: '#a6d96a',
+    veryHigh: '#1a9850',
+  }
+
   useEffect(() => {
     const mapInstance = new L.map(ref.current!, {
       zoom: ZOOM,
@@ -71,15 +82,14 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
       const div = L.DomUtil.create('div', 'info legend')
 
       if (value === 2) {
-        // Suv indeksi legend
         const waterLabels = [
-          { color: '#f7fcfd', label: 'Very Low' },
-          { color: '#e5f5f9', label: 'Low' },
-          { color: '#ccece6', label: 'Mod. Low' },
-          { color: '#99d8c9', label: 'Moderate' },
-          { color: '#66c2a4', label: 'Mod. High' },
-          { color: '#2ca25f', label: 'High' },
-          { color: '#006d2c', label: 'Very High' },
+          { color: '#4a148c', label: 'Juda past suv indeksi' },
+          { color: '#5c6bc0', label: 'Past suv indeksi' },
+          { color: '#7986cb', label: "O'rtacha past suv indeksi" },
+          { color: '#9fa8da', label: "O'rta suv indeksi" },
+          { color: '#c5cae9', label: "O'rtacha yuqori suv indeksi" },
+          { color: '#e8eaf6', label: 'Yuqori suv indeksi' },
+          { color: '#f5f5ff', label: 'Juda yuqori suv indeksi' },
         ]
 
         div.innerHTML += '<strong>Suv indeksi</strong><br>'
@@ -89,13 +99,13 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
       } else {
         // NDVI legend
         const ndviLabels = [
-          { color: ndviColors.veryLow, label: 'Very Low' },
-          { color: ndviColors.low, label: 'Low' },
-          { color: ndviColors.modLow, label: 'Mod. Low' },
-          { color: ndviColors.moderate, label: 'Moderate' },
-          { color: ndviColors.modHigh, label: 'Mod. High' },
-          { color: ndviColors.high, label: 'High' },
-          { color: ndviColors.veryHigh, label: 'Very High' },
+          { color: ndviColors.veryLow, label: "Juda past o'simlik qoplami" },
+          { color: ndviColors.low, label: "Past o'simlik qoplami" },
+          { color: ndviColors.modLow, label: "O'rtacha past o'simlik qoplami" },
+          { color: ndviColors.moderate, label: "O'rtacha o'simlik qatlami" },
+          { color: ndviColors.modHigh, label: "O'rtacha yuqori o'simlik qoplami" },
+          { color: ndviColors.high, label: "Yuqori o'simlik qoplami" },
+          { color: ndviColors.veryHigh, label: "Juda yuqori o'simlik qoplami" },
         ]
 
         div.innerHTML += '<strong>Vegetatsiya indeksi</strong><br>'
@@ -140,16 +150,15 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     }
   }
 
-  const ndviColors = {
-    veryLow: '#d73027',
-    low: '#f46d43',
-    modLow: '#fdae61',
-    moderate: '#fee08b',
-    modHigh: '#d9ef8b',
-    high: '#a6d96a',
-    veryHigh: '#1a9850',
-  }
-
+  // const ndviColors = {
+  //   veryLow: '#d73027', // Juda past o'simlik qoplami (< 0)
+  //   low: '#f46d43', // Past o'simlik qoplami (0-0.2)
+  //   modLow: '#fdae61', // O'rtacha past o'simlik qoplami (0.2-0.4)
+  //   moderate: '#fee08b', // O'rta o'simlik qoplami (0.4-0.5)
+  //   modHigh: '#d9ef8b', // O'rtacha yuqori o'simlik qoplami (0.5-0.6)
+  //   high: '#a6d96a', // Yuqori o'simlik qoplami (0.6-0.8)
+  //   veryHigh: '#1a9850', // Juda yuqori o'simlik qoplami (>0.8)
+  // }
   const displayTiffOnMap = async (
     tiffFile: { fileName: string; content: ArrayBuffer },
     map: L.Map,
