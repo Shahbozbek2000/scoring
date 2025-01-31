@@ -57,6 +57,16 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     veryHigh: '#1a9850',
   }
 
+  const waterNdwiColors = {
+    veryLow: '#4a148c',
+    low: '#5c6bc0',
+    modLow: '#7986cb',
+    moderate: '#9fa8da',
+    modHigh: '#c5cae9',
+    high: '#e8eaf6',
+    veryHigh: '#f5f5ff',
+  }
+
   useEffect(() => {
     const mapInstance = new L.map(ref.current!, {
       zoom: ZOOM,
@@ -83,13 +93,13 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
 
       if (value === 2) {
         const waterLabels = [
-          { color: '#4a148c', label: 'Juda past suv indeksi' },
-          { color: '#5c6bc0', label: 'Past suv indeksi' },
-          { color: '#7986cb', label: "O'rtacha past suv indeksi" },
-          { color: '#9fa8da', label: "O'rta suv indeksi" },
-          { color: '#c5cae9', label: "O'rtacha yuqori suv indeksi" },
-          { color: '#e8eaf6', label: 'Yuqori suv indeksi' },
-          { color: '#f5f5ff', label: 'Juda yuqori suv indeksi' },
+          { color: waterNdwiColors?.veryLow, label: 'Juda past suv indeksi' },
+          { color: waterNdwiColors.low, label: 'Past suv indeksi' },
+          { color: waterNdwiColors.modLow, label: "O'rtacha past suv indeksi" },
+          { color: waterNdwiColors.moderate, label: "O'rta suv indeksi" },
+          { color: waterNdwiColors.modHigh, label: "O'rtacha yuqori suv indeksi" },
+          { color: waterNdwiColors.high, label: 'Yuqori suv indeksi' },
+          { color: waterNdwiColors.veryHigh, label: 'Juda yuqori suv indeksi' },
         ]
 
         div.innerHTML += '<strong>Suv indeksi</strong><br>'
@@ -97,7 +107,6 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
           div.innerHTML += `<i style="background: ${color}; width: 12px; height: 12px; display: inline-block; margin-right: 5px;"></i> ${label}<br>`
         })
       } else {
-        // NDVI legend
         const ndviLabels = [
           { color: ndviColors.veryLow, label: "Juda past o'simlik qoplami" },
           { color: ndviColors.low, label: "Past o'simlik qoplami" },
