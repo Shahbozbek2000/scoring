@@ -159,15 +159,6 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     }
   }
 
-  // const ndviColors = {
-  //   veryLow: '#d73027', // Juda past o'simlik qoplami (< 0)
-  //   low: '#f46d43', // Past o'simlik qoplami (0-0.2)
-  //   modLow: '#fdae61', // O'rtacha past o'simlik qoplami (0.2-0.4)
-  //   moderate: '#fee08b', // O'rta o'simlik qoplami (0.4-0.5)
-  //   modHigh: '#d9ef8b', // O'rtacha yuqori o'simlik qoplami (0.5-0.6)
-  //   high: '#a6d96a', // Yuqori o'simlik qoplami (0.6-0.8)
-  //   veryHigh: '#1a9850', // Juda yuqori o'simlik qoplami (>0.8)
-  // }
   const displayTiffOnMap = async (
     tiffFile: { fileName: string; content: ArrayBuffer },
     map: L.Map,
