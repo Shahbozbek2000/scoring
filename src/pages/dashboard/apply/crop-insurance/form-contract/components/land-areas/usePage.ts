@@ -192,13 +192,16 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     queryFn: async () => {
       const endpoint =
         value === 2 ? `ndwi/insurance/${apply_number}` : `ndvi/insurance/${apply_number}`
-      return await request(endpoint, { responseType: 'blob' })
+      return await request(endpoint, {
+        responseType: 'blob',
+      })
     },
     select: async res => {
-      const files = parseZipFile(res?.data)
-      return await files
+      const files = await parseZipFile(res?.data)
+      return files
     },
     onSuccess: async res => {
+      console.log(await res, 'res')
       const result = await res
       setTiffList(result?.tiffFiles)
       setNdviList(result?.metadata)
@@ -218,7 +221,7 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
         })
       }
 
-      pointerData.forEach((item: CreditAreaContour) => {
+      pointerData?.forEach((item: CreditAreaContour) => {
         const geometry = item.data?.features?.[0]?.geometry
         const geo = L.geoJSON(geometry, {
           onEachFeature: (feature, layer) => {
@@ -312,7 +315,7 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
         }
       })
     }
-  }, [meteoData, map])
+  }, [meteoData])
 
   return {
     ref,

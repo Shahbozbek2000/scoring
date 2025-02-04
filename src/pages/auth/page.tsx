@@ -33,7 +33,7 @@ const Auth = () => {
           fontSize='24px'
           mb='24px'
         >
-          Hisobga kiring
+          Tizimga kiring
         </Typography>
 
         <Stack width='100%' gap='24px' direction='row' alignItems='center'>

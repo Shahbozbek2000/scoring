@@ -25,7 +25,7 @@ export const pages = [
     id: 4,
     name: 'Yer maydonlari',
     Icon: IconLandAreas,
-    link: 'land-areas',
+    link: '/main',
     disabled: true,
     show: false,
   },
