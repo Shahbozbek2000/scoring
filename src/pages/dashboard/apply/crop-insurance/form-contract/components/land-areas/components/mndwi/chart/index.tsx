@@ -5,7 +5,7 @@ interface IVegetationChart {
   categories: string[]
 }
 
-export const VegetationChart = ({ series, categories }: IVegetationChart) => {
+export const VegetationChart = ({ series = [], categories = [] }: IVegetationChart) => {
   const data = [
     {
       name: 'Средняя',

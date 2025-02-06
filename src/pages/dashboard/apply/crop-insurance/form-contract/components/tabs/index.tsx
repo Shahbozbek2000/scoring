@@ -69,6 +69,8 @@ export const CustomTabs = ({ slug, value, details, pointerData, setValue }: ICus
     setValue(newValue)
   }
 
+  console.log(pointerData, 'pointerData')
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

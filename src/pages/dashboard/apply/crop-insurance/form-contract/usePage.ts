@@ -17,9 +17,14 @@ export const usePage = () => {
       return res?.data
     },
     onSuccess: response => {
-      form.reset({
-        ...response,
-      })
+      if (response) {
+        form.reset({
+          company_name: response?.farmer_name,
+          area: response?.crop_area,
+          pin: response?.farmer_stir,
+          ...response,
+        })
+      }
     },
   })
 

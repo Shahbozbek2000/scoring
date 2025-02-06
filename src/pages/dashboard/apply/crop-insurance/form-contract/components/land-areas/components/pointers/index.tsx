@@ -4,7 +4,6 @@ import { Grid, Stack } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
 import { useTable } from './useTable'
 import type { CreditAreaContour } from '@/types/credit-area'
-import { useEffect } from 'react'
 
 interface IPointersProps {
   details: any
@@ -15,13 +14,6 @@ export const Pointers = ({ details, pointerData }: IPointersProps) => {
   const form = useFormContext()
   const { data, columns } = useTable({ pointerData })
 
-  useEffect(() => {
-    form.reset({
-      company_name: details?.farmer_name,
-      area: details?.crop_area,
-      pin: details?.farmer_stir,
-    })
-  }, [details, form])
   return (
     <Stack gap='24px'>
       <Grid container spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }}>

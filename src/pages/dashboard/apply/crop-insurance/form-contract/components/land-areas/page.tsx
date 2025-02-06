@@ -8,6 +8,7 @@ import type { CreditAreaContour } from '@/types/credit-area'
 import 'leaflet-fullscreen'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import { COLORS } from '@/constants/css'
+import { useEffect, useState } from 'react'
 
 interface ILandAreasProps {
   details: any
@@ -16,22 +17,29 @@ interface ILandAreasProps {
 
 const LandAreas = ({ details, pointerData }: ILandAreasProps) => {
   const { ref, form, data, value, dates, setValue, isLoading, meteoData } = usePage({ pointerData })
+  const [series, setSeries] = useState<string[]>([])
+  const [categories, setCategories] = useState<string[]>([])
 
-  const series = Array.isArray(data)
-    ? data?.map((item: any) =>
+  useEffect(() => {
+    if (Array.isArray(data)) {
+      const updatedSeries = data.map((item: any) =>
         value === 1
           ? Number(item?.average_ndvi)?.toFixed(2)
           : Number(item?.average_ndwi)?.toFixed(2),
       )
-    : []
-  const categories = Array.isArray(data)
-    ? data?.map((item: any) => {
+      const updateCategories = data?.map((item: any) => {
         const date = new Date(item?.time)
         const day = String(date.getDate()).padStart(2, '0')
         const month = date.toLocaleString('default', { month: 'short' })
         return `${day} ${month}`
       })
-    : []
+      setSeries(updatedSeries)
+      setCategories(updateCategories)
+    } else {
+      setSeries([])
+      setCategories([])
+    }
+  }, [data, value])
 
   return (
     <Stack>
