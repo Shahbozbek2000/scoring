@@ -5,10 +5,9 @@ import { LoadingOverlay } from '@/components/loading-overlay'
 import { MapContainer } from './style'
 import { FormProvider } from 'react-hook-form'
 import type { CreditAreaContour } from '@/types/credit-area'
-import dayjs from 'dayjs'
-import 'dayjs/locale/uz-latn.js'
 import 'leaflet-fullscreen'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
+import { COLORS } from '@/constants/css'
 
 interface ILandAreasProps {
   details: any
@@ -26,7 +25,12 @@ const LandAreas = ({ details, pointerData }: ILandAreasProps) => {
       )
     : []
   const categories = Array.isArray(data)
-    ? data?.map((item: any) => dayjs(item?.time).locale('uz-latn').format('DD MMM'))
+    ? data?.map((item: any) => {
+        const date = new Date(item?.time)
+        const day = String(date.getDate()).padStart(2, '0')
+        const month = date.toLocaleString('default', { month: 'short' })
+        return `${day} ${month}`
+      })
     : []
 
   return (
@@ -37,16 +41,16 @@ const LandAreas = ({ details, pointerData }: ILandAreasProps) => {
         p='32px 24px'
         mx='auto'
         gap='24px'
-        bgcolor={theme => theme.palette.allColors.WHITE}
+        bgcolor={COLORS.WHITE}
       >
         <MapContainer ref={ref} />
         <FormProvider {...form}>
           <CustomTabs
             value={value}
             setValue={setValue}
-            dates={dates}
-            series={series}
-            categories={categories}
+            dates={dates || []}
+            series={series || []}
+            categories={categories || []}
             pointerData={pointerData}
             meteoData={meteoData}
             details={details}
