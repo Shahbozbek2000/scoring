@@ -74,15 +74,15 @@ export const CustomTabs = ({ slug, value, details, pointerData, setValue }: ICus
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <StyledTabs value={value} onChange={handleChange} aria-label='custom styled tabs'>
           <StyledTab label='Shartnoma generatsiya qilish' {...a11yProps(0)} />
-          <StyledTab label='Yer maydonlari' {...a11yProps(1)} />
+          {/* <StyledTab label='Yer maydonlari' {...a11yProps(1)} /> */}
         </StyledTabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
         <ContractForm slug={slug} />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
+      {/* <CustomTabPanel value={value} index={1}>
         <LandAreas details={details} pointerData={pointerData} />
-      </CustomTabPanel>
+      </CustomTabPanel> */}
     </Box>
   )
 }
