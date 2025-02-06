@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/array-type */
 import ReactApexChart from 'react-apexcharts'
-import dayjs from 'dayjs'
 
 interface IVegetationChart {
   series: number[]
