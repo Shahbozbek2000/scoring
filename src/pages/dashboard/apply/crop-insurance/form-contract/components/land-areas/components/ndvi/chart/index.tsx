@@ -1,11 +1,6 @@
 /* eslint-disable @typescript-eslint/array-type */
 import ReactApexChart from 'react-apexcharts'
 import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
-import { useFormContext } from 'react-hook-form'
-import { DATE_FORMAT } from '@/constants/format'
-
-dayjs.extend(customParseFormat)
 
 interface IVegetationChart {
   series: number[]
@@ -13,8 +8,6 @@ interface IVegetationChart {
 }
 
 export const VegetationChart = ({ series, categories }: IVegetationChart) => {
-  const form = useFormContext()
-
   const data = [
     {
       name: 'Средняя',
@@ -47,33 +40,11 @@ export const VegetationChart = ({ series, categories }: IVegetationChart) => {
       hover: { sizeOffset: 2 },
     },
     dataLabels: {
-      enabled: true,
+      enabled: false,
       style: {
         fontSize: '12px',
         colors: ['#A855F7'],
         borderRadius: '50%',
-      },
-      formatter: function (
-        val: number,
-        {
-          seriesIndex,
-          dataPointIndex,
-          w,
-        }: {
-          seriesIndex: number
-          dataPointIndex: number
-          w: { config: { series: { data: { date: string }[] }[] }; globals: any }
-        },
-      ) {
-        if (
-          dayjs(`${w?.globals?.categoryLabels[dataPointIndex]} 2024`, 'DD MMMM YYYY')
-            .add(1, 'month')
-            .format('DD.MM.YYYY') === dayjs(form.watch('date')).format(DATE_FORMAT)
-        ) {
-          return val.toFixed(2)
-        } else {
-          return ''
-        }
       },
     },
 
