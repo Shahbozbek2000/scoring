@@ -80,9 +80,9 @@ export const CustomTabs = ({ slug, value, details, pointerData, setValue }: ICus
       <CustomTabPanel value={value} index={0}>
         <ContractForm slug={slug} />
       </CustomTabPanel>
-      {/* <CustomTabPanel value={value} index={1}>
+      <CustomTabPanel value={value} index={1}>
         <LandAreas details={details} pointerData={pointerData} />
-      </CustomTabPanel> */}
+      </CustomTabPanel>
     </Box>
   )
 }
