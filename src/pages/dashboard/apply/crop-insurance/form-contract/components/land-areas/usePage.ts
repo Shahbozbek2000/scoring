@@ -1,9 +1,7 @@
-/* eslint-disable quotes */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 /* eslint-disable no-unsafe-optional-chaining */
-/* eslint-disable new-cap */
+/* eslint-disable quotes */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable new-cap */
 // @ts-nocheck
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -201,7 +199,6 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
       return files
     },
     onSuccess: async res => {
-      console.log(await res, 'res')
       const result = await res
       setTiffList(result?.tiffFiles)
       setNdviList(result?.metadata)
@@ -307,15 +304,15 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
   useEffect(() => {
     if (meteoData?.length > 0) {
       meteoData.forEach((station: any) => {
-        const { coordinates } = station?.station?.location
+        const coordinates = station?.station?.location?.coordinates
         if (coordinates) {
           const [lng, lat] = coordinates
-          const marker = L.marker([lat, lng]).addTo(map)
+          const marker = L.marker([lat, lng]).addTo(map!)
           marker.bindPopup(`<b>${station?.station?.name}</b>`)
         }
       })
     }
-  }, [meteoData])
+  }, [meteoData, map])
 
   return {
     ref,

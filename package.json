@@ -98,5 +98,10 @@
   "lint-staged": {
     "*.js": "eslint --cache --fix",
     "*.{js,css,md,vue,json,ts,tsx,jsx}": "prettier --write"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/v3/ts/types/georaster-layer-for-leaflet.d.ts"
+    }
   }
 }
