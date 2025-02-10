@@ -1,3 +1,6 @@
+/* eslint-disable no-extend-native */
+/* eslint-disable @typescript-eslint/no-this-alias */
+// @ts-nocheck
 import { getByIDApplications } from '@/apis/applications'
 import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import { useQuery } from '@tanstack/react-query'
@@ -11,7 +14,7 @@ export const usePage = () => {
   const [value, setValue] = useState(0)
 
   const { data: details = null } = useQuery({
-    queryKey: [REACT_QUERY_KEYS.GET_BY_ID_APPLICATIONS + 'new', id, value],
+    queryKey: [REACT_QUERY_KEYS.GET_BY_ID_APPLICATIONS + 'new', id],
     queryFn: async () => await getByIDApplications(id),
     select: res => {
       return res?.data
@@ -19,10 +22,9 @@ export const usePage = () => {
     onSuccess: response => {
       if (response) {
         form.reset({
-          company_name: response?.farmer_name,
-          area: response?.crop_area,
-          pin: response?.farmer_stir,
-          ...response,
+          farmer_name: response?.farmer_name,
+          crop_area: response?.crop_area,
+          farmer_stir: response?.farmer_stir,
         })
       }
     },

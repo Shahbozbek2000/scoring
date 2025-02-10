@@ -8,7 +8,6 @@ import type { CreditAreaContour } from '@/types/credit-area'
 import 'leaflet-fullscreen'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import { COLORS } from '@/constants/css'
-import { useEffect } from 'react'
 
 interface ILandAreasProps {
   details: any

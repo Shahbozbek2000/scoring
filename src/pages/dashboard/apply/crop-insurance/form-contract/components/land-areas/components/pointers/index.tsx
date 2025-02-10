@@ -1,9 +1,8 @@
-import { Input } from '@/components/inputs/input'
 import { CustomTable } from '@/components/table'
 import { Grid, Stack } from '@mui/material'
-import { useFormContext } from 'react-hook-form'
 import { useTable } from './useTable'
 import type { CreditAreaContour } from '@/types/credit-area'
+import { Box, Label } from './style'
 
 interface IPointersProps {
   details: any
@@ -11,45 +10,28 @@ interface IPointersProps {
 }
 
 export const Pointers = ({ details, pointerData }: IPointersProps) => {
-  const form = useFormContext()
   const { data, columns } = useTable({ pointerData })
 
   return (
     <Stack gap='24px'>
       <Grid container spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         <Grid item xs={6} sm={4} md={4}>
-          <Input
-            control={form.control}
-            name='company_name'
-            placeholder='Korxona nomi'
-            label='Korxona nomi'
-            InputProps={{
-              readOnly: true,
-            }}
-          />
+          <Stack>
+            <Label>Korxona nomi</Label>
+            <Box>{details?.farmer_name}</Box>
+          </Stack>
         </Grid>
         <Grid item xs={6} sm={4} md={4}>
-          <Input
-            control={form.control}
-            name='area'
-            placeholder='Maydoni'
-            label='Maydoni'
-            type='number'
-            InputProps={{
-              readOnly: true,
-            }}
-          />
+          <Stack>
+            <Label>Maydoni</Label>
+            <Box>{details?.crop_area}</Box>
+          </Stack>
         </Grid>
         <Grid item xs={6} sm={4} md={4}>
-          <Input
-            control={form.control}
-            name='pin'
-            placeholder='INN'
-            label='INN'
-            InputProps={{
-              readOnly: true,
-            }}
-          />
+          <Stack>
+            <Label>INN</Label>
+            <Box>{details?.farmer_stir}</Box>
+          </Stack>
         </Grid>
       </Grid>
       <CustomTable options={{ data, columns }} emptyTitle="Ma'lumot mavjud emas" />
