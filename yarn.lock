@@ -2383,25 +2383,6 @@ cache-base@^1.0.1:
     union-value "^1.0.0"
     unset-value "^1.0.0"
 
-calc-image-stats@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/calc-image-stats/-/calc-image-stats-0.9.0.tgz#23f8c3c9f8063c0782f45ff62a10633bac799e7c"
-  integrity sha512-gmcoP0Y22MBuh6XGKt0F5ynaZICCgmo6ktQUugaJB1Ep5sqvbVbPbyTVPkqwiPqnFqyEGIMNXTMgObN7li21TQ==
-  dependencies:
-    calc-stats "^2.2.0"
-    guess-image-layout "^0.1.0"
-    xdim "^1.10.1"
-
-calc-stats@^2.2.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/calc-stats/-/calc-stats-2.6.0.tgz#8d97ee30e0044481525e572fca493720242b5733"
-  integrity sha512-EbpayI2/K1ZaCGnhlWdCR6hBlQjz2+bvhQaHaUannLW8AjU3wZ+U3e+4/SiVfcuj0iNG1eA89dtG4G+86zHRPw==
-  dependencies:
-    iter-fun "^0.2.0"
-    mediana "^1.0.3"
-    preciso "^0.12.2"
-    quick-resolve "^0.0.1"
-
 call-bind@^1.0.2, call-bind@^1.0.5, call-bind@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/call-bind/-/call-bind-1.0.6.tgz#6c46675fc7a5e9de82d75a233d586c8b7ac0d931"
@@ -3879,12 +3860,11 @@ georaster-to-canvas@0.2.0:
   resolved "https://registry.yarnpkg.com/georaster-to-canvas/-/georaster-to-canvas-0.2.0.tgz#fb25bddf2c531ce3c4b31a30ee56a3bbbfb2a7ab"
   integrity sha512-Jt8xZU9T8wLk2aDXjz8QzA+KtrGcQ4qq5IHoAS2Llf216mcJxxkTgvDTnMXmDLZMApqNwjYyc3YKfN4yMj3NFw==
 
-georaster@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/georaster/-/georaster-1.6.0.tgz#9b321e02ab6f56fd52caeab6d47a81ad624241b3"
-  integrity sha512-Z/mzrOo8Ab6gWZHKIKFlspMgDirCRcSmpCPe8MP+2s0FeEjZcgD3TRrhM41v9xAWUXSLZGRin3UiBeY4FXvaBw==
+georaster@1.5.6:
+  version "1.5.6"
+  resolved "https://registry.yarnpkg.com/georaster/-/georaster-1.5.6.tgz#6450865dde57293ef3855f61b4192400a6d38963"
+  integrity sha512-eAvA03canaGrhtNOntrWqOWhZGWuBC58l3j0LdcySRbS2PjVaF98Rx2q9eRnJm4iDW9o8jBrDVru7/wuMqCeBw==
   dependencies:
-    calc-image-stats "^0.9.0"
     cross-fetch "^3.0.4"
     georaster-to-canvas "0.2.0"
     geotiff "1.0.0-beta.13"
@@ -4162,13 +4142,6 @@ guess-image-layout@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/guess-image-layout/-/guess-image-layout-0.0.3.tgz#bac9d71d51e0e5bfa03e1dad03f2cca6dcfadb65"
   integrity sha512-NSyI66Ax/7StYZ8Vi1txnJn02pQBeZasbyhxpsYAGcst4sNp1ADWFs5qGmKWxT/llNCw52u9QaxqaFraoqzQ2g==
-  dependencies:
-    get-depth "^0.0.3"
-
-guess-image-layout@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/guess-image-layout/-/guess-image-layout-0.1.0.tgz#7a18a0eab0d4c48e1700b4c8c95b918ec691078f"
-  integrity sha512-sYrs2uYb2dqdxQcjFlfNWQhPX7M4lx7BYqMg7SFvJ/gGl1QIk0NPQqFkY0mV2VgdOGERSS15/6M4cpjuTtPhLw==
   dependencies:
     get-depth "^0.0.3"
 
@@ -5311,13 +5284,6 @@ media-engine@^1.0.3:
   resolved "https://registry.yarnpkg.com/media-engine/-/media-engine-1.0.3.tgz#be3188f6cd243ea2a40804a35de5a5b032f58dad"
   integrity sha512-aa5tG6sDoK+k70B9iEX1NeyfT8ObCKhNDs6lJVpwF6r8vhUfuKMslIcirq6HIUYuuUYLefcEQOn9bSBOvawtwg==
 
-mediana@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/mediana/-/mediana-1.0.3.tgz#44ecd3c7fe2fd9a1ed59f773237888e8c6ec3e8c"
-  integrity sha512-VUmGLNile2IjOOnuxDAL0KawfXZy9QqiRT591JiHli0NrN1A0pQkb/cxIOul1wKcT4KjhatGdmUgSPKVx6kJhg==
-  dependencies:
-    preciso "^0.5.0"
-
 meow@^8.0.0, meow@^8.1.2:
   version "8.1.2"
   resolved "https://registry.yarnpkg.com/meow/-/meow-8.1.2.tgz#bcbe45bda0ee1729d350c03cffc8395a36c4e897"
@@ -6074,20 +6040,10 @@ postcss@^8.4.35:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-preciso@^0.12.2:
-  version "0.12.2"
-  resolved "https://registry.yarnpkg.com/preciso/-/preciso-0.12.2.tgz#3c802b694a47f1550209dd24fdfc0ed187482cab"
-  integrity sha512-or/2I6/6VDMwJjJdFdyzVc/L1JT29DrlfA096iXBQWryL+ytEAfDgChI/tTnDXb58l5E/kIEa4Omg6AHFLmywA==
-
 preciso@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preciso/-/preciso-0.2.0.tgz#7e6c402e3b44eca368c193e25791860e6b76579f"
   integrity sha512-pOWoGt80FRXsZheEVzo7IkYXscwdK08AjTRAZ/jazcoXyPmP7squS//jh9/NKvRSC2KpneMUrJu2wCc1Zh2xFw==
-
-preciso@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/preciso/-/preciso-0.5.0.tgz#8d27b47aa250a0e2d34aa1c5d1d56f06bc725dff"
-  integrity sha512-t/DKHG7hVuhGYYQHOykZrhXdDhDuHsGtkzJgYofdTmxI6AgU60+wTwmT7nv+qFkpGnXr0KugZ1V3+2hTmhNkcg==
 
 preciso@^0.8.0:
   version "0.8.0"
@@ -6205,11 +6161,6 @@ quick-lru@^6.1.1:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-6.1.2.tgz#e9a90524108629be35287d0b864e7ad6ceb3659e"
   integrity sha512-AAFUA5O1d83pIHEhJwWCq/RQcRukCkn/NSm2QsTEMle5f2hP0ChI2+3Xb051PZCkLryI/Ir1MVKviT2FIloaTQ==
-
-quick-resolve@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/quick-resolve/-/quick-resolve-0.0.1.tgz#34d9511519f21039117d9f466cbe01c653ead1c0"
-  integrity sha512-rYcEOLRDlK+EgiiJzGAid9ybKCFZAh+HgVX8ZztlTEpvdGHVS4PSA4zyzjaL5pC2kx+R/E2fScCirdRNQvLwFA==
 
 quick-scale@^0.1.0:
   version "0.1.0"
@@ -7959,7 +7910,7 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==
 
-xdim@^1.10.1, xdim@^1.2.1, xdim@^1.5.2, xdim@^1.8.0:
+xdim@^1.2.1, xdim@^1.5.2, xdim@^1.8.0:
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/xdim/-/xdim-1.10.1.tgz#4b725aacacdd70cb17c5a8d772c7e431261e1e79"
   integrity sha512-s2mZzb+tPRHt3FEcNaEDQqVXBNaPwhoemJNUujFyRYuuJjK3rHVZ/oeSJTNBpaVFTDgdia64acY0SN9unocqwA==

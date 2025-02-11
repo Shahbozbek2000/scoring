@@ -5,8 +5,6 @@ import { LoadingOverlay } from '@/components/loading-overlay'
 import { MapContainer } from './style'
 import { FormProvider } from 'react-hook-form'
 import type { CreditAreaContour } from '@/types/credit-area'
-import 'leaflet-fullscreen'
-import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import { COLORS } from '@/constants/css'
 
 interface ILandAreasProps {

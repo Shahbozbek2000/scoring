@@ -6,6 +6,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import L, { type LatLngExpression } from 'leaflet'
+import 'leaflet/dist/leaflet.css'
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
+import 'leaflet-fullscreen'
 import { useQuery } from '@tanstack/react-query'
 import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import dayjs from 'dayjs'
@@ -16,6 +19,18 @@ import { request } from '@/configs/requests'
 import JSZip from 'jszip'
 import GeoRasterLayer from 'georaster-layer-for-leaflet'
 import parseGeoraster from 'georaster'
+
+import icon from 'leaflet/dist/images/marker-icon.png'
+import iconShadow from 'leaflet/dist/images/marker-shadow.png'
+
+const DefaultIcon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+})
+
+L.Marker.prototype.options.icon = DefaultIcon
 
 const ZOOM = 10
 const CENTER = [40.7, 72.2] as LatLngExpression
@@ -66,14 +81,29 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
   }
 
   useEffect(() => {
-    const mapInstance = new L.map(ref.current!, {
+    if (!ref.current || map) return
+
+    delete (L.Icon.Default.prototype as any)._getIconUrl
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl: 'leaflet/dist/images/marker-icon-2x.png',
+      iconUrl: 'leaflet/dist/images/marker-icon.png',
+      shadowUrl: 'leaflet/dist/images/marker-shadow.png',
+    })
+
+    const mapInstance = L.map(ref.current, {
       zoom: ZOOM,
       center: CENTER,
       layers: [DEFAULT_LAYER],
+      fullscreenControl: true,
+      fullscreenControlOptions: {
+        position: 'topright',
+        title: "To'liq ekran rejimi",
+        titleCancel: "To'liq ekran rejimidan chiqish",
+      },
     })
+
     setMap(mapInstance)
 
-    mapInstance.addControl(new L.Control.Fullscreen({ position: 'topright' }))
     const layerGroup = new L.LayerGroup().addTo(mapInstance)
     setGeoLayer(layerGroup)
 
@@ -81,6 +111,7 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
       mapInstance.remove()
     }
   }, [])
+
   useEffect(() => {
     if (!map) return
 
