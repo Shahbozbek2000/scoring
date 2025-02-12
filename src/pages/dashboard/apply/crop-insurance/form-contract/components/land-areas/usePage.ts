@@ -1,11 +1,10 @@
-/* eslint-disable no-unsafe-optional-chaining */
-/* eslint-disable quotes */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable new-cap */
 // @ts-nocheck
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import L, { type LatLngExpression } from 'leaflet'
+import GeoRasterLayer from 'georaster-layer-for-leaflet'
+import parseGeoraster from 'georaster'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import 'leaflet-fullscreen'
@@ -17,8 +16,6 @@ import { useFormContext } from 'react-hook-form'
 import type { CreditAreaContour } from '@/types/credit-area'
 import { request } from '@/configs/requests'
 import JSZip from 'jszip'
-import GeoRasterLayer from 'georaster-layer-for-leaflet'
-import parseGeoraster from 'georaster'
 
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
@@ -97,8 +94,8 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
       fullscreenControl: true,
       fullscreenControlOptions: {
         position: 'topright',
-        title: "To'liq ekran rejimi",
-        titleCancel: "To'liq ekran rejimidan chiqish",
+        title: 'To`liq ekran rejimi',
+        titleCancel: 'To`liq ekran rejimidan chiqish',
       },
     })
 
@@ -124,9 +121,9 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
         const waterLabels = [
           { color: waterNdwiColors?.veryLow, label: 'Juda past suv indeksi' },
           { color: waterNdwiColors.low, label: 'Past suv indeksi' },
-          { color: waterNdwiColors.modLow, label: "O'rtacha past suv indeksi" },
-          { color: waterNdwiColors.moderate, label: "O'rta suv indeksi" },
-          { color: waterNdwiColors.modHigh, label: "O'rtacha yuqori suv indeksi" },
+          { color: waterNdwiColors.modLow, label: 'O`rtacha past suv indeksi' },
+          { color: waterNdwiColors.moderate, label: 'O`rta suv indeksi' },
+          { color: waterNdwiColors.modHigh, label: 'O`rtacha yuqori suv indeksi' },
           { color: waterNdwiColors.high, label: 'Yuqori suv indeksi' },
           { color: waterNdwiColors.veryHigh, label: 'Juda yuqori suv indeksi' },
         ]
@@ -137,13 +134,13 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
         })
       } else {
         const ndviLabels = [
-          { color: ndviColors.veryLow, label: "Juda past o'simlik qoplami" },
-          { color: ndviColors.low, label: "Past o'simlik qoplami" },
-          { color: ndviColors.modLow, label: "O'rtacha past o'simlik qoplami" },
-          { color: ndviColors.moderate, label: "O'rtacha o'simlik qatlami" },
-          { color: ndviColors.modHigh, label: "O'rtacha yuqori o'simlik qoplami" },
-          { color: ndviColors.high, label: "Yuqori o'simlik qoplami" },
-          { color: ndviColors.veryHigh, label: "Juda yuqori o'simlik qoplami" },
+          { color: ndviColors.veryLow, label: 'Juda past o`simlik qoplami' },
+          { color: ndviColors.low, label: 'Past o`simlik qoplami' },
+          { color: ndviColors.modLow, label: 'O`rtacha past o`simlik qoplami' },
+          { color: ndviColors.moderate, label: 'O`rtacha o`simlik qatlami' },
+          { color: ndviColors.modHigh, label: 'O`rtacha yuqori o`simlik qoplami' },
+          { color: ndviColors.high, label: 'Yuqori o`simlik qoplami' },
+          { color: ndviColors.veryHigh, label: 'Juda yuqori o`simlik qoplami' },
         ]
 
         div.innerHTML += '<strong>Vegetatsiya indeksi</strong><br>'
@@ -162,7 +159,7 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     }
   }, [map, value])
 
-  async function parseZipFile(zipBlob) {
+  async function parseZipFile(zipBlob: any) {
     const zip = new JSZip()
     const zipContent = await zip.loadAsync(zipBlob)
 
@@ -206,7 +203,6 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
         georaster,
         opacity: 0.8,
         resolution: 256,
-        backgroundColor: 'transparent',
       })
 
       currentLayer.addTo(map)
@@ -250,9 +246,9 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
       }
 
       pointerData?.forEach((item: CreditAreaContour) => {
-        const geometry = item.data?.features?.[0]?.geometry
+        const geometry: any = item.data?.features?.[0]?.geometry
         const geo = L.geoJSON(geometry, {
-          onEachFeature: (feature, layer) => {
+          onEachFeature: (feature: any, layer: any) => {
             if (feature?.type === 'Polygon' || feature?.type === 'MultiPolygon') {
               layer.setStyle({
                 color: 'green',
@@ -292,7 +288,7 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     onSuccess: res => {
       if (res?.length > 0) {
         res?.forEach((station: any) => {
-          const { coordinates } = station?.station?.location
+          const coordinates = station?.station?.location?.coordinates
           if (coordinates) {
             const [lng, lat] = coordinates
             const marker = L.marker([lat, lng]).addTo(map!)
