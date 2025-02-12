@@ -13,6 +13,252 @@
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
+  <script>
+
+    // const arrowFunc = () => {
+    //   console.log(this, 'this')
+    // }
+
+    // const obj = {
+    //   name: "Shohrux",
+    //   regularFunc: function () {
+    //     console.log(this.name)
+    //   }
+    // }
+    // const obj2 = {
+    //   name: "Shohrux",
+    //   arrowFunc: () => {
+    //     console.log(this.name, 'this')
+    //   }
+    // }
+    // obj.regularFunc()
+    // obj2.arrowFunc()
+
+
+    // function Car(brand) {
+    //   this.brand = brand;
+    //   this.showBrand = function () {
+    //     console.log(this.brand);
+    //   };
+    // }
+
+    // const myCar = new Car("Toyota");
+    // myCar.showBrand();
+
+    // class User {
+    //   constructor(name) {
+    //     this.name = name
+    //   }
+
+    //   greet() {
+    //     console.log(`Hello, my name is ${this.name}`)
+    //   }
+    // }
+
+    // const user = new User('Shohrux')
+
+    // user.greet()
+
+    // CALL
+    // function greet() {
+    //   console.log(this.name)
+    // }
+
+    // const person = { name: "Olimjon" }
+
+    // greet.call(person)
+    // call — this ni obj deb belgilaydi va funksiyani chaqiradi.
+
+    // APPLY
+    // function introduce(age, city, grade) {
+    //   console.log(`${this.name} is ${age} years old. He lives in ${city}. His grade is ${grade}.`)
+    // }
+
+    // const student = { name: "Shohrux" }
+    // introduce.apply(student, [25, "Namangan", 5])
+    // apply ham call kabi ishlaydi, faqat argumentlar massiv ko‘rinishida beriladi.
+
+    // BIND
+    // const user = {
+    //   name: "Muhammad"
+    // }
+
+    // function userFunc() {
+    //   console.log(this.name)
+    // }
+
+    // const boundFunction = userFunc.bind(user)
+
+    // boundFunction()
+    // bind — this ni doimiy ravishda user ga bog‘laydi.
+
+    // const obj = {
+    //   name: "Rustam",
+    //   showName() {
+    //     setTimeout(function () {
+    //       console.log(this.name, 'name')
+    //     })
+    //   }
+    // };
+
+    // obj.showName();
+    // Bu yerda this setTimeout ning global kontekstiga ishora qilmoqda.
+
+    // const obj2 = {
+    //   name: "Rustam",
+    //   showName() {
+    //     setTimeout(() => {
+    //       console.log(this.name); // Rustam
+    //     }, 1000);
+    //   },
+    // };
+    // obj2.showName();
+    // Arrow function this ni tashqi kontekstdan meros qiladi va to‘g‘ri natija beradi.
+
+    //     Globalda: this — global obyekt (window yoki global).
+    // Oddiy funksiya: this — funksiyani chaqirgan obyekt.
+    // Arrow function: this — tashqi kontekstdan meros olingan.
+    // Konstruktor: this — yangi yaratilgan obyekt.
+    // bind(), call(), apply(): this ni qo‘lda boshqarish imkonini beradi.
+
+    // PROMISE
+
+    // const myPromise = new Promise((resolve, reject) => {
+    //   let success = true
+    //   if (success) {
+    //     resolve('Success')
+    //   } else {
+    //     reject('Error')
+    //   }
+    // })
+    // myPromise.then((result) => {
+    //   console.log(result)
+    // }).catch((err) => {
+    //   console.log(err)
+    // }).finally(() => {
+    //   console.log('Finally')
+    // })
+
+    // async function fetchData() {
+    //   try {
+    //     const result = await new Promise((resolve, reject) => {
+    //       setTimeout(() => {
+    //         resolve('Malumot olindi')
+    //       }, 1000)
+    //     })
+    //     console.log(result, 'result')
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // }
+
+    // fetchData()
+
+    // const numbers = [1, 2, 3, 4, 5, 6]
+
+    // Array.prototype.myReduce = function (callback, initialValue) {
+    //   let accumulator = initialValue
+    //   let startIndex = 0
+    //   if (accumulator === undefined) {
+    //     startIndex = 1
+    //     accumulator = this[0]
+    //   }
+
+    //   for (let i = startIndex; i < this.length; i++) {
+    //     accumulator = callback(accumulator, this[i], i, this)
+    //   }
+
+    //   return accumulator
+    // }
+    // const sum = numbers.myReduce((accumulator, currentValue) => accumulator + currentValue, 0)
+
+    // Array.prototype.myMap = function (callback) {
+    //   const result = []
+
+    //   for (let i = 0; i < this.length; i++) {
+    //     result.push(callback(this[i], i, this))
+    //   }
+
+    //   return result
+    // }
+
+    // Array.prototype.myForEach = function (callback) {
+    //   for (let i = 0; i < this.length; i++) {
+    //     if (this.hasOwnProperty(i)) {
+    //       callback(this[i], i, this)
+    //     }
+    //   }
+    // }
+    // Array.prototype.myFilter = function (callback) {
+    //   const result = []
+
+    //   for (let i = 0; i < this.length; i++) {
+    //     if (this.hasOwnProperty(i)) {
+    //       if (callback(this[i], i, this)) {
+    //         result.push(this[i])
+    //       }
+    //     }
+    //   }
+    //   return result
+    // }
+    // const resultFilter = numbers.myFilter((num) => num % 2 === 0)
+    // console.log(resultFilter)
+
+    // Array.prototype.myFind = function (callback) {
+    //   for (let i = 0; i < this.length; i++) {
+    //     if (this.hasOwnProperty(i)) {
+    //       if (callback(this[i], i, this)) {
+    //         return this[i]
+    //       }
+    //     }
+    //   }
+    //   return undefined
+    // }
+
+
+    // const person = {
+    //   name: 'Ali',
+    //   surname: 'Nurmuhammedov',
+    //   age: 20
+    // }
+
+
+
+
+
+
+    // const company = {
+    //   sales: [
+    //     { name: "Ali", salary: 1000 },
+    //     { name: "Vali", salary: 1500 }
+    //   ],
+    //   development: {
+    //     backend: [
+    //       { name: "Sardor", salary: 2000 },
+    //       { name: "Dilshod", salary: 1800 }
+    //     ],
+    //     frontend: {
+    //       teamLead: { name: "Aziz", salary: 2500 },
+    //       developers: [
+    //         { name: "Javlon", salary: 1700 },
+    //         { name: "Shoxrux", salary: 1600 }
+    //       ]
+    //     }
+    //   }
+    // };
+
+    // const getTotalSalary = (data) => {
+    //   if (Array.isArray(data)) {
+    //     return data.reduce((acc, el) => acc + getTotalSalary(el), 0)
+    //   }
+    //   if (typeof data === 'object' && data !== null) {
+    //     return Object.values(data).reduce((el, item) => el + getTotalSalary(item), data.salary || 0)
+    //   }
+    //   return 0
+    // }
+    // console.log(getTotalSalary(company), 'salary')
+
+  </script>
 </body>
 
 </html>
