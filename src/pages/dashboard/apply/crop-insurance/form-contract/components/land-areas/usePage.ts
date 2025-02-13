@@ -13,23 +13,19 @@ import { useFormContext } from 'react-hook-form'
 import type { CreditAreaContour } from '@/types/credit-area'
 import { request } from '@/configs/requests'
 import 'proj4'
-
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 
 // Constants
 const ZOOM = 10
 const CENTER: LatLngExpression = [40.7, 72.2]
-
 const DefaultIcon = L.icon({
   iconUrl: icon,
   shadowUrl: iconShadow,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 })
-
 L.Marker.prototype.options.icon = DefaultIcon
-
 const DEFAULT_LAYER = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
   maxZoom: 20,
   subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
@@ -40,12 +36,9 @@ interface ICreditAreaContour {
 }
 
 export const usePage = ({ pointerData }: ICreditAreaContour) => {
-  // Hooks and Refs
   const form = useFormContext()
   const location = useLocation()
   const ref = useRef<HTMLDivElement | null>(null)
-
-  // State Management
   const [map, setMap] = useState<L.Map | null>(null)
   const [dates, setDates] = useState<any[]>([])
   const [centerLatLng, setCenterLatLng] = useState<L.LatLng | null>(null)
@@ -53,13 +46,11 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
   const [currentOverlay, setCurrentOverlay] = useState<any>(null)
   const [ndviList, setNdviList] = useState<any[]>([])
   const [value, setValue] = useState(0)
-
-  // Form and URL values
   const { date } = form.watch()
   const query = new URLSearchParams(location.search)
   const apply_number = query.get('number')
 
-  // Color configurations
+  // Color scales
   const ndviColors = {
     veryLow: '#d73027',
     low: '#f46d43',
@@ -69,7 +60,6 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     high: '#a6d96a',
     veryHigh: '#1a9850',
   }
-
   const waterNdwiColors = {
     veryLow: '#4a148c',
     low: '#5c6bc0',
@@ -97,7 +87,6 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     })
 
     setMap(mapInstance)
-
     const layerGroup = new L.LayerGroup().addTo(mapInstance)
     setGeoLayer(layerGroup)
 
@@ -111,130 +100,84 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     if (!map) return
 
     const legend = L.control({ position: 'bottomright' })
-
     legend.onAdd = function () {
       const div = L.DomUtil.create('div', 'info legend')
+      div.style.backgroundColor = 'white'
+      div.style.padding = '10px'
+      div.style.borderRadius = '5px'
 
-      if (value === 2) {
-        const waterLabels = [
-          { color: waterNdwiColors.veryLow, label: 'Juda past suv indeksi' },
-          { color: waterNdwiColors.low, label: 'Past suv indeksi' },
-          { color: waterNdwiColors.modLow, label: 'O`rtacha past suv indeksi' },
-          { color: waterNdwiColors.moderate, label: 'O`rta suv indeksi' },
-          { color: waterNdwiColors.modHigh, label: 'O`rtacha yuqori suv indeksi' },
-          { color: waterNdwiColors.high, label: 'Yuqori suv indeksi' },
-          { color: waterNdwiColors.veryHigh, label: 'Juda yuqori suv indeksi' },
-        ]
+      const colors = value === 2 ? waterNdwiColors : ndviColors
+      const labels =
+        value === 2
+          ? [
+              { color: colors.veryLow, label: 'Juda past suv indeksi' },
+              { color: colors.low, label: 'Past suv indeksi' },
+              { color: colors.modLow, label: 'O`rtacha past suv indeksi' },
+              { color: colors.moderate, label: 'O`rta suv indeksi' },
+              { color: colors.modHigh, label: 'O`rtacha yuqori suv indeksi' },
+              { color: colors.high, label: 'Yuqori suv indeksi' },
+              { color: colors.veryHigh, label: 'Juda yuqori suv indeksi' },
+            ]
+          : [
+              { color: colors.veryLow, label: 'Juda past o`simlik qoplami' },
+              { color: colors.low, label: 'Past o`simlik qoplami' },
+              { color: colors.modLow, label: 'O`rtacha past o`simlik qoplami' },
+              { color: colors.moderate, label: 'O`rtacha o`simlik qatlami' },
+              { color: colors.modHigh, label: 'O`rtacha yuqori o`simlik qoplami' },
+              { color: colors.high, label: 'Yuqori o`simlik qoplami' },
+              { color: colors.veryHigh, label: 'Juda yuqori o`simlik qoplami' },
+            ]
 
-        div.innerHTML += '<strong>Suv indeksi</strong><br>'
-        waterLabels.forEach(({ color, label }) => {
-          div.innerHTML += `<i style="background: ${color}; width: 12px; height: 12px; display: inline-block; margin-right: 5px;"></i> ${label}<br>`
-        })
-      } else {
-        const ndviLabels = [
-          { color: ndviColors.veryLow, label: 'Juda past o`simlik qoplami' },
-          { color: ndviColors.low, label: 'Past o`simlik qoplami' },
-          { color: ndviColors.modLow, label: 'O`rtacha past o`simlik qoplami' },
-          { color: ndviColors.moderate, label: 'O`rtacha o`simlik qatlami' },
-          { color: ndviColors.modHigh, label: 'O`rtacha yuqori o`simlik qoplami' },
-          { color: ndviColors.high, label: 'Yuqori o`simlik qoplami' },
-          { color: ndviColors.veryHigh, label: 'Juda yuqori o`simlik qoplami' },
-        ]
-
-        div.innerHTML += '<strong>Vegetatsiya indeksi</strong><br>'
-        ndviLabels.forEach(({ color, label }) => {
-          div.innerHTML += `<i style="background: ${color}; width: 12px; height: 12px; display: inline-block; margin-right: 5px;"></i> ${label}<br>`
-        })
-      }
+      div.innerHTML += `<strong>${value === 2 ? 'Suv indeksi' : 'Vegetatsiya indeksi'}</strong><br>`
+      labels.forEach(({ color, label }) => {
+        div.innerHTML += `<i style="background: ${color}; width: 12px; height: 12px; display: inline-block; margin-right: 5px;"></i> ${label}<br>`
+      })
 
       return div
     }
-
     legend.addTo(map)
-
     return () => {
       map.removeControl(legend)
     }
   }, [map, value])
 
-  // TIFF Display Function
-  const displayTiffOnMap = async () => {
+  const displayTiffOnMap = async (tiffData: ArrayBuffer) => {
     if (!map || !geoLayer) return
 
     try {
-      // Remove existing overlay
       if (currentOverlay) {
         map.removeLayer(currentOverlay)
         setCurrentOverlay(null)
       }
 
-      // Fetch and parse TIFF
-      const arrayBuffer = await fetch(
-        'https://agro.semurgins.uz/api/ndvi/GwmFeWoRrU8zQbG6/2024-05-05.tiff',
-      ).then(async res => await res.arrayBuffer())
-      const georaster = await parseGeoraster(arrayBuffer)
+      const georaster = await parseGeoraster(tiffData)
 
-      // Get GeoJSON bounds
-      let geojsonBounds: L.LatLngBounds | null = null
-      geoLayer.eachLayer(layer => {
-        if (layer instanceof L.GeoJSON) {
-          const bounds = layer.getBounds()
-          if (!geojsonBounds) {
-            geojsonBounds = bounds
-          } else {
-            geojsonBounds.extend(bounds)
-          }
-        }
-      })
+      const tiffBounds = L.latLngBounds(
+        [georaster.ymin, georaster.xmin],
+        [georaster.ymax, georaster.xmax],
+      )
 
-      if (!geojsonBounds) {
-        throw new Error('GeoJSON bounds not found')
-      }
-
-      // Create color function based on index type
-      const getColor = (value: number) => {
-        const colors = indexValue === 2 ? COLORS.ndwi : COLORS.ndvi
-
-        if (indexValue === 2) {
-          if (value < -0.8) return colors.veryLow
-          if (value < -0.6) return colors.low
-          if (value < -0.4) return colors.modLow
-          if (value < -0.2) return colors.moderate
-          if (value < 0) return colors.modHigh
-          if (value < 0.2) return colors.high
-          return colors.veryHigh
-        } else {
-          if (value < 0) return colors.veryLow
-          if (value < 0.2) return colors.low
-          if (value < 0.4) return colors.modLow
-          if (value < 0.6) return colors.moderate
-          if (value < 0.8) return colors.modHigh
-          if (value < 1.0) return colors.high
-          return colors.veryHigh
-        }
-      }
-
-      // Create and add layer
       const layer = new GeoRasterLayer({
         georaster,
         opacity: 0.7,
         resolution: 256,
-        pixelValuesToColorFn: values => getColor(values[0]),
-        bounds: geojsonBounds,
+        bounds: tiffBounds,
         debugLevel: 0,
       })
 
       layer.addTo(map)
       setCurrentOverlay(layer)
 
-      // Fit map to bounds
-      map.fitBounds(geojsonBounds, {
-        padding: [50, 50],
-        maxZoom: 16,
-      })
+      map.fitBounds(tiffBounds, { padding: [50, 50], maxZoom: 16 })
     } catch (error) {
       console.error('Error displaying TIFF:', error)
-      throw error
+    }
+  }
+
+  const clearTiffFromMap = () => {
+    if (currentOverlay) {
+      map.removeLayer(currentOverlay)
+      setCurrentOverlay(null)
     }
   }
 
@@ -242,7 +185,7 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
   const { isLoading } = useQuery({
     queryKey: ['ndvi-dates', value, apply_number],
     queryFn: async () => {
-      const endpoint = value === 2 ? `ndwi/insurance/${apply_number}` : `ndvi/${apply_number}/dates`
+      const endpoint = value === 2 ? `ndwi/${apply_number}/dates` : `ndvi/${apply_number}/dates`
       return await request(endpoint)
     },
     select: res => res?.data?.dates,
@@ -255,30 +198,40 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
           download_url: ndvi?.download_url,
         })),
       )
-
       if (res?.length > 0) {
         form.reset({
           date: dayjs(res[0]?.date).format('YYYY-MM-DD'),
         })
       }
 
-      // Add GeoJSON layers
-      if (map && geoLayer) {
-        pointerData?.forEach((item: CreditAreaContour) => {
+      if (map && geoLayer && pointerData) {
+        // pointerData tekshirish qo'shildi
+        geoLayer.clearLayers()
+        pointerData.forEach((item: CreditAreaContour) => {
           const geometry: any = item.data?.features?.[0]?.geometry
-          const geo = L.geoJSON(geometry, {
-            style: {
-              color: 'green',
-              weight: 2,
-              opacity: 0.7,
-              fillOpacity: 0.1,
-            },
-          }).addTo(geoLayer)
+          if (geometry) {
+            // Geometriya mavjudligini tekshirish
+            const geo = L.geoJSON(geometry, {
+              style: {
+                color: 'green',
+                weight: 2,
+                opacity: 0.7,
+                fillOpacity: 0.1,
+              },
+            }).addTo(geoLayer)
+            const bounds = geo.getBounds()
+            const center = bounds.getCenter()
+            setCenterLatLng(center)
 
-          const bounds = geo.getBounds()
-          const center = bounds.getCenter()
-          setCenterLatLng(center)
-          map.flyToBounds(bounds, { maxZoom: 16 })
+            // GeoJSON chegaralari TIFF chegaralaridan keyin o'rnatilishi kerak
+            if (currentOverlay) {
+              // TIFF yuklangandan keyin
+              map.fitBounds(currentOverlay.getBounds(), { padding: [50, 50], maxZoom: 16 })
+            } else {
+              // Agar TIFF yuklanmagan bo'lsa
+              map.fitBounds(bounds, { maxZoom: 16 }) // GeoJSON chegaralariga moslash
+            }
+          }
         })
       }
     },
@@ -289,14 +242,20 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     queryKey: ['get-ndvi-with-contour', apply_number, date, value],
     queryFn: async () => {
       const endpoint =
-        value === 2 ? `ndwi/insurance/${apply_number}` : `ndvi/${apply_number}/${date}.tiff`
-      return await request(endpoint)
+        value === 2 ? `ndwi/${apply_number}/${date}.tiff` : `ndvi/${apply_number}/${date}.tiff`
+      return await request(endpoint, { responseType: 'blob' })
     },
     onSuccess: response => {
-      console.log(response.data, 'response')
-      if (response?.data && map) {
-        void displayTiffOnMap()
+      if (response?.data) {
+        if (value === 1 || value === 2) {
+          void displayTiffOnMap(response.data)
+        } else {
+          clearTiffFromMap()
+        }
       }
+    },
+    onError: error => {
+      console.error('Ma`lumotlarni yuklashda xatolik:', error)
     },
   })
 
