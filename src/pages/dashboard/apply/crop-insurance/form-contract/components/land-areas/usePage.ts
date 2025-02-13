@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import L, { type LatLngExpression } from 'leaflet'
-import parseGeoraster from 'georaster'
-import 'proj4'
-import GeoRasterLayer from 'georaster-layer-for-leaflet'
+// import parseGeoraster from 'georaster'
+// import 'proj4'
+// import GeoRasterLayer from 'georaster-layer-for-leaflet'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import 'leaflet-fullscreen'
@@ -185,32 +185,32 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     }
   }
 
-  const displayTiffOnMap = async (
-    tiffFile: { fileName: string; content: ArrayBuffer },
-    map: L.Map,
-    geoLayer: L.LayerGroup,
-  ) => {
-    try {
-      if (!tiffFile?.content) {
-        console.error('TIFF fayl kontenti mavjud emas')
-        return
-      }
+  // const displayTiffOnMap = async (
+  //   tiffFile: { fileName: string; content: ArrayBuffer },
+  //   map: L.Map,
+  //   geoLayer: L.LayerGroup,
+  // ) => {
+  //   try {
+  //     if (!tiffFile?.content) {
+  //       console.error('TIFF fayl kontenti mavjud emas')
+  //       return
+  //     }
 
-      const bufferCopy = tiffFile?.content.slice(0)
-      const georaster = await parseGeoraster(bufferCopy)
+  //     const bufferCopy = tiffFile?.content.slice(0)
+  //     const georaster = await parseGeoraster(bufferCopy)
 
-      const currentLayer = new GeoRasterLayer({
-        georaster,
-        opacity: 0.8,
-        resolution: 256,
-      })
+  //     const currentLayer = new GeoRasterLayer({
+  //       georaster,
+  //       opacity: 0.8,
+  //       resolution: 256,
+  //     })
 
-      currentLayer.addTo(map)
-      setCurrentOverlay(currentLayer)
-    } catch (error) {
-      console.error('TIFF faylni xaritaga yuklashda xatolik:', error)
-    }
-  }
+  //     currentLayer.addTo(map)
+  //     setCurrentOverlay(currentLayer)
+  //   } catch (error) {
+  //     console.error('TIFF faylni xaritaga yuklashda xatolik:', error)
+  //   }
+  // }
 
   const { isLoading } = useQuery({
     queryKey: [REACT_QUERY_KEYS.GET_NDVI_WITH_CONTOUR, apply_number, value],
@@ -320,12 +320,12 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     }
 
     const tiff = tiffList.find(v => v?.fileName === currentFilename)
-    if (!tiff?.content) {
-      console.warn(`"${currentFilename}" nomli TIFF fayl topilmadi yoki bo'sh.`)
-      return
-    }
+    // if (!tiff?.content) {
+    //   console.warn(`"${currentFilename}" nomli TIFF fayl topilmadi yoki bo'sh.`)
+    //   return
+    // }
 
-    void displayTiffOnMap(tiff, map, geoLayer)
+    // void displayTiffOnMap(tiff, map, geoLayer)
   }, [geoLayer, map, tiffList, value, date, dates])
 
   useEffect(() => {
