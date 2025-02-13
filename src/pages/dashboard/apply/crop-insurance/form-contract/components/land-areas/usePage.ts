@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import L, { type LatLngExpression } from 'leaflet'
-import GeoRasterLayer from 'georaster-layer-for-leaflet'
 import parseGeoraster from 'georaster'
+import 'proj4'
+import GeoRasterLayer from 'georaster-layer-for-leaflet'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import 'leaflet-fullscreen'
@@ -16,7 +17,6 @@ import { useFormContext } from 'react-hook-form'
 import type { CreditAreaContour } from '@/types/credit-area'
 import { request } from '@/configs/requests'
 import JSZip from 'jszip'
-
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 
