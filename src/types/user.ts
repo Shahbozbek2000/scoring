@@ -11,3 +11,10 @@ export interface MyFormValues {
   language?: string | null
   phones?: Phone[] | null
 }
+
+export interface Token {
+  exp: number
+  iat: number
+  id: string
+  login: string
+}

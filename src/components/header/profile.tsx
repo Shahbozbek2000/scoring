@@ -4,11 +4,13 @@ import IconUser from '@/assets/icons/user.svg'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { COLORS } from '@/constants/css'
 import { ROUTER } from '@/constants/router'
+import { jwtDecode } from 'jwt-decode'
 
 export const Profile = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
-
+  const token: string | null = localStorage.getItem('token')
+  const user: any = token ? jwtDecode(token) : null
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
   }
@@ -18,10 +20,9 @@ export const Profile = () => {
   }
 
   const handleLogout = () => {
+    setAnchorEl(null)
     localStorage.clear()
     window.location.href = ROUTER.AUTH
-    // navigate(ROUTER.AUTH)
-    setAnchorEl(null)
   }
 
   return (
@@ -34,9 +35,10 @@ export const Profile = () => {
               fontFamily: 'GothamProRegular',
               fontSize: 16,
               color: '#fff',
+              textTransform: 'capitalize',
             }}
           >
-            Username
+            {user?.login}
           </Typography>
         </Stack>
       </Button>
