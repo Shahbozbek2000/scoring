@@ -11,12 +11,12 @@ import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import 'leaflet-fullscreen'
 import { useQuery } from '@tanstack/react-query'
 import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
-import dayjs from 'dayjs'
-import { DATE_FORMAT } from '@/constants/format' // Date formatting
+// import dayjs from 'dayjs'
+// import { DATE_FORMAT } from '@/constants/format' // Date formatting
 import { useFormContext } from 'react-hook-form'
 import type { CreditAreaContour } from '@/types/credit-area'
 import { request } from '@/configs/requests'
-import JSZip from 'jszip'
+// import JSZip from 'jszip'
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 
@@ -159,31 +159,31 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     }
   }, [map, value])
 
-  async function parseZipFile(zipBlob: any) {
-    const zip = new JSZip()
-    const zipContent = await zip.loadAsync(zipBlob)
+  // async function parseZipFile(zipBlob: any) {
+  //   const zip = new JSZip()
+  //   const zipContent = await zip.loadAsync(zipBlob)
 
-    const metadataFile = zipContent.file('metadata.json')
-    const metadata = metadataFile ? JSON.parse(await metadataFile.async('string')) : []
+  //   const metadataFile = zipContent.file('metadata.json')
+  //   const metadata = metadataFile ? JSON.parse(await metadataFile.async('string')) : []
 
-    const tiffFiles = await Promise.all(
-      Object.keys(zipContent.files)
-        .filter(fileName => fileName.endsWith('.tif'))
-        .map(async fileName => {
-          const file = zipContent.file(fileName)
-          if (file) {
-            const content = await file.async('arraybuffer')
-            return { fileName, content }
-          }
-          return null
-        }),
-    )
+  //   const tiffFiles = await Promise.all(
+  //     Object.keys(zipContent.files)
+  //       .filter(fileName => fileName.endsWith('.tif'))
+  //       .map(async fileName => {
+  //         const file = zipContent.file(fileName)
+  //         if (file) {
+  //           const content = await file.async('arraybuffer')
+  //           return { fileName, content }
+  //         }
+  //         return null
+  //       }),
+  //   )
 
-    return {
-      metadata,
-      tiffFiles: tiffFiles.filter(Boolean),
-    }
-  }
+  //   return {
+  //     metadata,
+  //     tiffFiles: tiffFiles.filter(Boolean),
+  //   }
+  // }
 
   // const displayTiffOnMap = async (
   //   tiffFile: { fileName: string; content: ArrayBuffer },
@@ -221,29 +221,18 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
         responseType: 'blob',
       })
     },
-    select: async res => {
-      const files = await parseZipFile(res?.data)
-      return files
-    },
-    onSuccess: async res => {
-      const result = await res
-      setTiffList(result?.tiffFiles)
-      setNdviList(result?.metadata)
-      if (Array.isArray(result?.metadata)) {
-        setDates(
-          result?.metadata?.map((ndvi: any) => ({
-            label: `${dayjs(ndvi?.time).format(DATE_FORMAT)}`,
-            value: `${dayjs(ndvi?.time).format(DATE_FORMAT)}`,
-            filename: ndvi?.filename,
-          })),
-        )
-        form.reset({
-          date:
-            result?.metadata?.length > 0
-              ? dayjs(result?.metadata?.[0]?.time).format(DATE_FORMAT)
-              : '',
-        })
-      }
+    onSuccess: res => {
+      setTiffList([])
+      setNdviList([])
+      // if (Array.isArray(result?.metadata)) {
+      setDates([])
+      // form.reset({
+      //   date:
+      //     result?.metadata?.length > 0
+      //       ? dayjs(result?.metadata?.[0]?.time).format(DATE_FORMAT)
+      //       : '',
+      // })
+      // }
 
       pointerData?.forEach((item: CreditAreaContour) => {
         const geometry: any = item.data?.features?.[0]?.geometry
