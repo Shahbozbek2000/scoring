@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // @ts-nocheck
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -9,16 +8,18 @@ import 'leaflet/dist/leaflet.css'
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
 import 'leaflet-fullscreen'
 import { useQuery } from '@tanstack/react-query'
-import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import dayjs from 'dayjs'
-import { DATE_FORMAT } from '@/constants/format' // Date formatting
 import { useFormContext } from 'react-hook-form'
 import type { CreditAreaContour } from '@/types/credit-area'
 import { request } from '@/configs/requests'
-import JSZip from 'jszip'
+import 'proj4'
 
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
+
+// Constants
+const ZOOM = 10
+const CENTER: LatLngExpression = [40.7, 72.2]
 
 const DefaultIcon = L.icon({
   iconUrl: icon,
@@ -28,9 +29,6 @@ const DefaultIcon = L.icon({
 })
 
 L.Marker.prototype.options.icon = DefaultIcon
-
-const ZOOM = 10
-const CENTER = [40.7, 72.2] as LatLngExpression
 
 const DEFAULT_LAYER = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
   maxZoom: 20,
@@ -42,21 +40,26 @@ interface ICreditAreaContour {
 }
 
 export const usePage = ({ pointerData }: ICreditAreaContour) => {
+  // Hooks and Refs
   const form = useFormContext()
   const location = useLocation()
   const ref = useRef<HTMLDivElement | null>(null)
+
+  // State Management
   const [map, setMap] = useState<L.Map | null>(null)
   const [dates, setDates] = useState<any[]>([])
   const [centerLatLng, setCenterLatLng] = useState<L.LatLng | null>(null)
   const [geoLayer, setGeoLayer] = useState<L.LayerGroup | null>(null)
-  const [currentOverlay, setCurrentOverlay] = useState<L.ImageOverlay | null>(null)
+  const [currentOverlay, setCurrentOverlay] = useState<any>(null)
   const [ndviList, setNdviList] = useState<any[]>([])
-  const [tiffList, setTiffList] = useState<any[]>([])
   const [value, setValue] = useState(0)
+
+  // Form and URL values
   const { date } = form.watch()
   const query = new URLSearchParams(location.search)
   const apply_number = query.get('number')
 
+  // Color configurations
   const ndviColors = {
     veryLow: '#d73027',
     low: '#f46d43',
@@ -77,15 +80,9 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     veryHigh: '#f5f5ff',
   }
 
+  // Initialize Map
   useEffect(() => {
     if (!ref.current || map) return
-
-    delete (L.Icon.Default.prototype as any)._getIconUrl
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: 'leaflet/dist/images/marker-icon-2x.png',
-      iconUrl: 'leaflet/dist/images/marker-icon.png',
-      shadowUrl: 'leaflet/dist/images/marker-shadow.png',
-    })
 
     const mapInstance = L.map(ref.current, {
       zoom: ZOOM,
@@ -109,6 +106,7 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     }
   }, [])
 
+  // Legend Control
   useEffect(() => {
     if (!map) return
 
@@ -119,7 +117,7 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
 
       if (value === 2) {
         const waterLabels = [
-          { color: waterNdwiColors?.veryLow, label: 'Juda past suv indeksi' },
+          { color: waterNdwiColors.veryLow, label: 'Juda past suv indeksi' },
           { color: waterNdwiColors.low, label: 'Past suv indeksi' },
           { color: waterNdwiColors.modLow, label: 'O`rtacha past suv indeksi' },
           { color: waterNdwiColors.moderate, label: 'O`rta suv indeksi' },
@@ -159,187 +157,171 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
     }
   }, [map, value])
 
-  async function parseZipFile(zipBlob: any) {
-    const zip = new JSZip()
-    const zipContent = await zip.loadAsync(zipBlob)
+  // TIFF Display Function
+  const displayTiffOnMap = async () => {
+    if (!map || !geoLayer) return
 
-    const metadataFile = zipContent.file('metadata.json')
-    const metadata = metadataFile ? JSON.parse(await metadataFile.async('string')) : []
-
-    const tiffFiles = await Promise.all(
-      Object.keys(zipContent.files)
-        .filter(fileName => fileName.endsWith('.tif'))
-        .map(async fileName => {
-          const file = zipContent.file(fileName)
-          if (file) {
-            const content = await file.async('arraybuffer')
-            return { fileName, content }
-          }
-          return null
-        }),
-    )
-
-    return {
-      metadata,
-      tiffFiles: tiffFiles.filter(Boolean),
-    }
-  }
-
-  const displayTiffOnMap = async (
-    tiffFile: { fileName: string; content: ArrayBuffer },
-    map: L.Map,
-    geoLayer: L.LayerGroup,
-  ) => {
     try {
-      if (!tiffFile?.content) {
-        console.error('TIFF fayl kontenti mavjud emas')
-        return
+      // Remove existing overlay
+      if (currentOverlay) {
+        map.removeLayer(currentOverlay)
+        setCurrentOverlay(null)
       }
 
-      const bufferCopy = tiffFile?.content.slice(0)
-      const georaster = await parseGeoraster(bufferCopy)
+      // Fetch and parse TIFF
+      const arrayBuffer = await fetch(
+        'https://agro.semurgins.uz/api/ndvi/GwmFeWoRrU8zQbG6/2024-05-05.tiff',
+      ).then(async res => await res.arrayBuffer())
+      const georaster = await parseGeoraster(arrayBuffer)
 
-      const currentLayer = new GeoRasterLayer({
-        georaster,
-        opacity: 0.8,
-        resolution: 256,
+      // Get GeoJSON bounds
+      let geojsonBounds: L.LatLngBounds | null = null
+      geoLayer.eachLayer(layer => {
+        if (layer instanceof L.GeoJSON) {
+          const bounds = layer.getBounds()
+          if (!geojsonBounds) {
+            geojsonBounds = bounds
+          } else {
+            geojsonBounds.extend(bounds)
+          }
+        }
       })
 
-      currentLayer.addTo(map)
-      setCurrentOverlay(currentLayer)
+      if (!geojsonBounds) {
+        throw new Error('GeoJSON bounds not found')
+      }
+
+      // Create color function based on index type
+      const getColor = (value: number) => {
+        const colors = indexValue === 2 ? COLORS.ndwi : COLORS.ndvi
+
+        if (indexValue === 2) {
+          if (value < -0.8) return colors.veryLow
+          if (value < -0.6) return colors.low
+          if (value < -0.4) return colors.modLow
+          if (value < -0.2) return colors.moderate
+          if (value < 0) return colors.modHigh
+          if (value < 0.2) return colors.high
+          return colors.veryHigh
+        } else {
+          if (value < 0) return colors.veryLow
+          if (value < 0.2) return colors.low
+          if (value < 0.4) return colors.modLow
+          if (value < 0.6) return colors.moderate
+          if (value < 0.8) return colors.modHigh
+          if (value < 1.0) return colors.high
+          return colors.veryHigh
+        }
+      }
+
+      // Create and add layer
+      const layer = new GeoRasterLayer({
+        georaster,
+        opacity: 0.7,
+        resolution: 256,
+        pixelValuesToColorFn: values => getColor(values[0]),
+        bounds: geojsonBounds,
+        debugLevel: 0,
+      })
+
+      layer.addTo(map)
+      setCurrentOverlay(layer)
+
+      // Fit map to bounds
+      map.fitBounds(geojsonBounds, {
+        padding: [50, 50],
+        maxZoom: 16,
+      })
     } catch (error) {
-      console.error('TIFF faylni xaritaga yuklashda xatolik:', error)
+      console.error('Error displaying TIFF:', error)
+      throw error
     }
   }
 
+  // Fetch Dates Query
   const { isLoading } = useQuery({
-    queryKey: [REACT_QUERY_KEYS.GET_NDVI_WITH_CONTOUR, apply_number, value],
+    queryKey: ['ndvi-dates', value, apply_number],
     queryFn: async () => {
-      const endpoint =
-        value === 2 ? `ndwi/insurance/${apply_number}` : `ndvi/insurance/${apply_number}`
-      return await request(endpoint, {
-        responseType: 'blob',
-      })
+      const endpoint = value === 2 ? `ndwi/insurance/${apply_number}` : `ndvi/${apply_number}/dates`
+      return await request(endpoint)
     },
-    select: async res => {
-      const files = await parseZipFile(res?.data)
-      return files
-    },
-    onSuccess: async res => {
-      const result = await res
-      setTiffList(result?.tiffFiles)
-      setNdviList(result?.metadata)
-      if (Array.isArray(result?.metadata)) {
-        setDates(
-          result?.metadata?.map((ndvi: any) => ({
-            label: `${dayjs(ndvi?.time).format(DATE_FORMAT)}`,
-            value: `${dayjs(ndvi?.time).format(DATE_FORMAT)}`,
-            filename: ndvi?.filename,
-          })),
-        )
+    select: res => res?.data?.dates,
+    onSuccess: res => {
+      setNdviList(res)
+      setDates(
+        res?.map((ndvi: any) => ({
+          label: dayjs(ndvi?.date).format('YYYY-MM-DD'),
+          value: dayjs(ndvi?.date).format('YYYY-MM-DD'),
+          download_url: ndvi?.download_url,
+        })),
+      )
+
+      if (res?.length > 0) {
         form.reset({
-          date:
-            result?.metadata?.length > 0
-              ? dayjs(result?.metadata?.[0]?.time).format(DATE_FORMAT)
-              : '',
+          date: dayjs(res[0]?.date).format('YYYY-MM-DD'),
         })
       }
 
-      pointerData?.forEach((item: CreditAreaContour) => {
-        const geometry: any = item.data?.features?.[0]?.geometry
-        const geo = L.geoJSON(geometry, {
-          onEachFeature: (feature: any, layer: any) => {
-            if (feature?.type === 'Polygon' || feature?.type === 'MultiPolygon') {
-              layer.setStyle({
-                color: 'green',
-                weight: 2,
-                opacity: 0.7,
-                fillOpacity: 0.1,
-              })
-              const bounds = layer.getBounds()
-              const center = bounds.getCenter()
-              setCenterLatLng(center)
-            }
-          },
-        }).addTo(geoLayer!)
+      // Add GeoJSON layers
+      if (map && geoLayer) {
+        pointerData?.forEach((item: CreditAreaContour) => {
+          const geometry: any = item.data?.features?.[0]?.geometry
+          const geo = L.geoJSON(geometry, {
+            style: {
+              color: 'green',
+              weight: 2,
+              opacity: 0.7,
+              fillOpacity: 0.1,
+            },
+          }).addTo(geoLayer)
 
-        const bounds = geo.getBounds()
-        map?.flyToBounds(bounds, {
-          maxZoom: 16,
+          const bounds = geo.getBounds()
+          const center = bounds.getCenter()
+          setCenterLatLng(center)
+          map.flyToBounds(bounds, { maxZoom: 16 })
         })
-      })
+      }
     },
   })
 
+  // Fetch TIFF Data Query
+  useQuery({
+    queryKey: ['get-ndvi-with-contour', apply_number, date, value],
+    queryFn: async () => {
+      const endpoint =
+        value === 2 ? `ndwi/insurance/${apply_number}` : `ndvi/${apply_number}/${date}.tiff`
+      return await request(endpoint)
+    },
+    onSuccess: response => {
+      console.log(response.data, 'response')
+      if (response?.data && map) {
+        void displayTiffOnMap()
+      }
+    },
+  })
+
+  // Meteo Data Query
   const { data: meteoData = [] } = useQuery({
-    queryKey: [
-      'get-meteo',
-      value,
-      centerLatLng,
-      centerLatLng,
-      centerLatLng?.lng,
-      centerLatLng?.lat,
-    ],
+    queryKey: ['get-meteo', value, centerLatLng?.lng, centerLatLng?.lat],
     queryFn: async () =>
       await request(
         `meteo/stations/closest?longitude=${centerLatLng?.lng}&latitude=${centerLatLng?.lat}`,
       ),
     select: response => response?.data,
     onSuccess: res => {
-      if (res?.length > 0) {
-        res?.forEach((station: any) => {
+      if (res?.length > 0 && map) {
+        res.forEach((station: any) => {
           const coordinates = station?.station?.location?.coordinates
           if (coordinates) {
             const [lng, lat] = coordinates
-            const marker = L.marker([lat, lng]).addTo(map!)
+            const marker = L.marker([lat, lng]).addTo(map)
             marker.bindPopup(`<b>${station?.station?.name}</b>`)
           }
         })
       }
     },
-    enabled: value === 4,
+    enabled: value === 4 && !!centerLatLng?.lat && !!centerLatLng?.lng,
   })
-
-  useEffect(() => {
-    if (!map || !geoLayer || !Array.isArray(dates) || !Array.isArray(tiffList)) {
-      return
-    }
-
-    if (value !== 1 && value !== 2) {
-      if (currentOverlay) {
-        map.removeLayer(currentOverlay)
-        setCurrentOverlay(null)
-      }
-      return
-    }
-
-    const currentFilename = dates.find(v => v?.value === date)?.filename
-    if (!currentFilename) {
-      console.warn('Tanlangan sana bo‘yicha TIFF fayl topilmadi.')
-      return
-    }
-
-    const tiff = tiffList.find(v => v?.fileName === currentFilename)
-    if (!tiff?.content) {
-      console.warn(`"${currentFilename}" nomli TIFF fayl topilmadi yoki bo'sh.`)
-      return
-    }
-
-    void displayTiffOnMap(tiff, map, geoLayer)
-  }, [geoLayer, map, tiffList, value, date, dates])
-
-  useEffect(() => {
-    if (meteoData?.length > 0) {
-      meteoData.forEach((station: any) => {
-        const coordinates = station?.station?.location?.coordinates
-        if (coordinates) {
-          const [lng, lat] = coordinates
-          const marker = L.marker([lat, lng]).addTo(map!)
-          marker.bindPopup(`<b>${station?.station?.name}</b>`)
-        }
-      })
-    }
-  }, [meteoData, map])
 
   return {
     ref,

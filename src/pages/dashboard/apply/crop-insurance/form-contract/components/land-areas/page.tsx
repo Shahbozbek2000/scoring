@@ -18,14 +18,14 @@ const LandAreas = ({ details, pointerData }: ILandAreasProps) => {
   const series = Array.isArray(data)
     ? data?.map((item: any) =>
         value === 1
-          ? Number(item?.average_ndvi)?.toFixed(2)
-          : Number(item?.average_ndwi)?.toFixed(2),
+          ? Number(item?.average_value)?.toFixed(2)
+          : Number(item?.average_value)?.toFixed(2),
       )
     : []
 
   const categories = Array.isArray(data)
     ? data?.map((item: any) => {
-        const date = new Date(item?.time)
+        const date = new Date(item?.date)
         const day = String(date.getDate()).padStart(2, '0')
         const month = date.toLocaleString('default', { month: 'short' })
         return `${day} ${month}`
