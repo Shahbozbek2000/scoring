@@ -37,6 +37,8 @@ const CreateCropInsurance = lazy(
   async () => await import('@/pages/dashboard/contracts/crop-insurance/create'),
 )
 
+const VariableData = lazy(async () => await import('@/pages/dashboard/variable-data'))
+
 export const router = createBrowserRouter([
   {
     path: ROUTER.AUTH,
@@ -78,6 +80,10 @@ export const router = createBrowserRouter([
                 element: <ApplyCoverageInsurance />,
               },
             ],
+          },
+          {
+            path: ROUTER.VARIABLE_DATA,
+            element: <VariableData />,
           },
           {
             path: ROUTER.CONTRACTS,

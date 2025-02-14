@@ -46,6 +46,10 @@ export const Card = styled('div')`
 `
 export const Left = styled('div')`
   width: 20%;
+  svg {
+    width: 60px;
+    height: 60px;
+  }
 `
 export const Right = styled('div')`
   width: 80%;

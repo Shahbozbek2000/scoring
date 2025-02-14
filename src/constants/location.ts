@@ -24,6 +24,10 @@ export const location: ILocartionProps[] = [
     name: 'Shaxsiy ma`lumotlar',
   },
   {
+    path: 'variable-data',
+    name: 'O`zgaruvchan ma`lumotlar',
+  },
+  {
     path: 'apply',
     name: 'Arizalar',
   },

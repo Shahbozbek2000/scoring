@@ -9,10 +9,19 @@ import { ReactComponent as IconAgroActivities } from '@/assets/icons/agro-activi
 import { ReactComponent as IconStatistics } from '@/assets/icons/statistics.svg'
 import { ReactComponent as IconTechnicSupport } from '@/assets/icons/technical-support.svg'
 import { ReactComponent as IconDocuments } from '@/assets/icons/documents.svg'
+import { ReactComponent as IconPersonal } from '@/assets/icons/personal.svg'
 
 export const pages = [
   { id: 1, name: 'Arizalar', Icon: IconApply, link: 'apply', disabled: false, show: true },
   { id: 2, name: 'Skoring', Icon: IconScoring, link: '/main', disabled: true, show: false },
+  {
+    id: 2,
+    name: 'O`zgaruvchan ma`lumotlar',
+    Icon: IconPersonal,
+    link: 'variable-data',
+    disabled: false,
+    show: true,
+  },
   {
     id: 3,
     name: 'Shartnomalar',
