@@ -1,9 +1,49 @@
 import { request } from '@/configs/requests'
-import { useQuery } from '@tanstack/react-query'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import validationSchema, { type FormValues } from './form.schema'
+
+interface Insurance {
+  insurance_liability: number
+  deductible_percentage: number
+  insurance_rate_percentage: number
+}
+
+interface RiskFactor {
+  active: boolean
+  text: string
+}
+
+interface PaymentSchedule {
+  days: number
+  percentage: number
+}
+
+interface ConfigResponse {
+  insurance: Insurance
+  risk_factors: RiskFactor[]
+  payment_schedule: PaymentSchedule[]
+}
+
+interface ConfigPayload {
+  insurance: Insurance
+  risk_factors: RiskFactor[]
+  payment_schedule: PaymentSchedule[]
+}
 
 export const usePage = () => {
-  const form = useForm()
+  const form = useForm<FormValues | any>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      insurance_liability: 0,
+      deductible_percentage: 0,
+      insurance_rate_percentage: 0,
+      risk_factors: [],
+      payment_schedule: [],
+    },
+  })
 
   const {
     fields: paymentScheduleFields,
@@ -18,9 +58,9 @@ export const usePage = () => {
     name: 'risk_factors',
   })
 
-  const { data = null } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ['config'],
-    queryFn: async () => await request('config'),
+    queryFn: async () => await request.get<ConfigResponse>('config'),
     select: response => response.data,
     onSuccess: response => {
       form.reset({
@@ -29,39 +69,56 @@ export const usePage = () => {
         insurance_rate_percentage: response?.insurance?.insurance_rate_percentage,
       })
 
-      // Handle payment schedule data
       if (response?.payment_schedule) {
         response.payment_schedule.forEach((scheduleItem: any) => {
-          append(scheduleItem) // Append each item from the response
+          append(scheduleItem)
         })
       }
       if (response?.risk_factors) {
-        response.risk_factors.forEach((scheduleItem: any) => {
-          riskFactorsAppend(scheduleItem)
+        response.risk_factors.forEach((riskFactors: any) => {
+          riskFactorsAppend(riskFactors)
         })
       }
     },
   })
 
-  const onSubmit: SubmitHandler<any> = data => {
+  const { mutate, isLoading: isSubmitting } = useMutation({
+    mutationFn: async (data: ConfigPayload | any) =>
+      await request.patch<ConfigPayload>('config', data),
+    onSuccess: () => {
+      toast.success('Ma`lumotlar muvaffaqiyatli o`zgardi')
+    },
+  })
+
+  const onSubmit: SubmitHandler<FormValues | any> = data => {
+    const totalPercentage = data?.payment_schedule?.reduce(
+      (sum: number, item: PaymentSchedule) => sum + Number(item.percentage),
+      0,
+    )
+
+    if (totalPercentage !== 100) {
+      toast.error('To`lov jadvali foizlari yig`indisi 100% bo`lishi kerak')
+      return
+    }
+
     const payload = {
       insurance: {
-        insurance_liability: data?.insurance_liability,
-        deductible_percentage: data?.deductible_percentage,
-        insurance_rate_percentage: data?.insurance_rate_percentage,
+        insurance_liability: Number(data?.insurance_liability),
+        deductible_percentage: Number(data?.deductible_percentage),
+        insurance_rate_percentage: Number(data?.insurance_rate_percentage),
       },
       payment_schedule: data?.payment_schedule,
       risk_factors: data?.risk_factors,
     }
-    console.log(payload, 'payload')
+    mutate(payload)
   }
 
   return {
     form,
-    data,
     append,
     remove,
     onSubmit,
+    isLoading: isLoading || isSubmitting,
     riskFactorsFields,
     riskFactorsAppend,
     paymentScheduleFields,

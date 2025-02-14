@@ -10,9 +10,10 @@ import { Form } from 'react-router-dom'
 import { InputCheckbox } from '@/components/inputs/input-checkbox'
 import { TextArea } from '@/components/inputs/input-textarea'
 import { Fragment } from 'react'
+import { LoadingOverlay } from '@/components/loading-overlay'
 
 const VariableData = () => {
-  const { form, data, append, remove, onSubmit, riskFactorsFields, paymentScheduleFields } =
+  const { form, append, remove, onSubmit, isLoading, riskFactorsFields, paymentScheduleFields } =
     usePage()
 
   return (
@@ -155,7 +156,7 @@ const VariableData = () => {
                 <Grid item xs={12}>
                   <IconButton
                     onClick={() => {
-                      append({ days: null, percentage: null })
+                      append({ days: 0, percentage: 0 })
                     }}
                   >
                     <AddIcon />
@@ -167,6 +168,7 @@ const VariableData = () => {
             <Stack width='100%' display='flex' flexDirection='row' justifyContent='flex-end'>
               <LoadingButton
                 variant='contained'
+                loading={isLoading}
                 sx={{ background: '#08705F', opacity: 0.7, maxWidth: 200 }}
                 type='submit'
               >
@@ -176,6 +178,7 @@ const VariableData = () => {
           </Stack>
         </Stack>
       </Form>
+      <LoadingOverlay isLoading={isLoading} />
     </Stack>
   )
 }

@@ -1,61 +1,287 @@
 # Frontend Project Code Export
-Export date: 2/14/2025, 10:47:04 AM
+Export date: 2/14/2025, 9:36:34 PM
 
-`src/layout/hoc.tsx`
-```javascript
-import { type HocProps } from '@/types/hoc'
-import { Suspense } from '@/components/suspense'
-
-export const Hoc = ({ children }: HocProps) => {
-  return <Suspense>{children}</Suspense>
-}
-
-```
-- - - - -
-
-`src/layout/index.ts`
+`src/pages/dashboard/variable-data/form.schema.ts`
 ```ts
-export { default } from './layout'
 
 ```
 - - - - -
 
-`src/layout/layout.tsx`
-```javascript
-// @ts-nocheck
-import { Suspense } from '@/components/suspense'
-import { Header } from '@/components/header'
-import { Container, Stack } from '@mui/material'
-import { Foooter } from '@/components/footer'
-import { Outlet } from 'react-router-dom'
-import ErrorBoundary from '@/pages/500'
-import { Hoc } from './hoc'
+`src/pages/dashboard/variable-data/index.ts`
+```ts
+export { default } from './page'
 
-const Layout = () => {
+```
+- - - - -
+
+`src/pages/dashboard/variable-data/page.tsx`
+```javascript
+// VariableData.js
+import { Grid, Stack, Typography, IconButton } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import DeleteIcon from '@mui/icons-material/Delete'
+import BreadcrumpCustom from '@/components/breadcrumb'
+import { usePage } from './usePage'
+import { Input } from '@/components/inputs/input'
+import LoadingButton from '@mui/lab/LoadingButton'
+import { Form } from 'react-router-dom'
+import { InputCheckbox } from '@/components/inputs/input-checkbox'
+import { TextArea } from '@/components/inputs/input-textarea'
+import { Fragment } from 'react'
+
+const VariableData = () => {
+  const { form, append, remove, onSubmit, isLoading, riskFactorsFields, paymentScheduleFields } =
+    usePage()
+
   return (
-    <ErrorBoundary>
-      <Hoc>
-        <Header />
-        <Stack
-          pt='32px'
-          pb='48px'
-          component='main'
-          minHeight='calc(100vh - 390px)'
-          sx={{ backgroundColor: theme => theme.palette.allColors.GREY }}
-        >
-          <Container>
-            <Suspense>
-              <Outlet />
-            </Suspense>
-          </Container>
+    <Stack>
+      <BreadcrumpCustom />
+      <Form onSubmit={form.handleSubmit(onSubmit)}>
+        <Stack gap='32px'>
+          <Stack
+            width='100%'
+            borderRadius='12px'
+            p='32px 24px'
+            mx='auto'
+            gap='24px'
+            bgcolor={theme => theme.palette.allColors.WHITE}
+          >
+            <Stack>
+              <Typography
+                sx={{
+                  fontFamily: 'GothamProRegular',
+                  fontSize: 16,
+                  color: 'var(--dark)',
+                  margin: '8px 0',
+                }}
+              >
+                Sug'urta
+              </Typography>
+              <Grid container spacing={{ xs: 2, md: 2 }}>
+                <Grid item xs={6} sm={4} md={4}>
+                  <Input
+                    control={form.control}
+                    name='insurance_liability'
+                    placeholder='Sug`urta javobgarligi'
+                    label='Sug`urta javobgarligi'
+                    type='number'
+                  />
+                </Grid>
+                <Grid item xs={6} sm={4} md={4}>
+                  <Input
+                    control={form.control}
+                    name='deductible_percentage'
+                    placeholder='Chegirib tashlanadigan foiz'
+                    label='Chegirib tashlanadigan foiz'
+                    type='number'
+                  />
+                </Grid>
+                <Grid item xs={6} sm={4} md={4}>
+                  <Input
+                    control={form.control}
+                    name='insurance_rate_percentage'
+                    placeholder='Sug`urta stavkasi foizi'
+                    label='Sug`urta stavkasi foizi'
+                    type='number'
+                  />
+                </Grid>
+              </Grid>
+            </Stack>
+
+            <Stack>
+              <Typography
+                sx={{
+                  fontFamily: 'GothamProRegular',
+                  fontSize: 16,
+                  color: 'var(--dark)',
+                  margin: '8px 0',
+                }}
+              >
+                Sug‘urta tavakkalchiliklari
+              </Typography>
+              <Grid container spacing={{ xs: 2 }}>
+                {riskFactorsFields?.map((v: any, idx: number) => (
+                  <Grid item xs={12} sm={12} md={6} key={idx}>
+                    <Stack direction='row' alignItems='center' gap={1}>
+                      <InputCheckbox
+                        control={form.control}
+                        name={`risk_factors.${idx}.active`}
+                        label=''
+                        sx={{
+                          fontFamily: 'GothamProRegular !important',
+                          marginLeft: 0,
+                        }}
+                      />
+                      <TextArea
+                        control={form.control}
+                        name={`risk_factors.${idx}.text`}
+                        minRows={3}
+                        style={{
+                          width: '100%',
+                          resize: 'vertical',
+                          fontFamily: 'GothamProRegular',
+                        }}
+                      />
+                    </Stack>
+                  </Grid>
+                ))}
+              </Grid>
+            </Stack>
+
+            <Stack>
+              <Typography
+                sx={{
+                  fontFamily: 'GothamProRegular',
+                  fontSize: 16,
+                  color: 'var(--dark)',
+                  margin: '8px 0',
+                }}
+              >
+                To'lov jadvali
+              </Typography>
+              <Grid container spacing={2}>
+                {paymentScheduleFields.map((item, index) => (
+                  <Fragment key={item.id}>
+                    <Grid item xs={12} md={6}>
+                      <Stack direction='row' spacing={2} alignItems='flex-end'>
+                        <Input
+                          control={form.control}
+                          name={`payment_schedule.${index}.days`}
+                          placeholder='Kuni'
+                          type='number'
+                          label='Kuni'
+                        />
+                        <Input
+                          control={form.control}
+                          name={`payment_schedule.${index}.percentage`}
+                          placeholder='Foizi'
+                          type='number'
+                          label='Foizi'
+                        />
+                        <IconButton
+                          onClick={() => {
+                            remove(index)
+                          }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={12} md={6} />
+                  </Fragment>
+                ))}
+                <Grid item xs={12}>
+                  <IconButton
+                    onClick={() => {
+                      append({ days: null, percentage: null })
+                    }}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </Stack>
+
+            <Stack width='100%' display='flex' flexDirection='row' justifyContent='flex-end'>
+              <LoadingButton
+                variant='contained'
+                loading={isLoading}
+                sx={{ background: '#08705F', opacity: 0.7, maxWidth: 200 }}
+                type='submit'
+              >
+                O'zgartirish
+              </LoadingButton>
+            </Stack>
+          </Stack>
         </Stack>
-        <Foooter />
-      </Hoc>
-    </ErrorBoundary>
+      </Form>
+    </Stack>
   )
 }
 
-export default Layout
+export default VariableData
+
+```
+- - - - -
+
+`src/pages/dashboard/variable-data/usePage.ts`
+```ts
+import { request } from '@/configs/requests'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+
+export const usePage = () => {
+  const form = useForm()
+
+  const {
+    fields: paymentScheduleFields,
+    append,
+    remove,
+  } = useFieldArray({
+    control: form.control,
+    name: 'payment_schedule',
+  })
+  const { fields: riskFactorsFields, append: riskFactorsAppend } = useFieldArray({
+    control: form.control,
+    name: 'risk_factors',
+  })
+
+  useQuery({
+    queryKey: ['config'],
+    queryFn: async () => await request('config'),
+    select: response => response.data,
+    onSuccess: response => {
+      form.reset({
+        insurance_liability: response?.insurance?.insurance_liability,
+        deductible_percentage: response?.insurance?.deductible_percentage,
+        insurance_rate_percentage: response?.insurance?.insurance_rate_percentage,
+      })
+
+      if (response?.payment_schedule) {
+        response.payment_schedule.forEach((scheduleItem: any) => {
+          append(scheduleItem)
+        })
+      }
+      if (response?.risk_factors) {
+        response.risk_factors.forEach((riskFactors: any) => {
+          riskFactorsAppend(riskFactors)
+        })
+      }
+    },
+  })
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: async (data: any) => await request.patch('config', data),
+    onSuccess: () => {
+      toast.success('Ma`lumotlar muvaffaqiyatli o`zgardi')
+    },
+  })
+
+  const onSubmit: SubmitHandler<any> = data => {
+    const payload = {
+      insurance: {
+        insurance_liability: Number(data?.insurance_liability),
+        deductible_percentage: Number(data?.deductible_percentage),
+        insurance_rate_percentage: Number(data?.insurance_rate_percentage),
+      },
+      payment_schedule: data?.payment_schedule,
+      risk_factors: data?.risk_factors,
+    }
+    mutate(payload)
+  }
+
+  return {
+    form,
+    append,
+    remove,
+    onSubmit,
+    isLoading,
+    riskFactorsFields,
+    riskFactorsAppend,
+    paymentScheduleFields,
+  }
+}
 
 ```
 - - - - -

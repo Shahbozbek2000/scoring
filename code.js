@@ -64,7 +64,7 @@ function readAllFiles() {
 
   // src papkasidan boshlash
   try {
-    readDir('src/layout')
+    readDir('src/pages/dashboard/variable-data')
   } catch (err) {
     console.error("src papkasini o'qishda xatolik:", err.message)
   }
