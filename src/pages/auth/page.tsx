@@ -6,14 +6,15 @@ import { Input } from '@/components/inputs/input'
 import { InputPassword } from '@/components/inputs/input-password'
 import { useLogin } from './useLogin'
 import { LoadingOverlay } from '@/components/loading-overlay'
-import { ROUTER } from '@/constants/router'
+import { getUser, isExpiredToken } from '@/utils/user'
 
 const Auth = () => {
-  const user = localStorage.getItem('token')
+  const user = getUser()
+  const { isExpiredAccess } = isExpiredToken()
   const { form, onLogin, isLoading } = useLogin()
 
-  if (user) {
-    return <Navigate to={ROUTER.HOME} />
+  if (user && !isExpiredAccess) {
+    return <Navigate to='/main' />
   }
 
   return (

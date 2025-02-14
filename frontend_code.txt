@@ -1,0 +1,61 @@
+# Frontend Project Code Export
+Export date: 2/14/2025, 10:47:04 AM
+
+`src/layout/hoc.tsx`
+```javascript
+import { type HocProps } from '@/types/hoc'
+import { Suspense } from '@/components/suspense'
+
+export const Hoc = ({ children }: HocProps) => {
+  return <Suspense>{children}</Suspense>
+}
+
+```
+- - - - -
+
+`src/layout/index.ts`
+```ts
+export { default } from './layout'
+
+```
+- - - - -
+
+`src/layout/layout.tsx`
+```javascript
+// @ts-nocheck
+import { Suspense } from '@/components/suspense'
+import { Header } from '@/components/header'
+import { Container, Stack } from '@mui/material'
+import { Foooter } from '@/components/footer'
+import { Outlet } from 'react-router-dom'
+import ErrorBoundary from '@/pages/500'
+import { Hoc } from './hoc'
+
+const Layout = () => {
+  return (
+    <ErrorBoundary>
+      <Hoc>
+        <Header />
+        <Stack
+          pt='32px'
+          pb='48px'
+          component='main'
+          minHeight='calc(100vh - 390px)'
+          sx={{ backgroundColor: theme => theme.palette.allColors.GREY }}
+        >
+          <Container>
+            <Suspense>
+              <Outlet />
+            </Suspense>
+          </Container>
+        </Stack>
+        <Foooter />
+      </Hoc>
+    </ErrorBoundary>
+  )
+}
+
+export default Layout
+
+```
+- - - - -

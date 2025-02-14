@@ -13,6 +13,7 @@ const queryCache = new QueryCache({
     const error = res as ErrorProps
     console.log(error, 'errr')
     if (error?.response?.status === 401) {
+      localStorage.clear()
       window.location.href = '/'
     }
   },
