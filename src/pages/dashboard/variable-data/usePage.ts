@@ -88,6 +88,9 @@ export const usePage = () => {
     onSuccess: () => {
       toast.success('Ma`lumotlar muvaffaqiyatli o`zgardi')
     },
+    onError: (err: { response: { data: { message: string } } }) => {
+      toast.error(err?.response?.data?.message || 'Nimadur xatolik yuz berdi!')
+    },
   })
 
   const onSubmit: SubmitHandler<FormValues | any> = data => {
@@ -107,7 +110,13 @@ export const usePage = () => {
         deductible_percentage: Number(data?.deductible_percentage),
         insurance_rate_percentage: Number(data?.insurance_rate_percentage),
       },
-      payment_schedule: data?.payment_schedule,
+      payment_schedule: data?.payment_schedule?.map((v: any) => {
+        return {
+          ...v,
+          days: Number(v?.days),
+          percentage: Number(v?.percentage),
+        }
+      }),
       risk_factors: data?.risk_factors,
     }
     mutate(payload)
