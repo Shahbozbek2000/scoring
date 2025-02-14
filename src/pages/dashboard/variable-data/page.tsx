@@ -45,8 +45,8 @@ const VariableData = () => {
                   <Input
                     control={form.control}
                     name='insurance_liability'
-                    placeholder='Sug`urta javobgarligi'
-                    label='Sug`urta javobgarligi'
+                    placeholder='Sug`urta javobgarligi foizi'
+                    label='Sug`urta javobgarligi foizi'
                     type='number'
                   />
                 </Grid>
@@ -54,8 +54,8 @@ const VariableData = () => {
                   <Input
                     control={form.control}
                     name='deductible_percentage'
-                    placeholder='Chegirib tashlanadigan foiz'
-                    label='Chegirib tashlanadigan foiz'
+                    placeholder='Sug`urta shartsiz foizi'
+                    label='Sug`urta shartsiz foizi'
                     type='number'
                   />
                 </Grid>
@@ -63,8 +63,8 @@ const VariableData = () => {
                   <Input
                     control={form.control}
                     name='insurance_rate_percentage'
-                    placeholder='Sug`urta stavkasi foizi'
-                    label='Sug`urta stavkasi foizi'
+                    placeholder='Sug`urta tarifi foizi'
+                    label='Sug`urta tarifi foizi'
                     type='number'
                   />
                 </Grid>

@@ -99,45 +99,47 @@ export const usePage = ({ pointerData }: ICreditAreaContour) => {
   useEffect(() => {
     if (!map) return
 
-    const legend = L.control({ position: 'bottomright' })
-    legend.onAdd = function () {
-      const div = L.DomUtil.create('div', 'info legend')
-      div.style.backgroundColor = 'white'
-      div.style.padding = '10px'
-      div.style.borderRadius = '5px'
+    if (value === 1 || value === 2) {
+      const legend = L.control({ position: 'bottomright' })
+      legend.onAdd = function () {
+        const div = L.DomUtil.create('div', 'info legend')
+        div.style.backgroundColor = 'white'
+        div.style.padding = '10px'
+        div.style.borderRadius = '5px'
 
-      const colors = value === 2 ? waterNdwiColors : ndviColors
-      const labels =
-        value === 2
-          ? [
-              { color: colors.veryLow, label: 'Juda past suv indeksi' },
-              { color: colors.low, label: 'Past suv indeksi' },
-              { color: colors.modLow, label: 'O`rtacha past suv indeksi' },
-              { color: colors.moderate, label: 'O`rta suv indeksi' },
-              { color: colors.modHigh, label: 'O`rtacha yuqori suv indeksi' },
-              { color: colors.high, label: 'Yuqori suv indeksi' },
-              { color: colors.veryHigh, label: 'Juda yuqori suv indeksi' },
-            ]
-          : [
-              { color: colors.veryLow, label: 'Juda past o`simlik qoplami' },
-              { color: colors.low, label: 'Past o`simlik qoplami' },
-              { color: colors.modLow, label: 'O`rtacha past o`simlik qoplami' },
-              { color: colors.moderate, label: 'O`rtacha o`simlik qatlami' },
-              { color: colors.modHigh, label: 'O`rtacha yuqori o`simlik qoplami' },
-              { color: colors.high, label: 'Yuqori o`simlik qoplami' },
-              { color: colors.veryHigh, label: 'Juda yuqori o`simlik qoplami' },
-            ]
+        const colors = value === 2 ? waterNdwiColors : ndviColors
+        const labels =
+          value === 2
+            ? [
+                { color: colors.veryLow, label: 'Juda past suv indeksi' },
+                { color: colors.low, label: 'Past suv indeksi' },
+                { color: colors.modLow, label: 'O`rtacha past suv indeksi' },
+                { color: colors.moderate, label: 'O`rta suv indeksi' },
+                { color: colors.modHigh, label: 'O`rtacha yuqori suv indeksi' },
+                { color: colors.high, label: 'Yuqori suv indeksi' },
+                { color: colors.veryHigh, label: 'Juda yuqori suv indeksi' },
+              ]
+            : [
+                { color: colors.veryLow, label: 'Juda past o`simlik qoplami' },
+                { color: colors.low, label: 'Past o`simlik qoplami' },
+                { color: colors.modLow, label: 'O`rtacha past o`simlik qoplami' },
+                { color: colors.moderate, label: 'O`rtacha o`simlik qatlami' },
+                { color: colors.modHigh, label: 'O`rtacha yuqori o`simlik qoplami' },
+                { color: colors.high, label: 'Yuqori o`simlik qoplami' },
+                { color: colors.veryHigh, label: 'Juda yuqori o`simlik qoplami' },
+              ]
 
-      div.innerHTML += `<strong>${value === 2 ? 'Suv indeksi' : 'Vegetatsiya indeksi'}</strong><br>`
-      labels.forEach(({ color, label }) => {
-        div.innerHTML += `<i style="background: ${color}; width: 12px; height: 12px; display: inline-block; margin-right: 5px;"></i> ${label}<br>`
-      })
+        div.innerHTML += `<strong>${value === 2 ? 'Suv indeksi' : 'Vegetatsiya indeksi'}</strong><br>`
+        labels.forEach(({ color, label }) => {
+          div.innerHTML += `<i style="background: ${color}; width: 12px; height: 12px; display: inline-block; margin-right: 5px;"></i> ${label}<br>`
+        })
 
-      return div
-    }
-    legend.addTo(map)
-    return () => {
-      map.removeControl(legend)
+        return div
+      }
+      legend.addTo(map)
+      return () => {
+        map.removeControl(legend)
+      }
     }
   }, [map, value])
 
