@@ -12,7 +12,8 @@ import { TextArea } from '@/components/inputs/input-textarea'
 import { Fragment } from 'react'
 
 const VariableData = () => {
-  const { form, data, append, remove, onSubmit, paymentScheduleFields } = usePage()
+  const { form, data, append, remove, onSubmit, riskFactorsFields, paymentScheduleFields } =
+    usePage()
 
   return (
     <Stack>
@@ -81,12 +82,12 @@ const VariableData = () => {
                 Sug‘urta tavakkalchiliklari
               </Typography>
               <Grid container spacing={{ xs: 2 }}>
-                {data?.risk_factors?.map((v: any, idx: number) => (
+                {riskFactorsFields?.map((v: any, idx: number) => (
                   <Grid item xs={12} sm={12} md={6} key={idx}>
                     <Stack direction='row' alignItems='center' gap={1}>
                       <InputCheckbox
                         control={form.control}
-                        name={v.key}
+                        name={`risk_factors.${idx}.active`}
                         label=''
                         sx={{
                           fontFamily: 'GothamProRegular !important',
@@ -95,7 +96,7 @@ const VariableData = () => {
                       />
                       <TextArea
                         control={form.control}
-                        name={v.key + '_text'}
+                        name={`risk_factors.${idx}.text`}
                         minRows={3}
                         style={{
                           width: '100%',

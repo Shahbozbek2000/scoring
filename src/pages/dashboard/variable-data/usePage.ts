@@ -13,39 +13,37 @@ export const usePage = () => {
     control: form.control,
     name: 'payment_schedule',
   })
+  const { fields: riskFactorsFields, append: riskFactorsAppend } = useFieldArray({
+    control: form.control,
+    name: 'risk_factors',
+  })
 
   const { data = null } = useQuery({
     queryKey: ['config'],
     queryFn: async () => await request('config'),
     select: response => response.data,
     onSuccess: response => {
-      if (response?.risk_factors) {
-        const riskFactorDefaults = response.risk_factors.reduce((acc: any, factor: any) => {
-          acc[factor.key] = factor.active
-          acc[factor.key + '_text'] = factor.text
-          return acc
-        }, {})
+      form.reset({
+        insurance_liability: response?.insurance?.insurance_liability,
+        deductible_percentage: response?.insurance?.deductible_percentage,
+        insurance_rate_percentage: response?.insurance?.insurance_rate_percentage,
+      })
 
-        // Reset the main form values
-        form.reset({
-          insurance_liability: response?.insurance?.insurance_liability,
-          deductible_percentage: response?.insurance?.deductible_percentage,
-          insurance_rate_percentage: response?.insurance?.insurance_rate_percentage,
-          ...riskFactorDefaults,
+      // Handle payment schedule data
+      if (response?.payment_schedule) {
+        response.payment_schedule.forEach((scheduleItem: any) => {
+          append(scheduleItem) // Append each item from the response
         })
-
-        // Handle payment schedule data
-        if (response?.payment_schedule) {
-          response.payment_schedule.forEach((scheduleItem: any) => {
-            append(scheduleItem) // Append each item from the response
-          })
-        }
+      }
+      if (response?.risk_factors) {
+        response.risk_factors.forEach((scheduleItem: any) => {
+          riskFactorsAppend(scheduleItem)
+        })
       }
     },
   })
 
   const onSubmit: SubmitHandler<any> = data => {
-    console.log(data, 'data')
     const payload = {
       insurance: {
         insurance_liability: data?.insurance_liability,
@@ -53,10 +51,19 @@ export const usePage = () => {
         insurance_rate_percentage: data?.insurance_rate_percentage,
       },
       payment_schedule: data?.payment_schedule,
-      risk_factors: [],
+      risk_factors: data?.risk_factors,
     }
     console.log(payload, 'payload')
   }
 
-  return { form, data, append, remove, onSubmit, paymentScheduleFields }
+  return {
+    form,
+    data,
+    append,
+    remove,
+    onSubmit,
+    riskFactorsFields,
+    riskFactorsAppend,
+    paymentScheduleFields,
+  }
 }
