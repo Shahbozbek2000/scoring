@@ -1,4 +1,6 @@
-import { ReactComponent as Logo } from '@/assets/icons/logo.svg'
+// import { ReactComponent as Logo } from '@/assets/icons/logo.svg'
+import { ReactComponent as Logo } from '@/assets/icons/logo-semurg.svg'
+
 import { ROUTER } from '@/constants/router'
 import { Container } from '@mui/material'
 import Stack from '@mui/material/Stack'
