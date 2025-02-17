@@ -1,285 +1,1047 @@
 # Frontend Project Code Export
-Export date: 2/14/2025, 9:36:34 PM
+Export date: 2/17/2025, 12:11:23 PM
 
-`src/pages/dashboard/variable-data/form.schema.ts`
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/components/anomalous-area/index.tsx`
+```javascript
+export const AnomalousArea = () => {
+  return <div>AnomalousArea</div>
+}
+
+```
+- - - - -
+
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/components/mndwi/chart/index.tsx`
+```javascript
+import ReactApexChart from 'react-apexcharts'
+
+interface IVegetationChart {
+  series: number[]
+  categories: string[]
+}
+
+export const VegetationChart = ({ series = [], categories = [] }: IVegetationChart) => {
+  const data = [
+    {
+      name: 'Средняя',
+      data: series, // O'rtacha qiymatlar
+    },
+  ]
+
+  const options: any = {
+    chart: {
+      type: 'line',
+      height: 300,
+      toolbar: { show: false },
+      zoom: {
+        enabled: true,
+        type: 'x',
+        autoScaleYaxis: true,
+      },
+    },
+    colors: ['#A855F7', '#8B5CF6', '#D8B4FE'],
+    stroke: {
+      curve: 'smooth',
+      width: 2,
+    },
+    fill: {
+      type: 'solid',
+      opacity: [0.3, 0.2, 0.1],
+    },
+    markers: {
+      size: 4,
+      hover: { sizeOffset: 2 },
+    },
+    dataLabels: {
+      enabled: false,
+      style: {
+        fontSize: '12px',
+        colors: ['#A855F7'],
+        borderRadius: '50%',
+      },
+    },
+
+    tooltip: {
+      shared: true,
+      intersect: false,
+      x: { format: 'dd MMM' },
+      y: {
+        formatter: (value: number) => value.toFixed(2),
+      },
+    },
+    grid: {
+      borderColor: '#E5E7EB',
+      strokeDashArray: 5,
+    },
+    xaxis: {
+      categories,
+      labels: {
+        style: { colors: '#6B7280' },
+        rotate: -45,
+        show: true,
+      },
+    },
+    yaxis: {
+      min: undefined,
+      labels: { formatter: (val: number) => val.toFixed(2) },
+    },
+    legend: {
+      show: true,
+      position: 'top',
+    },
+  }
+
+  return (
+    <div id='chart'>
+      <ReactApexChart options={options} series={data} type='line' width='70%' height={300} />
+    </div>
+  )
+}
+
+```
+- - - - -
+
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/components/mndwi/index.tsx`
+```javascript
+import { SelectInput } from '@/components/select'
+import { Grid } from '@mui/material'
+import { useFormContext } from 'react-hook-form'
+import { Wrapper } from './style'
+import { VegetationChart } from './chart'
+
+interface ISelect {
+  label: string
+  value: string
+}
+
+interface INdvi {
+  dates: ISelect[]
+  series: number[]
+  categories: string[]
+}
+
+export const MNDWI = ({ dates, series, categories }: INdvi) => {
+  const form = useFormContext()
+
+  return (
+    <Wrapper>
+      <Grid container spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }} mb='32px'>
+        <Grid item xs={6} sm={4} md={4}>
+          <SelectInput
+            label='Sana'
+            name='date'
+            control={form.control}
+            placeholder='Sana'
+            options={dates}
+          />
+        </Grid>
+      </Grid>
+      <VegetationChart series={series} categories={categories} />
+    </Wrapper>
+  )
+}
+
+```
+- - - - -
+
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/components/mndwi/style.ts`
+```ts
+import styled from '@emotion/styled'
+
+export const Wrapper = styled('div')``
+
+```
+- - - - -
+
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/components/ndvi/chart/index.tsx`
+```javascript
+import ReactApexChart from 'react-apexcharts'
+
+interface IVegetationChart {
+  series: number[]
+  categories: string[]
+}
+
+export const VegetationChart = ({ series, categories }: IVegetationChart) => {
+  const data = [
+    {
+      name: 'Средняя',
+      data: series, // O'rtacha qiymatlar
+    },
+  ]
+
+  const options: any = {
+    chart: {
+      type: 'line',
+      height: 300,
+      toolbar: { show: false },
+      zoom: {
+        enabled: true,
+        type: 'x',
+        autoScaleYaxis: true,
+      },
+    },
+    colors: ['#A855F7', '#8B5CF6', '#D8B4FE'],
+    stroke: {
+      curve: 'smooth',
+      width: 2,
+    },
+    fill: {
+      type: 'solid',
+      opacity: [0.3, 0.2, 0.1],
+    },
+    markers: {
+      size: 4,
+      hover: { sizeOffset: 2 },
+    },
+    dataLabels: {
+      enabled: false,
+      style: {
+        fontSize: '12px',
+        colors: ['#A855F7'],
+        borderRadius: '50%',
+      },
+    },
+
+    tooltip: {
+      shared: true,
+      intersect: false,
+      x: { format: 'dd MMM' },
+      y: {
+        formatter: (value: number) => value.toFixed(2),
+      },
+    },
+    grid: {
+      borderColor: '#E5E7EB',
+      strokeDashArray: 5,
+    },
+    xaxis: {
+      categories,
+      labels: {
+        style: { colors: '#6B7280' },
+        rotate: -45,
+        show: true,
+      },
+    },
+    yaxis: {
+      min: undefined,
+      labels: { formatter: (val: number) => val.toFixed(2) },
+    },
+    legend: {
+      show: true,
+      position: 'top',
+    },
+  }
+
+  return (
+    <div id='chart'>
+      <ReactApexChart options={options} series={data} type='line' width='70%' height={300} />
+    </div>
+  )
+}
+
+```
+- - - - -
+
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/components/ndvi/index.tsx`
+```javascript
+import { SelectInput } from '@/components/select'
+import { Grid } from '@mui/material'
+import { useFormContext } from 'react-hook-form'
+import { Wrapper } from './style'
+import { VegetationChart } from './chart'
+
+interface ISelect {
+  label: string
+  value: string
+}
+
+interface INdvi {
+  dates: ISelect[]
+  series: number[]
+  categories: string[]
+}
+
+export const NDVI = ({ dates, series, categories }: INdvi) => {
+  const form = useFormContext()
+
+  return (
+    <Wrapper>
+      <Grid container spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }} mb='32px'>
+        <Grid item xs={6} sm={4} md={4}>
+          <SelectInput
+            label='Sana'
+            name='date'
+            control={form.control}
+            placeholder='Sana'
+            options={dates}
+          />
+        </Grid>
+      </Grid>
+      <VegetationChart series={series} categories={categories} />
+    </Wrapper>
+  )
+}
+
+```
+- - - - -
+
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/components/ndvi/style.ts`
+```ts
+import styled from '@emotion/styled'
+
+export const Wrapper = styled('div')``
+
+```
+- - - - -
+
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/components/pointers/index.tsx`
+```javascript
+import { CustomTable } from '@/components/table'
+import { Grid, Stack } from '@mui/material'
+import { useTable } from './useTable'
+import type { CreditAreaContour } from '@/types/credit-area'
+import { Box, Label } from './style'
+
+interface IPointersProps {
+  details: any
+  pointerData: CreditAreaContour[]
+}
+
+export const Pointers = ({ details, pointerData }: IPointersProps) => {
+  const { data, columns } = useTable({ pointerData })
+
+  return (
+    <Stack gap='24px'>
+      <Grid container spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+        <Grid item xs={6} sm={4} md={4}>
+          <Stack>
+            <Label>Korxona nomi</Label>
+            <Box>{details?.farmer_name}</Box>
+          </Stack>
+        </Grid>
+        <Grid item xs={6} sm={4} md={4}>
+          <Stack>
+            <Label>Maydoni</Label>
+            <Box>{details?.crop_area}</Box>
+          </Stack>
+        </Grid>
+        <Grid item xs={6} sm={4} md={4}>
+          <Stack>
+            <Label>INN</Label>
+            <Box>{details?.farmer_stir}</Box>
+          </Stack>
+        </Grid>
+      </Grid>
+      <CustomTable options={{ data, columns }} emptyTitle="Ma'lumot mavjud emas" />
+    </Stack>
+  )
+}
+
+```
+- - - - -
+
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/components/pointers/style.ts`
+```ts
+import styled from '@emotion/styled'
+
+export const Label = styled('label')`
+  font-family: 'GothamProRegular', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.1px;
+  line-height: 22px;
+  color: #60676d;
+  margin-bottom: 4px;
+`
+
+export const Box = styled('div')`
+  width: 100%;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-family: 'GothamProRegular', sans-serif;
+`
+
+```
+- - - - -
+
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/components/pointers/useTable.tsx`
+```javascript
+import type { CreditAreaContour } from '@/types/credit-area'
+import { createColumnHelper } from '@tanstack/react-table'
+import { useMemo } from 'react'
+
+const columnHelper = createColumnHelper<any>()
+
+interface ITableProps {
+  pointerData: CreditAreaContour[]
+}
+
+export const useTable = ({ pointerData }: ITableProps) => {
+  const columns = useMemo(
+    () => [
+      columnHelper.accessor('number', {
+        cell: info => info.row.index + 1,
+        header: () => <span>№</span>,
+        footer: info => info.column.id,
+      }),
+      columnHelper.accessor('cad_number', {
+        header: () => 'Kadastr raqami',
+        footer: info => info.column.id,
+      }),
+      columnHelper.accessor('contour_number', {
+        header: () => <span>Kontur raqami</span>,
+        footer: info => info.column.id,
+      }),
+      columnHelper.accessor('ball_bonitet', {
+        header: () => <span>Ball boniteti</span>,
+        cell: ({ row }) => {
+          return <p>Hosil sug'urtasi</p>
+        },
+        footer: info => info.column.id,
+      }),
+    ],
+    [],
+  )
+
+  return {
+    data:
+      pointerData?.map((point: any) => {
+        const properties = point?.data?.features?.[0]?.properties
+        return {
+          cad_number: properties?.cad_number ?? '-',
+          contour_number: properties?.contour_number ?? '-',
+          ball_bonitet: properties?.ball_bonitet ?? '-',
+        }
+      }) || [],
+    columns,
+  }
+}
+
+```
+- - - - -
+
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/components/soil-analysis/index.tsx`
+```javascript
+import { CustomTable } from '@/components/table'
+import type { StationData } from '@/types/meteo'
+import { Stack, Typography } from '@mui/material'
+import type { ColumnDef } from '@tanstack/react-table'
+import { useMemo } from 'react'
+
+interface ISoilAnalysisProps {
+  data: StationData[]
+}
+
+export const SoilAnalysis = ({ data = [] }: ISoilAnalysisProps) => {
+  // Define table columns
+  const columns: Array<ColumnDef<any>> = useMemo(
+    () => [
+      {
+        accessorKey: 'depth',
+        header: 'Chuqurlik (sm)',
+      },
+      {
+        accessorKey: 'temperature',
+        header: 'Harorat (°C)',
+        cell: info => info.getValue() ?? 'Maʼlumot yoʻq',
+      },
+      {
+        accessorKey: 'moisture',
+        header: 'Namlik (%)',
+        cell: info => info.getValue() ?? 'Maʼlumot yoʻq',
+      },
+    ],
+    [],
+  )
+
+  // Prepare data for each station
+  const prepareTableData = (latestData: any) => [
+    {
+      depth: '10cm',
+      temperature: latestData?.soilTemperature?.depth1 ?? '-',
+      moisture: latestData?.soilMoisture?.depth1 ?? '-',
+    },
+    {
+      depth: '20cm',
+      temperature: latestData?.soilTemperature?.depth2 ?? '-',
+      moisture: latestData?.soilMoisture?.depth2 ?? '-',
+    },
+    {
+      depth: '30cm',
+      temperature: latestData?.soilTemperature?.depth3 ?? '-',
+      moisture: latestData?.soilMoisture?.depth3 ?? '-',
+    },
+    {
+      depth: '40cm',
+      temperature: latestData?.soilTemperature?.depth4 ?? '-',
+      moisture: latestData?.soilMoisture?.depth4 ?? '-',
+    },
+  ]
+
+  return (
+    <Stack spacing={4}>
+      {data?.map((stationData: StationData) => (
+        <Stack key={stationData?.station?.id} spacing={2}>
+          <Typography variant='h6' fontFamily='GothamProRegular' fontSize={14} fontWeight={600}>
+            {stationData?.station?.name}
+          </Typography>
+          <CustomTable
+            options={{
+              data: prepareTableData(stationData?.latestData),
+              columns,
+            }}
+            emptyTitle="Ma'lumot yo'q"
+          />
+        </Stack>
+      ))}
+    </Stack>
+  )
+}
+
+```
+- - - - -
+
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/components/tabs/index.tsx`
+```javascript
+import * as React from 'react'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Box from '@mui/material/Box'
+import { styled } from '@mui/material/styles'
+import { Pointers } from '../pointers'
+import { Weather } from '../weather'
+import { SoilAnalysis } from '../soil-analysis'
+import { NDVI } from '../ndvi'
+import type { CreditAreaContour } from '@/types/credit-area'
+import type { StationData } from '@/types/meteo'
+import { MNDWI } from '../mndwi'
+
+interface TabPanelProps {
+  children?: React.ReactNode
+  index: number
+  value: number
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props
+
+  return (
+    <div
+      role='tabpanel'
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  )
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  }
+}
+
+// Custom Tab styling
+const StyledTabs = styled(Tabs)({
+  '& .MuiTabs-indicator': {
+    backgroundColor: '#2F847C', // Green underline
+    height: '3px',
+  },
+})
+
+const StyledTab = styled(Tab)(({ theme }) => ({
+  fontFamily: 'GothamProRegular',
+  fontWeight: 400,
+  textTransform: 'none',
+  fontSize: '14px',
+  color: '#000',
+  '&.Mui-selected': {
+    fontWeight: 600,
+    color: '#2F847C',
+  },
+}))
+
+interface ISelect {
+  label: string
+  value: string
+}
+
+interface ICustomTabsProps {
+  value: number
+  dates: ISelect[]
+  series: number[] | any
+  categories: string[]
+  pointerData: CreditAreaContour[]
+  meteoData: StationData[]
+  details: any
+  setValue: React.Dispatch<React.SetStateAction<number>>
+}
+
+export const CustomTabs = ({
+  value,
+  setValue,
+  dates,
+  series,
+  categories,
+  pointerData,
+  meteoData,
+  details,
+}: ICustomTabsProps) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue)
+  }
+
+  return (
+    <Box sx={{ width: '100%' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <StyledTabs value={value} onChange={handleChange} aria-label='custom styled tabs'>
+          <StyledTab label="Ko'rsatgichlari" {...a11yProps(0)} />
+          <StyledTab label='NDVI' {...a11yProps(1)} />
+          <StyledTab label='MNDWI' {...a11yProps(2)} />
+          <StyledTab label='Ob-havo' {...a11yProps(3)} />
+          <StyledTab label='Tuproq tahlili' {...a11yProps(4)} />
+        </StyledTabs>
+      </Box>
+      <CustomTabPanel value={value} index={0}>
+        <Pointers details={details} pointerData={pointerData} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <NDVI dates={dates} series={series} categories={categories} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <MNDWI dates={dates} series={series} categories={categories} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={3}>
+        <Weather />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={4}>
+        <SoilAnalysis data={meteoData} />
+      </CustomTabPanel>
+    </Box>
+  )
+}
+
+```
+- - - - -
+
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/components/tabs/style.ts`
 ```ts
 
 ```
 - - - - -
 
-`src/pages/dashboard/variable-data/index.ts`
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/components/weather/index.tsx`
+```javascript
+export const Weather = () => {
+  return (
+    <iframe
+      width='100%'
+      height='300'
+      src='https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=m/s&zoom=5&overlay=wind&product=ecmwf&level=surface&lat=41.311081&lon=69.240562&detailLat=41.311081&detailLon=69.240562&detail=true&message=true'
+      frameBorder='0'
+    />
+  )
+}
+
+```
+- - - - -
+
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/index.ts`
 ```ts
 export { default } from './page'
 
 ```
 - - - - -
 
-`src/pages/dashboard/variable-data/page.tsx`
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/page.tsx`
 ```javascript
-// VariableData.js
-import { Grid, Stack, Typography, IconButton } from '@mui/material'
-import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete'
-import BreadcrumpCustom from '@/components/breadcrumb'
+import { Stack } from '@mui/material'
+import { CustomTabs } from './components/tabs'
 import { usePage } from './usePage'
-import { Input } from '@/components/inputs/input'
-import LoadingButton from '@mui/lab/LoadingButton'
-import { Form } from 'react-router-dom'
-import { InputCheckbox } from '@/components/inputs/input-checkbox'
-import { TextArea } from '@/components/inputs/input-textarea'
-import { Fragment } from 'react'
+import { LoadingOverlay } from '@/components/loading-overlay'
+import { MapContainer } from './style'
+import { FormProvider } from 'react-hook-form'
+import type { CreditAreaContour } from '@/types/credit-area'
+import { COLORS } from '@/constants/css'
 
-const VariableData = () => {
-  const { form, append, remove, onSubmit, isLoading, riskFactorsFields, paymentScheduleFields } =
-    usePage()
+interface ILandAreasProps {
+  details: any
+  pointerData: CreditAreaContour[]
+}
+
+const LandAreas = ({ details, pointerData }: ILandAreasProps) => {
+  const { ref, form, data, value, dates, setValue, isLoading, meteoData } = usePage({ pointerData })
+
+  const series = Array.isArray(data)
+    ? data?.map((item: any) =>
+        value === 1
+          ? Number(item?.average_value)?.toFixed(2)
+          : Number(item?.average_value)?.toFixed(2),
+      )
+    : []
+
+  const categories = Array.isArray(data)
+    ? data?.map((item: any) => {
+        const date = new Date(item?.date)
+        const day = String(date.getDate()).padStart(2, '0')
+        const month = date.toLocaleString('default', { month: 'short' })
+        return `${day} ${month}`
+      })
+    : []
 
   return (
     <Stack>
-      <BreadcrumpCustom />
-      <Form onSubmit={form.handleSubmit(onSubmit)}>
-        <Stack gap='32px'>
-          <Stack
-            width='100%'
-            borderRadius='12px'
-            p='32px 24px'
-            mx='auto'
-            gap='24px'
-            bgcolor={theme => theme.palette.allColors.WHITE}
-          >
-            <Stack>
-              <Typography
-                sx={{
-                  fontFamily: 'GothamProRegular',
-                  fontSize: 16,
-                  color: 'var(--dark)',
-                  margin: '8px 0',
-                }}
-              >
-                Sug'urta
-              </Typography>
-              <Grid container spacing={{ xs: 2, md: 2 }}>
-                <Grid item xs={6} sm={4} md={4}>
-                  <Input
-                    control={form.control}
-                    name='insurance_liability'
-                    placeholder='Sug`urta javobgarligi'
-                    label='Sug`urta javobgarligi'
-                    type='number'
-                  />
-                </Grid>
-                <Grid item xs={6} sm={4} md={4}>
-                  <Input
-                    control={form.control}
-                    name='deductible_percentage'
-                    placeholder='Chegirib tashlanadigan foiz'
-                    label='Chegirib tashlanadigan foiz'
-                    type='number'
-                  />
-                </Grid>
-                <Grid item xs={6} sm={4} md={4}>
-                  <Input
-                    control={form.control}
-                    name='insurance_rate_percentage'
-                    placeholder='Sug`urta stavkasi foizi'
-                    label='Sug`urta stavkasi foizi'
-                    type='number'
-                  />
-                </Grid>
-              </Grid>
-            </Stack>
-
-            <Stack>
-              <Typography
-                sx={{
-                  fontFamily: 'GothamProRegular',
-                  fontSize: 16,
-                  color: 'var(--dark)',
-                  margin: '8px 0',
-                }}
-              >
-                Sug‘urta tavakkalchiliklari
-              </Typography>
-              <Grid container spacing={{ xs: 2 }}>
-                {riskFactorsFields?.map((v: any, idx: number) => (
-                  <Grid item xs={12} sm={12} md={6} key={idx}>
-                    <Stack direction='row' alignItems='center' gap={1}>
-                      <InputCheckbox
-                        control={form.control}
-                        name={`risk_factors.${idx}.active`}
-                        label=''
-                        sx={{
-                          fontFamily: 'GothamProRegular !important',
-                          marginLeft: 0,
-                        }}
-                      />
-                      <TextArea
-                        control={form.control}
-                        name={`risk_factors.${idx}.text`}
-                        minRows={3}
-                        style={{
-                          width: '100%',
-                          resize: 'vertical',
-                          fontFamily: 'GothamProRegular',
-                        }}
-                      />
-                    </Stack>
-                  </Grid>
-                ))}
-              </Grid>
-            </Stack>
-
-            <Stack>
-              <Typography
-                sx={{
-                  fontFamily: 'GothamProRegular',
-                  fontSize: 16,
-                  color: 'var(--dark)',
-                  margin: '8px 0',
-                }}
-              >
-                To'lov jadvali
-              </Typography>
-              <Grid container spacing={2}>
-                {paymentScheduleFields.map((item, index) => (
-                  <Fragment key={item.id}>
-                    <Grid item xs={12} md={6}>
-                      <Stack direction='row' spacing={2} alignItems='flex-end'>
-                        <Input
-                          control={form.control}
-                          name={`payment_schedule.${index}.days`}
-                          placeholder='Kuni'
-                          type='number'
-                          label='Kuni'
-                        />
-                        <Input
-                          control={form.control}
-                          name={`payment_schedule.${index}.percentage`}
-                          placeholder='Foizi'
-                          type='number'
-                          label='Foizi'
-                        />
-                        <IconButton
-                          onClick={() => {
-                            remove(index)
-                          }}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </Stack>
-                    </Grid>
-                    <Grid item xs={12} md={6} />
-                  </Fragment>
-                ))}
-                <Grid item xs={12}>
-                  <IconButton
-                    onClick={() => {
-                      append({ days: null, percentage: null })
-                    }}
-                  >
-                    <AddIcon />
-                  </IconButton>
-                </Grid>
-              </Grid>
-            </Stack>
-
-            <Stack width='100%' display='flex' flexDirection='row' justifyContent='flex-end'>
-              <LoadingButton
-                variant='contained'
-                loading={isLoading}
-                sx={{ background: '#08705F', opacity: 0.7, maxWidth: 200 }}
-                type='submit'
-              >
-                O'zgartirish
-              </LoadingButton>
-            </Stack>
-          </Stack>
-        </Stack>
-      </Form>
+      <Stack
+        width='100%'
+        borderRadius='12px'
+        p='32px 24px'
+        mx='auto'
+        gap='24px'
+        bgcolor={COLORS.WHITE}
+      >
+        <MapContainer ref={ref} />
+        <FormProvider {...form}>
+          <CustomTabs
+            value={value}
+            setValue={setValue}
+            dates={dates || []}
+            series={series || []}
+            categories={categories || []}
+            pointerData={pointerData}
+            meteoData={meteoData}
+            details={details}
+          />
+        </FormProvider>
+      </Stack>
+      <LoadingOverlay isLoading={isLoading} />
     </Stack>
   )
 }
 
-export default VariableData
+export default LandAreas
 
 ```
 - - - - -
 
-`src/pages/dashboard/variable-data/usePage.ts`
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/style.ts`
 ```ts
+import styled from '@emotion/styled'
+
+export const MapContainer = styled('div')`
+  width: 100%;
+  flex-grow: 1;
+  height: 45vh;
+  z-index: 1;
+`
+
+```
+- - - - -
+
+`src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas/usePage.ts`
+```ts
+// @ts-nocheck
+import { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import L, { type LatLngExpression } from 'leaflet'
+import GeoRasterLayer from 'georaster-layer-for-leaflet'
+import parseGeoraster from 'georaster'
+import 'leaflet/dist/leaflet.css'
+import 'leaflet-fullscreen/dist/leaflet.fullscreen.css'
+import 'leaflet-fullscreen'
+import { useQuery } from '@tanstack/react-query'
+import dayjs from 'dayjs'
+import { useFormContext } from 'react-hook-form'
+import type { CreditAreaContour } from '@/types/credit-area'
 import { request } from '@/configs/requests'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
+import 'proj4'
+import icon from 'leaflet/dist/images/marker-icon.png'
+import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 
-export const usePage = () => {
-  const form = useForm()
+// Constants
+const ZOOM = 10
+const CENTER: LatLngExpression = [40.7, 72.2]
+const DefaultIcon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+})
+L.Marker.prototype.options.icon = DefaultIcon
+const DEFAULT_LAYER = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+  maxZoom: 20,
+  subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+})
 
-  const {
-    fields: paymentScheduleFields,
-    append,
-    remove,
-  } = useFieldArray({
-    control: form.control,
-    name: 'payment_schedule',
-  })
-  const { fields: riskFactorsFields, append: riskFactorsAppend } = useFieldArray({
-    control: form.control,
-    name: 'risk_factors',
-  })
+interface ICreditAreaContour {
+  pointerData: CreditAreaContour[]
+}
 
-  useQuery({
-    queryKey: ['config'],
-    queryFn: async () => await request('config'),
-    select: response => response.data,
-    onSuccess: response => {
-      form.reset({
-        insurance_liability: response?.insurance?.insurance_liability,
-        deductible_percentage: response?.insurance?.deductible_percentage,
-        insurance_rate_percentage: response?.insurance?.insurance_rate_percentage,
-      })
+export const usePage = ({ pointerData }: ICreditAreaContour) => {
+  const form = useFormContext()
+  const location = useLocation()
+  const ref = useRef<HTMLDivElement | null>(null)
+  const [map, setMap] = useState<L.Map | null>(null)
+  const [dates, setDates] = useState<any[]>([])
+  const [centerLatLng, setCenterLatLng] = useState<L.LatLng | null>(null)
+  const [geoLayer, setGeoLayer] = useState<L.LayerGroup | null>(null)
+  const [currentOverlay, setCurrentOverlay] = useState<any>(null)
+  const [ndviList, setNdviList] = useState<any[]>([])
+  const [value, setValue] = useState(0)
+  const { date } = form.watch()
+  const query = new URLSearchParams(location.search)
+  const apply_number = query.get('number')
 
-      if (response?.payment_schedule) {
-        response.payment_schedule.forEach((scheduleItem: any) => {
-          append(scheduleItem)
-        })
-      }
-      if (response?.risk_factors) {
-        response.risk_factors.forEach((riskFactors: any) => {
-          riskFactorsAppend(riskFactors)
-        })
-      }
-    },
-  })
-
-  const { mutate, isLoading } = useMutation({
-    mutationFn: async (data: any) => await request.patch('config', data),
-    onSuccess: () => {
-      toast.success('Ma`lumotlar muvaffaqiyatli o`zgardi')
-    },
-  })
-
-  const onSubmit: SubmitHandler<any> = data => {
-    const payload = {
-      insurance: {
-        insurance_liability: Number(data?.insurance_liability),
-        deductible_percentage: Number(data?.deductible_percentage),
-        insurance_rate_percentage: Number(data?.insurance_rate_percentage),
-      },
-      payment_schedule: data?.payment_schedule,
-      risk_factors: data?.risk_factors,
-    }
-    mutate(payload)
+  // Color scales
+  const ndviColors = {
+    veryLow: '#d73027',
+    low: '#f46d43',
+    modLow: '#fdae61',
+    moderate: '#fee08b',
+    modHigh: '#d9ef8b',
+    high: '#a6d96a',
+    veryHigh: '#1a9850',
+  }
+  const waterNdwiColors = {
+    veryLow: '#4a148c',
+    low: '#5c6bc0',
+    modLow: '#7986cb',
+    moderate: '#9fa8da',
+    modHigh: '#c5cae9',
+    high: '#e8eaf6',
+    veryHigh: '#f5f5ff',
   }
 
+  // Initialize Map
+  useEffect(() => {
+    if (!ref.current || map) return
+
+    const mapInstance = L.map(ref.current, {
+      zoom: ZOOM,
+      center: CENTER,
+      layers: [DEFAULT_LAYER],
+      fullscreenControl: true,
+      fullscreenControlOptions: {
+        position: 'topright',
+        title: 'To`liq ekran rejimi',
+        titleCancel: 'To`liq ekran rejimidan chiqish',
+      },
+    })
+
+    setMap(mapInstance)
+    const layerGroup = new L.LayerGroup().addTo(mapInstance)
+    setGeoLayer(layerGroup)
+
+    return () => {
+      mapInstance.remove()
+    }
+  }, [])
+
+  // Legend Control
+  useEffect(() => {
+    if (!map) return
+
+    if (value === 1 || value === 2) {
+      const legend = L.control({ position: 'bottomright' })
+      legend.onAdd = function () {
+        const div = L.DomUtil.create('div', 'info legend')
+        div.style.backgroundColor = 'white'
+        div.style.padding = '10px'
+        div.style.borderRadius = '5px'
+
+        const colors = value === 2 ? waterNdwiColors : ndviColors
+        const labels =
+          value === 2
+            ? [
+                { color: colors.veryLow, label: 'Juda past suv indeksi' },
+                { color: colors.low, label: 'Past suv indeksi' },
+                { color: colors.modLow, label: 'O`rtacha past suv indeksi' },
+                { color: colors.moderate, label: 'O`rta suv indeksi' },
+                { color: colors.modHigh, label: 'O`rtacha yuqori suv indeksi' },
+                { color: colors.high, label: 'Yuqori suv indeksi' },
+                { color: colors.veryHigh, label: 'Juda yuqori suv indeksi' },
+              ]
+            : [
+                { color: colors.veryLow, label: 'Juda past o`simlik qoplami' },
+                { color: colors.low, label: 'Past o`simlik qoplami' },
+                { color: colors.modLow, label: 'O`rtacha past o`simlik qoplami' },
+                { color: colors.moderate, label: 'O`rtacha o`simlik qatlami' },
+                { color: colors.modHigh, label: 'O`rtacha yuqori o`simlik qoplami' },
+                { color: colors.high, label: 'Yuqori o`simlik qoplami' },
+                { color: colors.veryHigh, label: 'Juda yuqori o`simlik qoplami' },
+              ]
+
+        div.innerHTML += `<strong>${value === 2 ? 'Suv indeksi' : 'Vegetatsiya indeksi'}</strong><br>`
+        labels.forEach(({ color, label }) => {
+          div.innerHTML += `<i style="background: ${color}; width: 12px; height: 12px; display: inline-block; margin-right: 5px;"></i> ${label}<br>`
+        })
+
+        return div
+      }
+      legend.addTo(map)
+      return () => {
+        map.removeControl(legend)
+      }
+    }
+  }, [map, value])
+
+  const displayTiffOnMap = async (tiffData: ArrayBuffer) => {
+    if (!map || !geoLayer) return
+
+    try {
+      if (currentOverlay) {
+        map.removeLayer(currentOverlay)
+        setCurrentOverlay(null)
+      }
+
+      const georaster = await parseGeoraster(tiffData)
+
+      const tiffBounds = L.latLngBounds(
+        [georaster.ymin, georaster.xmin],
+        [georaster.ymax, georaster.xmax],
+      )
+
+      const layer = new GeoRasterLayer({
+        georaster,
+        opacity: 0.7,
+        resolution: 256,
+        bounds: tiffBounds,
+        debugLevel: 0,
+      })
+
+      layer.addTo(map)
+      setCurrentOverlay(layer)
+
+      map.fitBounds(tiffBounds, { padding: [50, 50], maxZoom: 16 })
+    } catch (error) {
+      console.error('Error displaying TIFF:', error)
+    }
+  }
+
+  const clearTiffFromMap = () => {
+    if (currentOverlay) {
+      map.removeLayer(currentOverlay)
+      setCurrentOverlay(null)
+    }
+  }
+
+  // Fetch Dates Query
+  const { isLoading } = useQuery({
+    queryKey: ['ndvi-dates', value, apply_number],
+    queryFn: async () => {
+      const endpoint = value === 2 ? `ndwi/${apply_number}/dates` : `ndvi/${apply_number}/dates`
+      return await request(endpoint)
+    },
+    select: res => res?.data?.dates,
+    onSuccess: res => {
+      setNdviList(res)
+      setDates(
+        res?.map((ndvi: any) => ({
+          label: dayjs(ndvi?.date).format('YYYY-MM-DD'),
+          value: dayjs(ndvi?.date).format('YYYY-MM-DD'),
+          download_url: ndvi?.download_url,
+        })),
+      )
+      if (res?.length > 0) {
+        form.reset({
+          date: dayjs(res[0]?.date).format('YYYY-MM-DD'),
+        })
+      }
+
+      if (map && geoLayer && pointerData) {
+        // pointerData tekshirish qo'shildi
+        geoLayer.clearLayers()
+        pointerData.forEach((item: CreditAreaContour) => {
+          const geometry: any = item.data?.features?.[0]?.geometry
+          if (geometry) {
+            // Geometriya mavjudligini tekshirish
+            const geo = L.geoJSON(geometry, {
+              style: {
+                color: 'green',
+                weight: 2,
+                opacity: 0.7,
+                fillOpacity: 0.1,
+              },
+            }).addTo(geoLayer)
+            const bounds = geo.getBounds()
+            const center = bounds.getCenter()
+            setCenterLatLng(center)
+
+            // GeoJSON chegaralari TIFF chegaralaridan keyin o'rnatilishi kerak
+            if (currentOverlay) {
+              // TIFF yuklangandan keyin
+              map.fitBounds(currentOverlay.getBounds(), { padding: [50, 50], maxZoom: 16 })
+            } else {
+              // Agar TIFF yuklanmagan bo'lsa
+              map.fitBounds(bounds, { maxZoom: 16 }) // GeoJSON chegaralariga moslash
+            }
+          }
+        })
+      }
+    },
+  })
+
+  // Fetch TIFF Data Query
+  useQuery({
+    queryKey: ['get-ndvi-with-contour', apply_number, date, value],
+    queryFn: async () => {
+      const endpoint =
+        value === 2 ? `ndwi/${apply_number}/${date}.tiff` : `ndvi/${apply_number}/${date}.tiff`
+      return await request(endpoint, { responseType: 'blob' })
+    },
+    onSuccess: response => {
+      if (response?.data) {
+        if (value === 1 || value === 2) {
+          void displayTiffOnMap(response.data)
+        } else {
+          clearTiffFromMap()
+        }
+      }
+    },
+    onError: error => {
+      console.error('Ma`lumotlarni yuklashda xatolik:', error)
+    },
+  })
+
+  // Meteo Data Query
+  const { data: meteoData = [] } = useQuery({
+    queryKey: ['get-meteo', value, centerLatLng?.lng, centerLatLng?.lat],
+    queryFn: async () =>
+      await request(
+        `meteo/stations/closest?longitude=${centerLatLng?.lng}&latitude=${centerLatLng?.lat}`,
+      ),
+    select: response => response?.data,
+    onSuccess: res => {
+      if (res?.length > 0 && map) {
+        res.forEach((station: any) => {
+          const coordinates = station?.station?.location?.coordinates
+          if (coordinates) {
+            const [lng, lat] = coordinates
+            const marker = L.marker([lat, lng]).addTo(map)
+            marker.bindPopup(`<b>${station?.station?.name}</b>`)
+          }
+        })
+      }
+    },
+    enabled: value === 4 && !!centerLatLng?.lat && !!centerLatLng?.lng,
+  })
+
   return {
+    ref,
     form,
-    append,
-    remove,
-    onSubmit,
+    data: ndviList,
+    value,
+    dates,
+    setValue,
     isLoading,
-    riskFactorsFields,
-    riskFactorsAppend,
-    paymentScheduleFields,
+    meteoData,
   }
 }
 

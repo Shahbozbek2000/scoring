@@ -64,7 +64,7 @@ function readAllFiles() {
 
   // src papkasidan boshlash
   try {
-    readDir('src/pages/dashboard/variable-data')
+    readDir('src/pages/dashboard/apply/crop-insurance/form-contract/components/land-areas')
   } catch (err) {
     console.error("src papkasini o'qishda xatolik:", err.message)
   }

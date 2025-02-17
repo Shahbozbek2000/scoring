@@ -3,6 +3,7 @@ import { Grid } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
 import { Wrapper } from './style'
 import { VegetationChart } from './chart'
+import AnimationControls from '../animation-controls'
 
 interface ISelect {
   label: string
@@ -18,16 +19,19 @@ interface INdvi {
 export const MNDWI = ({ dates, series, categories }: INdvi) => {
   const form = useFormContext()
 
+  const handleDateChange = (newDate: string) => {
+    form.setValue('date', newDate)
+  }
+
   return (
     <Wrapper>
       <Grid container spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 8, md: 12 }} mb='32px'>
         <Grid item xs={6} sm={4} md={4}>
-          <SelectInput
-            label='Sana'
-            name='date'
+          <AnimationControls
+            dates={dates}
+            currentDate={form.watch('date')}
+            onDateChange={handleDateChange}
             control={form.control}
-            placeholder='Sana'
-            options={dates}
           />
         </Grid>
       </Grid>
