@@ -16,15 +16,6 @@ export const usePage = () => {
     select: res => {
       return res?.data
     },
-    onSuccess: response => {
-      if (response) {
-        form.reset({
-          farmer_name: response?.farmer_name,
-          crop_area: response?.crop_area,
-          farmer_stir: response?.farmer_stir,
-        })
-      }
-    },
   })
 
   return {
