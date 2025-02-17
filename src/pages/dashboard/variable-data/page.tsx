@@ -54,7 +54,7 @@ const VariableData = () => {
                   <Input
                     control={form.control}
                     name='deductible_percentage'
-                    placeholder='Sug`urta shartsiz foizi'
+                    placeholder='Shartsiz franshiza foizi'
                     label='Sug`urta shartsiz foizi'
                     type='number'
                   />
