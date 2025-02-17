@@ -26,9 +26,6 @@ export const useTable = ({ pointerData }: ITableProps) => {
       }),
       columnHelper.accessor('ball_bonitet', {
         header: () => <span>Ball boniteti</span>,
-        cell: ({ row }) => {
-          return <p>Hosil sug'urtasi</p>
-        },
         footer: info => info.column.id,
       }),
     ],
