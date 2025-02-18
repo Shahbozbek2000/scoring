@@ -98,7 +98,7 @@ export const CustomTabs = ({
           <StyledTab label='NDVI' {...a11yProps(1)} />
           <StyledTab label='MNDWI' {...a11yProps(2)} />
           <StyledTab label='Ob-havo' {...a11yProps(3)} />
-          <StyledTab label='Tuproq tahlili' {...a11yProps(4)} />
+          <StyledTab label='Agrometeorologik xizmat turlari' {...a11yProps(4)} />
         </StyledTabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
