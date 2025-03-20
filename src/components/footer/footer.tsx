@@ -4,6 +4,8 @@ import { ReactComponent as Logogreeen } from '@/assets/icons/logo-green.svg'
 import { Link } from 'react-router-dom'
 
 export const Foooter = () => {
+  const currentYear = new Date().getFullYear()
+
   return (
     <Stack width='100%'>
       <Stack width='100%' py='48px' bgcolor={theme => theme.palette.allColors.WHITE}>
@@ -117,7 +119,7 @@ export const Foooter = () => {
               color={theme => theme.palette.allColors.WHITE}
               fontFamily='GothamProRegular'
             >
-              2024; Agrosanoat sohasida sug'urtalashni avtomatlashtirilgan tizimi
+              {currentYear}; Agrosanoat sohasida sug'urtalashni avtomatlashtirilgan tizimi
             </Typography>
             <Logo />
           </Stack>
