@@ -12,8 +12,24 @@ import { ReactComponent as IconDocuments } from '@/assets/icons/documents.svg'
 import { ReactComponent as IconPersonal } from '@/assets/icons/personal.svg'
 
 export const pages = [
-  { id: 1, name: 'Arizalar', Icon: IconApply, link: 'apply', disabled: false, show: true },
-  { id: 2, name: 'Skoring', Icon: IconScoring, link: '/main', disabled: true, show: false },
+  {
+    id: 1,
+    name: 'Arizalar',
+    Icon: IconApply,
+    link: 'apply',
+    disabled: false,
+    show: true,
+    permissions: ['semurg', 'semurg-user'],
+  },
+  {
+    id: 2,
+    name: 'Skoring',
+    Icon: IconScoring,
+    link: '/main',
+    disabled: true,
+    show: false,
+    permissions: ['semurg', 'semurg-user'],
+  },
   {
     id: 2,
     name: 'O`zgaruvchan ma`lumotlar',
@@ -21,6 +37,7 @@ export const pages = [
     link: 'variable-data',
     disabled: false,
     show: true,
+    permissions: ['semurg'],
   },
   {
     id: 3,
@@ -29,22 +46,25 @@ export const pages = [
     link: 'contracts',
     disabled: false,
     show: true,
+    permissions: ['semurg', 'semurg-user'],
   },
   {
     id: 4,
     name: 'Yer maydonlari',
     Icon: IconLandAreas,
-    link: '/main',
-    disabled: true,
-    show: false,
+    link: 'land-areas',
+    disabled: false,
+    show: true,
+    permissions: ['semurg', 'semurg-user'],
   },
   {
     id: 5,
     name: 'Ekin joylashuvi',
     Icon: IconCropLocation,
-    link: '/main',
-    disabled: true,
-    show: false,
+    link: 'crop-location',
+    disabled: false,
+    show: true,
+    permissions: ['semurg', 'semurg-user'],
   },
   {
     id: 6,
@@ -53,8 +73,17 @@ export const pages = [
     link: '/main',
     disabled: true,
     show: false,
+    permissions: ['semurg', 'semurg-user'],
   },
-  { id: 7, name: 'Monitoring', Icon: IconMonitoring, link: '/main', disabled: true, show: false },
+  {
+    id: 7,
+    name: 'Monitoring',
+    Icon: IconMonitoring,
+    link: '/main',
+    disabled: true,
+    show: false,
+    permissions: ['semurg', 'semurg-user'],
+  },
   {
     id: 8,
     name: 'Agrotexnik tadbirlar',
@@ -62,6 +91,7 @@ export const pages = [
     link: '/main',
     disabled: true,
     show: false,
+    permissions: ['semurg', 'semurg-user'],
   },
   {
     id: 10,
@@ -70,6 +100,7 @@ export const pages = [
     link: 'payment-status',
     disabled: false,
     show: true,
+    permissions: ['semurg', 'semurg-user'],
   },
   {
     id: 11,
@@ -78,6 +109,7 @@ export const pages = [
     link: 'technical-support',
     disabled: true,
     show: true,
+    permissions: ['semurg', 'semurg-user'],
   },
   {
     id: 12,
@@ -86,5 +118,6 @@ export const pages = [
     link: 'documents',
     disabled: true,
     show: true,
+    permissions: ['semurg', 'semurg-user'],
   },
 ]

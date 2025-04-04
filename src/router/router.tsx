@@ -39,6 +39,10 @@ const CreateCropInsurance = lazy(
 
 const VariableData = lazy(async () => await import('@/pages/dashboard/variable-data'))
 
+const LandAreas = lazy(async () => await import('@/pages/dashboard/land-areas'))
+
+const CropLocation = lazy(async () => await import('@/pages/dashboard/crop-location'))
+
 export const router = createBrowserRouter([
   {
     path: ROUTER.AUTH,
@@ -137,7 +141,14 @@ export const router = createBrowserRouter([
               },
             ],
           },
-
+          {
+            path: ROUTER.LAND_AREAS,
+            element: <LandAreas />,
+          },
+          {
+            path: ROUTER.CROP_LOCATION,
+            element: <CropLocation />,
+          },
           {
             path: ROUTER.TECHNICAL_SUPPORT,
             element: <TechnicalSupport />,

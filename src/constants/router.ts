@@ -14,4 +14,5 @@ export const ROUTER = {
   LAND_AREAS: 'land-areas',
   FORM_CONTRACT: 'form-contract',
   VARIABLE_DATA: 'variable-data',
+  CROP_LOCATION: 'crop-location',
 }
