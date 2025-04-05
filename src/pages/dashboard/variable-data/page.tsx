@@ -13,8 +13,16 @@ import { Fragment } from 'react'
 import { LoadingOverlay } from '@/components/loading-overlay'
 
 const VariableData = () => {
-  const { form, append, remove, onSubmit, isLoading, riskFactorsFields, paymentScheduleFields } =
-    usePage()
+  const {
+    form,
+    append,
+    remove,
+    onSubmit,
+    isLoading,
+    cropsFields,
+    riskFactorsFields,
+    paymentScheduleFields,
+  } = usePage()
 
   return (
     <Stack>
@@ -110,7 +118,31 @@ const VariableData = () => {
                 ))}
               </Grid>
             </Stack>
-
+            <Stack>
+              <Typography
+                sx={{
+                  fontFamily: 'GothamProRegular',
+                  fontSize: 16,
+                  color: 'var(--dark)',
+                  margin: '8px 0',
+                }}
+              >
+                Ekin turi
+              </Typography>
+              <Grid container spacing={2}>
+                {cropsFields?.map((item: any, index) => (
+                  <Grid item xs={12} sm={6} md={4} key={item.id}>
+                    <Input
+                      control={form.control}
+                      name={`crops.${index}.price`}
+                      placeholder={item?.crop_name}
+                      label={item?.crop_name}
+                      type='number'
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Stack>
             <Stack>
               <Typography
                 sx={{

@@ -21,10 +21,17 @@ interface PaymentSchedule {
   percentage: number
 }
 
+interface Crop {
+  crop_name: string
+  crop_type: string
+  price: number
+}
+
 interface ConfigResponse {
   insurance: Insurance
   risk_factors: RiskFactor[]
   payment_schedule: PaymentSchedule[]
+  crop_prices: Crop[]
 }
 
 interface ConfigPayload {
@@ -57,12 +64,17 @@ export const usePage = () => {
     control: form.control,
     name: 'risk_factors',
   })
+  const { fields: cropsFields, append: cropsAppend } = useFieldArray({
+    control: form.control,
+    name: 'crops',
+  })
 
   const { isLoading } = useQuery({
     queryKey: ['config'],
     queryFn: async () => await request.get<ConfigResponse>('config'),
     select: response => response.data,
     onSuccess: response => {
+      console.log(response, 'response')
       form.reset({
         insurance_liability: response?.insurance?.insurance_liability,
         deductible_percentage: response?.insurance?.deductible_percentage,
@@ -77,6 +89,11 @@ export const usePage = () => {
       if (response?.risk_factors) {
         response.risk_factors.forEach((riskFactors: any) => {
           riskFactorsAppend(riskFactors)
+        })
+      }
+      if (response?.crop_prices) {
+        response?.crop_prices?.forEach((crop: any) => {
+          cropsAppend(crop)
         })
       }
     },
@@ -118,6 +135,12 @@ export const usePage = () => {
         }
       }),
       risk_factors: data?.risk_factors,
+      crop_prices: data?.crops?.map((v: any) => {
+        return {
+          ...v,
+          price: Number(v?.price),
+        }
+      }),
     }
     mutate(payload)
   }
@@ -128,6 +151,7 @@ export const usePage = () => {
     remove,
     onSubmit,
     isLoading: isLoading || isSubmitting,
+    cropsFields,
     riskFactorsFields,
     riskFactorsAppend,
     paymentScheduleFields,
