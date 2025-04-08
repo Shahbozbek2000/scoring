@@ -223,10 +223,22 @@ export const ContractForm = ({ slug }: IContractFormProps) => {
                 }}
               />
             </Grid>
-            <Grid item xs={6} sm={4} md={4}>
+            <Grid item xs={6} sm={4} md={12}>
               <div className='contour-numbers'>
                 <label>Kontur raqamlari</label>
-                <Stack sx={{ display: 'flex', flexDirection: 'row', gap: 1 }} mt='4px'>
+                <Stack
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: 1,
+                    overflowX: 'auto',
+                    scrollbarWidth: 'none',
+                    '&::-webkit-scrollbar': {
+                      display: 'none',
+                    },
+                  }}
+                  mt='4px'
+                >
                   {data?.credit_area_contour_numbers?.map((v: any, idx: number) => {
                     return (
                       <button key={idx} type='button'>

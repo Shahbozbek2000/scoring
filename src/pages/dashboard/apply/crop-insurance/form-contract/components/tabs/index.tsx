@@ -73,7 +73,7 @@ export const CustomTabs = ({ slug, value, details, pointerData, setValue }: ICus
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <StyledTabs value={value} onChange={handleChange} aria-label='custom styled tabs'>
-          <StyledTab label='Shartnoma generatsiya qilish' {...a11yProps(0)} />
+          <StyledTab label="Ariza ma'lumotlari" {...a11yProps(0)} />
           <StyledTab label='Yer maydonlari' {...a11yProps(1)} />
         </StyledTabs>
       </Box>
