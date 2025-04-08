@@ -5,7 +5,7 @@ import { Stack } from '@mui/material'
 import { usePage } from './usePage'
 
 const Polis = () => {
-  const { data, params, columns, setParams } = usePage()
+  const { data, params, columns, setParams, isLoading } = usePage()
 
   return (
     <Stack gap='32px'>
@@ -18,9 +18,11 @@ const Polis = () => {
         bgcolor={theme => theme.palette.allColors.WHITE}
       >
         <CustomTable options={{ data, columns }} emptyTitle="Ma'lumot mavjud emas!" />
-        <CustomPagination count={data.length} params={params} setParams={setParams} />
+        {data.length > 0 && (
+          <CustomPagination count={data.length} params={params} setParams={setParams} />
+        )}
       </Stack>
-      <LoadingOverlay isLoading={false} />
+      <LoadingOverlay isLoading={isLoading} />
     </Stack>
   )
 }

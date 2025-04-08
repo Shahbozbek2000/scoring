@@ -1,19 +1,33 @@
+import { request } from '@/configs/requests'
+import { DATE_FORMAT } from '@/constants/format'
+import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
 import { Button } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { createColumnHelper } from '@tanstack/react-table'
+import dayjs from 'dayjs'
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-interface IColumn {
-  number: number
-  apply_number: string
+export interface DocumentItem {
+  number: string
+  sign_date: string
+  signer: string
+  application_pdf: string
+  createdAt: string
+  updatedAt: string
+  actions: any
   type_name: string
-  date: string
-  view_polis?: any
 }
 
-const columnHelper = createColumnHelper<IColumn>()
+export interface DocumentResponse {
+  result: DocumentItem[]
+  count: number
+}
+
+const columnHelper = createColumnHelper<DocumentItem>()
 
 export const usePage = () => {
+  const navigate = useNavigate()
   const { search } = useLocation()
   const initial_params = new URLSearchParams(search)
   const [params, setParams] = useState({
@@ -21,30 +35,58 @@ export const usePage = () => {
     limit: initial_params.has('limit') ? Number(initial_params.get('limit')) : 10,
   })
 
+  const {
+    data = {
+      count: 0,
+      results: [],
+    },
+    isLoading,
+  } = useQuery({
+    queryKey: [REACT_QUERY_KEYS.GET_POLICY, params],
+    queryFn: async () => await request<DocumentResponse>('contract/policy/get/all', { params }),
+    select: res => {
+      return {
+        count: res?.data?.count,
+        results: res?.data?.result,
+      }
+    },
+    keepPreviousData: true,
+  })
+
   const columns = [
     columnHelper.accessor('number', {
-      cell: info => info.row.index + 1,
+      cell: info => {
+        const currentPage = params?.page
+        const limit = params?.limit
+        const rowIndex = info?.row?.index
+        return (currentPage - 1) * limit + rowIndex + 1
+      },
       header: () => <span>№</span>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor('apply_number', {
+    columnHelper.accessor('number', {
       header: () => <span>Ariza raqami</span>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor('date', {
+    columnHelper.accessor('createdAt', {
       header: () => <span>Sana</span>,
+      cell: ({ row }) => {
+        return (
+          <p style={{ textAlign: 'center' }}>{dayjs(row.original.createdAt).format(DATE_FORMAT)}</p>
+        )
+      },
       footer: info => info.column.id,
     }),
     columnHelper.accessor('type_name', {
       header: () => <span>Sug’urta turi</span>,
       cell: ({ row }) => {
-        return <p>{row.original.type_name}</p>
+        return <p style={{ textAlign: 'center' }}>{row.original.type_name ?? '-'}</p>
       },
       footer: info => info.column.id,
     }),
-    columnHelper.accessor('view_polis', {
+    columnHelper.accessor('actions', {
       header: () => <span>Polisni ko'rish</span>,
-      cell: () => {
+      cell: ({ row }) => {
         return (
           <Button
             variant='outlined'
@@ -55,6 +97,9 @@ export const usePage = () => {
               width: 115,
               height: 32,
             }}
+            onClick={() => {
+              window.open(row.original?.signer, '_blank')
+            }}
           >
             Ko'rish
           </Button>
@@ -64,73 +109,11 @@ export const usePage = () => {
     }),
   ]
 
-  const data: IColumn[] = [
-    {
-      number: 1,
-      apply_number: '24022024',
-      date: '24.02.2024',
-      type_name: 'Xosil sug’urta',
-    },
-    {
-      number: 2,
-      apply_number: '24022024',
-      date: '24.02.2024',
-      type_name: 'Xosil sug’urta',
-    },
-    {
-      number: 3,
-      apply_number: '24022024',
-      date: '24.02.2024',
-      type_name: 'Xosil sug’urta',
-    },
-    {
-      number: 4,
-      apply_number: '24022024',
-      date: '24.02.2024',
-      type_name: 'Xosil sug’urta',
-    },
-    {
-      number: 5,
-      apply_number: '24022024',
-      date: '24.02.2024',
-      type_name: 'Xosil sug’urta',
-    },
-    {
-      number: 6,
-      apply_number: '24022024',
-      date: '24.02.2024',
-      type_name: 'Xosil sug’urta',
-    },
-    {
-      number: 7,
-      apply_number: '24022024',
-      date: '24.02.2024',
-      type_name: 'Xosil sug’urta',
-    },
-    {
-      number: 8,
-      apply_number: '24022024',
-      date: '24.02.2024',
-      type_name: 'Xosil sug’urta',
-    },
-    {
-      number: 9,
-      apply_number: '24022024',
-      date: '24.02.2024',
-      type_name: 'Xosil sug’urta',
-    },
-    {
-      number: 10,
-      apply_number: '24022024',
-      date: '24.02.2024',
-      type_name: 'Xosil sug’urta',
-    },
-  ]
-
   return {
-    data,
+    data: data.results,
     params,
     columns,
     setParams,
+    isLoading,
   }
 }
