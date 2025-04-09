@@ -75,4 +75,8 @@ export const location: ILocartionProps[] = [
     path: 'video-instruction',
     name: 'Video qo`llanma',
   },
+  {
+    path: 'polis',
+    name: 'Polis',
+  },
 ]

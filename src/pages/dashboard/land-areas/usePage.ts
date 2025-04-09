@@ -80,7 +80,7 @@ export const usePage = () => {
       const geo = L.geoJSON({ type: 'FeatureCollection', features: allFeatures }).addTo(geoLayer!)
 
       map?.flyToBounds(geo.getBounds(), {
-        maxZoom: 40,
+        maxZoom: 16,
       })
     },
     enabled: district_id !== undefined,

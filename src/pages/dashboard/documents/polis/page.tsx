@@ -3,12 +3,14 @@ import { CustomPagination } from '@/components/pagination'
 import { CustomTable } from '@/components/table'
 import { Stack } from '@mui/material'
 import { usePage } from './usePage'
+import BreadcrumpCustom from '@/components/breadcrumb'
 
 const Polis = () => {
   const { data, params, columns, setParams, isLoading } = usePage()
 
   return (
-    <Stack gap='32px'>
+    <Stack>
+      <BreadcrumpCustom />
       <Stack
         width='100%'
         borderRadius='12px'
