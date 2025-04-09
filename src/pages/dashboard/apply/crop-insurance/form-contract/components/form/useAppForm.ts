@@ -53,8 +53,6 @@ export const useAppForm = ({ slug }: IAppFormProps) => {
     },
   })
 
-  console.log(data, 'data')
-
   const { mutate: acceptMutate } = useMutation({
     mutationFn: async (data: string | undefined) => await acceptApplications(data),
     onSuccess: res => {

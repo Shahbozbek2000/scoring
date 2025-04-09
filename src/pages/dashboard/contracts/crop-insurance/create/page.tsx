@@ -24,8 +24,6 @@ const CreateCropInsurance = () => {
     signedCompanies,
   } = useCreate()
 
-  console.log(location.state)
-
   return (
     <Stack gap='16px'>
       <Stack
