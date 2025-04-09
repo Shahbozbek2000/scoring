@@ -1,16 +1,17 @@
 /* eslint-disable @tanstack/query/exhaustive-deps */
 import { Button, Grid, Stack, Typography } from '@mui/material'
 import { Card, PaperWrapper, SignedCompanies } from './style'
-import { Form, useLocation } from 'react-router-dom'
+import { Form, useLocation, useNavigate } from 'react-router-dom'
 import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer'
 import { LoadingOverlay } from '@/components/loading-overlay'
-import BreadcrumpCustom from '@/components/breadcrumb'
 import { useCreate } from './useCreate'
 import { getStatus2 } from '@/utils/status'
 import { COLORS } from '@/constants/css'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 
 const CreateCropInsurance = () => {
   const location = useLocation()
+  const navigate = useNavigate()
   const {
     form,
     detail,
@@ -26,8 +27,19 @@ const CreateCropInsurance = () => {
   console.log(location.state)
 
   return (
-    <Stack>
-      <BreadcrumpCustom />
+    <Stack gap='16px'>
+      <Stack
+        direction='row'
+        alignItems='center'
+        gap='8px'
+        sx={{ cursor: 'pointer' }}
+        onClick={() => {
+          navigate(-1)
+        }}
+      >
+        <ChevronLeftIcon />
+        <Typography fontFamily='GothamProMedium'>Ortga qaytish</Typography>
+      </Stack>
       <Stack
         width='100%'
         borderRadius='16px'
