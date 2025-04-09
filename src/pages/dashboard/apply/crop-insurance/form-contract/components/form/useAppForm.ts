@@ -53,10 +53,17 @@ export const useAppForm = ({ slug }: IAppFormProps) => {
     },
   })
 
+  console.log(data, 'data')
+
   const { mutate: acceptMutate } = useMutation({
     mutationFn: async (data: string | undefined) => await acceptApplications(data),
     onSuccess: res => {
-      navigate(`/main/contracts/crop-insurance/create/${res?.data?.contract_id}?status=created`)
+      navigate(`/main/contracts/crop-insurance/create/${res?.data?.contract_id}?status=created`, {
+        state: {
+          by_user: data?.by_user ? 'user' : 'farmer',
+          apply_number: data?.number,
+        },
+      })
       toast.success('Ariza qabul qilindi')
     },
   })
