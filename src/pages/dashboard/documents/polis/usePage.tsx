@@ -1,33 +1,17 @@
 import { request } from '@/configs/requests'
 import { DATE_FORMAT } from '@/constants/format'
 import { REACT_QUERY_KEYS } from '@/constants/react-query-keys'
+import type { DocumentItem, DocumentResponse } from '@/types/signed-documents'
 import { Button } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { createColumnHelper } from '@tanstack/react-table'
 import dayjs from 'dayjs'
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-
-export interface DocumentItem {
-  number: string
-  sign_date: string
-  signer: string
-  application_pdf: string
-  createdAt: string
-  updatedAt: string
-  actions: any
-  type_name: string
-}
-
-export interface DocumentResponse {
-  result: DocumentItem[]
-  count: number
-}
+import { useLocation } from 'react-router-dom'
 
 const columnHelper = createColumnHelper<DocumentItem>()
 
 export const usePage = () => {
-  const navigate = useNavigate()
   const { search } = useLocation()
   const initial_params = new URLSearchParams(search)
   const [params, setParams] = useState({

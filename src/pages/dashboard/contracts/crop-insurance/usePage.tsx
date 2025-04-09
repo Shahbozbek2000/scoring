@@ -140,6 +140,12 @@ export const usePage = () => {
                 onClick={() => {
                   navigate(
                     `${ROUTER.CREATE}/${row?.original?._id}?status=${row?.original?.status_code ? 'accepted' : 'canceled'}`,
+                    {
+                      state: {
+                        by_user: row?.original?.application?.by_user ? 'user' : 'farmer',
+                        apply_number: row?.original?.number,
+                      },
+                    },
                   )
                 }}
               >
@@ -158,6 +164,12 @@ export const usePage = () => {
                 onClick={() => {
                   navigate(
                     `${ROUTER.CREATE}/${row?.original?._id}?status=${row?.original?.status_code === null ? 'created' : 'created'}`,
+                    {
+                      state: {
+                        by_user: row?.original?.application?.by_user ? 'user' : 'farmer',
+                        apply_number: row?.original?.number,
+                      },
+                    },
                   )
                 }}
               >

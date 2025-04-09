@@ -22,3 +22,20 @@ export const FormHeader = styled('div')`
   display: flex;
   gap: 4px;
 `
+
+export const SignedCompanies = styled('div')``
+
+export const Card = styled('div')`
+  width: 100%;
+  background-color: #cce5ff;
+  border: 1px solid #b8daff;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+
+  p {
+    margin: 0;
+  }
+  span {
+    font-weight: bold;
+  }
+`
