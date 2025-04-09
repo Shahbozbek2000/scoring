@@ -2,6 +2,9 @@ import { Container, Stack, Typography } from '@mui/material'
 import { ReactComponent as Logo } from '@/assets/icons/itrain.svg'
 import { ReactComponent as Logogreeen } from '@/assets/icons/logo-green.svg'
 import { Link } from 'react-router-dom'
+import InstagramIcon from '@mui/icons-material/Instagram'
+import FacebookIcon from '@mui/icons-material/Facebook'
+import TelegramIcon from '@mui/icons-material/Telegram'
 
 export const Foooter = () => {
   const currentYear = new Date().getFullYear()
@@ -29,7 +32,7 @@ export const Foooter = () => {
                 Agrosanoat sohasida sug'urtalashni avtomatlashtirilgan tizimi
               </Typography>
             </Stack>
-            <Stack gap='4px'>
+            {/* <Stack gap='4px'>
               <Typography
                 color={theme => theme.palette.allColors.BLACK}
                 fontFamily='GothamProRegular'
@@ -57,8 +60,8 @@ export const Foooter = () => {
               >
                 Moliyalashtirish
               </Typography>
-            </Stack>
-            <Stack gap='4px'>
+            </Stack> */}
+            {/* <Stack gap='4px'>
               <Typography
                 color={theme => theme.palette.allColors.GREY10}
                 fontFamily='GothamProRegular'
@@ -72,12 +75,17 @@ export const Foooter = () => {
               >
                 Agrotexnik tadbirlar
               </Typography>
-            </Stack>
+            </Stack> */}
             <Stack gap='4px'>
-              <Typography color={theme => theme.palette.allColors.BLACK}>Aloqa</Typography>
+              <Typography
+                fontFamily='GothamProRegular'
+                color={theme => theme.palette.allColors.BLACK}
+              >
+                Aloqa
+              </Typography>
               <Typography
                 component={Link}
-                to='tel:+998902339809'
+                to='tel:+998712051155'
                 color={theme => theme.palette.allColors.BLACK}
                 sx={{ textDecoration: 'none' }}
                 fontFamily='GothamProRegular'
@@ -89,7 +97,37 @@ export const Foooter = () => {
                 >
                   Tel:
                 </Typography>{' '}
-                +998 99 631 42 21
+                +998 71 205 11 55 / 1251 (du-ju soat 9:00 dan 18:00 gacha)
+              </Typography>
+              <Typography
+                component={Link}
+                to='tel:+998971441251'
+                color={theme => theme.palette.allColors.BLACK}
+                sx={{ textDecoration: 'none' }}
+                fontFamily='GothamProRegular'
+              >
+                <Typography
+                  color={theme => theme.palette.allColors.GREY10}
+                  component='span'
+                  fontFamily='GothamProRegular'
+                >
+                  Tel2:
+                </Typography>{' '}
+                +998 97 144 12 51 / (24/7)
+              </Typography>
+              <Typography
+                color={theme => theme.palette.allColors.BLACK}
+                sx={{ textDecoration: 'none', maxWidth: 370 }}
+                fontFamily='GothamProRegular'
+              >
+                <Typography
+                  color={theme => theme.palette.allColors.GREY10}
+                  component='span'
+                  fontFamily='GothamProRegular'
+                >
+                  Manzil:
+                </Typography>{' '}
+                Toshkent shahri, Yashnobod tumani, ko'ch. Sodiq Azimov, 50. 3-qavat.
               </Typography>
               <Typography
                 component={Link}
@@ -105,8 +143,40 @@ export const Foooter = () => {
                 >
                   Email:
                 </Typography>{' '}
-                info@ais.uz
+                info@semurgins.uz
               </Typography>
+              <Stack direction='row' spacing={2}>
+                <Typography
+                  component={Link}
+                  to='https://www.instagram.com/semurgins'
+                  color={theme => theme.palette.allColors.BLACK}
+                  sx={{ textDecoration: 'none' }}
+                  fontFamily='GothamProRegular'
+                  target='_blank'
+                >
+                  <InstagramIcon />
+                </Typography>
+                <Typography
+                  component={Link}
+                  to='https://www.facebook.com/semurginsurance'
+                  color={theme => theme.palette.allColors.BLACK}
+                  sx={{ textDecoration: 'none' }}
+                  fontFamily='GothamProRegular'
+                  target='_blank'
+                >
+                  <FacebookIcon />
+                </Typography>
+                <Typography
+                  component={Link}
+                  to='https://t.me/semurgins'
+                  color={theme => theme.palette.allColors.BLACK}
+                  sx={{ textDecoration: 'none' }}
+                  fontFamily='GothamProRegular'
+                  target='_blank'
+                >
+                  <TelegramIcon />
+                </Typography>
+              </Stack>
             </Stack>
           </Stack>
         </Container>
