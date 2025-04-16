@@ -243,7 +243,7 @@ export const ContractForm = ({ slug }: IContractFormProps) => {
                 >
                   {data?.credit_area_contour_numbers?.map((v: any, idx: number) => {
                     return (
-                      <button key={idx} type='button' style={{ minWidth: 120 }}>
+                      <button key={idx} type='button' style={{ minWidth: 180 }}>
                         {v?.cad_num ? v?.cad_num : v}
                       </button>
                     )
