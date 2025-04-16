@@ -45,22 +45,6 @@ export const RateSetting = ({ rateOpen, setRateOpen, id }: IRateSetting) => {
     name: 'paymentPercentage',
   })
 
-  useQuery({
-    queryKey: ['config-insurance'],
-    queryFn: async () => await request('/config/insurance'),
-    select: response => {
-      return response?.data?.insurance
-    },
-  })
-
-  const { data = [] } = useQuery({
-    queryKey: ['config-payment-schedule'],
-    queryFn: async () => await request('/config/payment-schedule'),
-    select: response => {
-      return response?.data?.payment_schedule
-    },
-  })
-
   useEffect(() => {
     const totalAmount = watchedPaymentPercentage.reduce(
       (acc: any, curr: any) => Number(acc) + Number(curr.amount || 0),

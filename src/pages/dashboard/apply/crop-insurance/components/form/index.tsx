@@ -13,7 +13,7 @@ import { useAppForm } from './useAppForm'
 
 export const ModalForm = ({ open, setOpen, id }: IModal) => {
   const {
-    data,
+    // data,
     form,
     rateOpen,
     onReject,
@@ -239,7 +239,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                   }}
                 />
               </Grid>
-              <Grid item xs={6} sm={4} md={4}>
+              {/* <Grid item xs={6} sm={4} md={4}>
                 <div className='contour-numbers'>
                   <label>Kontur raqamlari</label>
                   <Stack sx={{ display: 'flex', flexDirection: 'row', gap: 1 }} mt='4px'>
@@ -258,7 +258,7 @@ export const ModalForm = ({ open, setOpen, id }: IModal) => {
                     })}
                   </Stack>
                 </div>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Typography
               sx={{

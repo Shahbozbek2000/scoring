@@ -26,6 +26,8 @@ export const ContractForm = ({ slug }: IContractFormProps) => {
     setIsCanceled,
   } = useAppForm({ slug })
 
+  console.log(data?.credit_area_contour_numbers, 'data?.credit_area_contour_numbers')
+
   return (
     <>
       {isLoading ? (
@@ -241,8 +243,8 @@ export const ContractForm = ({ slug }: IContractFormProps) => {
                 >
                   {data?.credit_area_contour_numbers?.map((v: any, idx: number) => {
                     return (
-                      <button key={idx} type='button'>
-                        {v?.number ? v?.number : v}
+                      <button key={idx} type='button' style={{ minWidth: 120 }}>
+                        {v?.cad_num ? v?.cad_num : v}
                       </button>
                     )
                   })}

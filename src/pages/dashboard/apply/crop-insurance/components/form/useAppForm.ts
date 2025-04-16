@@ -48,7 +48,7 @@ export const useAppForm = ({ setOpen, id }: IProps) => {
 
   const { data: riskFactors = [] } = useQuery({
     queryKey: ['config-risk-factors'],
-    queryFn: async () => await request('/config/risk-factors'),
+    queryFn: async () => await request('/config'),
     select: res => {
       return res?.data?.risk_factors
     },

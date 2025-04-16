@@ -20,7 +20,7 @@ export const useReset = ({ id, form }: IReset) => {
       form.reset({
         ...response,
         date: dayjs(response?.date).format(DATE_FORMAT),
-        credit_area_contour_numbers: response?.credit_area_contour_numbers?.join(','),
+        credit_area_contour_numbers: response?.credit_area_contour_numbers,
         crop_harvest_start: dayjs(response?.crop_harvest_start).format(DATE_FORMAT),
         crop_harvest_end: dayjs(response?.crop_harvest_end).format(DATE_FORMAT),
         insurance_liability: response?.insurance_liability,
